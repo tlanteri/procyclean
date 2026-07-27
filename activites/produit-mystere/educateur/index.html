@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éducateur — Le produit mystère</title>
+  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+    <div class="partner-logos">
+      <a href="../../../index.html" aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img
+          class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+      <img
+        class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · ÉDUCATEUR</p>
+      <h1>Le produit mystère</h1>
+      <div class="session-line">
+        <span>
+          Session :
+          <strong id="session-code">—</strong>
+        </span>
+        <span id="connection-state">Connexion…</span>
+      </div>
+    </header>
+
+    <section id="loading-panel" class="panel centered-panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Chargement de la session…</h2>
+      <p>Merci de patienter quelques instants.</p>
+    </section>
+
+    <section id="login-panel" class="panel" hidden>
+      <h2>Connexion éducateur</h2>
+      <p>
+        Saisissez le code confidentiel pour ouvrir le tableau de bord.
+      </p>
+      <form id="login-form" class="login-form">
+        <label for="educator-code">Code confidentiel</label>
+        <input
+          id="educator-code"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+        <button id="login-button" class="primary-button" type="submit">
+          Se connecter
+        </button>
+      </form>
+      <p id="login-message" class="form-message" role="alert"></p>
+    </section>
+
+    <section id="error-panel" class="panel error-panel" hidden>
+      <h2>Accès impossible</h2>
+      <p id="error-message"></p>
+      <a class="primary-button" href="../../../activites/index.html">
+        Retour aux activités
+      </a>
+    </section>
+
+    <div id="dashboard-content" hidden>
+      <section class="metrics" aria-label="État de la session">
+        <article>
+          <strong id="participant-count">0</strong>
+          <span>participant connecté</span>
+        </article>
+        <article>
+          <strong id="session-status">En attente</strong>
+          <span>état de la session</span>
+        </article>
+      </section>
+
+      <section id="waiting-panel" class="panel">
+        <p class="step-label">Salle d’attente</p>
+        <h2>Préparation de l’enquête</h2>
+        <p>
+          Les participants peuvent rejoindre la session avec le code
+          <strong id="waiting-session-code">—</strong>.
+        </p>
+        <div class="action-row">
+          <button id="form-groups-button" class="primary-button"
+            type="button">
+            Constituer les groupes
+          </button>
+          <button id="launch-activity-button" class="launch-button"
+            type="button">
+            Lancer l’activité
+          </button>
+        </div>
+        <p id="action-message" class="form-message"
+          role="status"></p>
+      </section>
+
+      <section id="groups-panel" class="panel" hidden>
+        <p class="step-label">Répartition actuelle</p>
+        <h2 id="groups-title">Groupes constitués</h2>
+        <p id="groups-description"></p>
+        <div id="groups-grid" class="groups-grid"></div>
+        <div class="action-row">
+          <button id="start-investigation-button"
+            class="primary-button" type="button">
+            Démarrer l’enquête
+          </button>
+          <button id="reveal-investigation-button"
+            class="launch-button" type="button" hidden>
+            Révéler les résultats
+          </button>
+        </div>
+        <p id="investigation-action-message" class="form-message"
+          role="status"></p>
+      </section>
+
+      <section id="investigation-results-panel" class="panel" hidden>
+        <p class="step-label">Correction collective</p>
+        <h2>Résultats anonymes de l’enquête</h2>
+        <p id="investigation-results-summary"></p>
+        <div id="correction-summary-grid"
+          class="correction-summary-grid"></div>
+        <p id="warning-signals-summary"
+          class="next-step-note"></p>
+        <button id="launch-final-decision-button"
+          class="primary-button" type="button">
+          Lancer la décision finale
+        </button>
+      </section>
+
+      <section id="final-decision-panel" class="panel" hidden>
+        <p class="step-label">Décision finale</p>
+        <h2>Conduites choisies</h2>
+        <p id="final-decision-summary"></p>
+        <div id="decision-distribution-grid"
+          class="decision-distribution-grid"></div>
+        <button id="reveal-final-guidance-button"
+          class="launch-button" type="button">
+          Révéler la conduite à adopter
+        </button>
+      </section>
+
+      <section id="final-results-panel" class="panel" hidden>
+        <p class="step-label">Synthèse finale</p>
+        <h2>L’activité est terminée</h2>
+        <p>
+          La conduite à adopter et les six réflexes essentiels sont
+          affichés sur les téléphones actifs.
+        </p>
+        <div class="action-row final-actions">
+          <button id="show-reflexes-button" class="primary-button"
+            type="button">
+            Afficher les six réflexes
+          </button>
+          <button id="close-activity-button" class="launch-button"
+            type="button">
+            Clôturer l’activité
+          </button>
+        </div>
+      </section>
+
+      <section id="closed-panel" class="panel centered-panel" hidden>
+        <div class="finish-icon" aria-hidden="true">🏁</div>
+        <h2>Activité clôturée</h2>
+        <p>La session est terminée.</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="reflexes-overlay" class="reflexes-overlay" hidden
+    role="dialog" aria-modal="true"
+    aria-labelledby="reflexes-overlay-title">
+    <div class="reflexes-overlay-content">
+      <button id="close-reflexes-button" class="overlay-close"
+        type="button" aria-label="Fermer">×</button>
+      <p class="step-label">À retenir</p>
+      <h2 id="reflexes-overlay-title">Les six réflexes essentiels</h2>
+      <div id="educator-reflexes-grid"
+        class="educator-reflexes-grid"></div>
+    </div>
+  </div>
+
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js?v=12"></script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+:root {
+  --ffc-blue: #0066b3;
+  --ffc-blue-dark: #001f5b;
+  --pro-cyan: #00b7c3;
+  --ffc-red: #e33013;
+  --ffc-purple: #66136f;
+  --text-dark: #17324d;
+  --text-soft: #5f7182;
+  --surface: #ffffff;
+  --border: #dce8f0;
+  --shadow: 0 24px 65px rgba(0, 18, 60, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px 24px 40px;
+  color: var(--text-dark);
+  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(
+      circle at 88% 88%,
+      rgba(227, 48, 19, 0.9),
+      transparent 38%
+    ),
+    linear-gradient(
+      135deg,
+      #001640,
+      var(--ffc-blue-dark) 48%,
+      var(--ffc-purple)
+    );
+}
+
+button,
+input,
+a {
+  font: inherit;
+}
+
+.institutional-header {
+  width: min(1180px, 100%);
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.partner-logos {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.partner-logos a {
+  line-height: 0;
+}
+
+.logo-ffc {
+  width: 125px;
+}
+
+.logo-procyclean {
+  width: 145px;
+}
+
+.logo-lamhess {
+  width: 190px;
+}
+
+.logo-ffc,
+.logo-procyclean,
+.logo-lamhess {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}
+
+.dashboard {
+  width: min(1100px, 100%);
+  margin: auto;
+  padding: 42px;
+  background: #f7fbfe;
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+}
+
+.activity-header {
+  margin-bottom: 28px;
+}
+
+.eyebrow,
+.step-label {
+  margin: 0 0 10px;
+  color: #087e9c;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 16px;
+  color: var(--ffc-blue);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+h2 {
+  margin-top: 0;
+  color: var(--ffc-blue);
+}
+
+.session-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+#connection-state {
+  color: var(--text-soft);
+}
+
+.panel,
+.metrics article {
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.centered-panel {
+  text-align: center;
+}
+
+.panel p {
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 22px;
+  border: 5px solid rgba(0, 102, 179, 0.14);
+  border-top-color: var(--pro-cyan);
+  border-radius: 50%;
+  animation: loading 0.9s linear infinite;
+}
+
+.login-form {
+  max-width: 480px;
+  display: grid;
+  gap: 12px;
+}
+
+.login-form label {
+  font-weight: 800;
+}
+
+.login-form input {
+  min-height: 50px;
+  padding: 10px 14px;
+  border: 2px solid #cddfe9;
+  border-radius: 11px;
+}
+
+.primary-button {
+  min-height: 50px;
+  padding: 13px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: linear-gradient(135deg, var(--ffc-blue), var(--pro-cyan));
+  border: 0;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.form-message {
+  min-height: 24px;
+  margin: 12px 0 0;
+  color: var(--ffc-red) !important;
+}
+
+.error-panel {
+  border-color: rgba(227, 48, 19, 0.4);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.metrics article {
+  display: grid;
+  text-align: center;
+}
+
+.metrics strong {
+  color: var(--ffc-blue);
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+}
+
+.metrics span {
+  margin-top: 6px;
+  color: var(--text-soft);
+}
+
+.waiting-panel strong {
+  color: var(--ffc-blue);
+  font-size: 1.25em;
+  letter-spacing: 0.08em;
+}
+
+.question-panel {
+  margin-top: 22px;
+}
+
+.question-progress {
+  margin-bottom: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ffc-blue);
+  font-weight: 800;
+}
+
+#question-phase {
+  padding: 6px 11px;
+  color: #087e9c;
+  background: rgba(0, 183, 195, 0.1);
+  border-radius: 999px;
+}
+
+#question-text {
+  color: var(--ffc-blue-dark);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1.35;
+}
+
+.answer-metrics {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.answer-metrics article {
+  padding: 18px;
+  display: grid;
+  text-align: center;
+  background: #f3f8fb;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+}
+
+.answer-metrics strong {
+  color: var(--ffc-blue);
+  font-size: 2rem;
+}
+
+.answer-metrics span {
+  margin-top: 5px;
+  color: var(--text-soft);
+}
+
+.true-result {
+  border-color: rgba(0, 143, 92, 0.25) !important;
+}
+
+.false-result {
+  border-color: rgba(227, 48, 19, 0.25) !important;
+}
+
+.correction-box {
+  margin-top: 24px;
+  padding: 22px;
+  background: #eaf8f3;
+  border: 2px solid rgba(0, 143, 92, 0.25);
+  border-radius: 15px;
+}
+
+.correction-box p {
+  margin-bottom: 8px;
+}
+
+.correction-box strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #087e63;
+  font-size: 1.6rem;
+}
+
+.question-actions {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.secondary-button {
+  background: linear-gradient(135deg, var(--ffc-blue-dark), var(--ffc-purple));
+}
+
+.final-definition-panel {
+  margin-top: 22px;
+}
+
+.definitions-list {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.definition-card {
+  padding: 16px 18px;
+  background: #f3f8fb;
+  border-left: 5px solid var(--pro-cyan);
+  border-radius: 12px;
+}
+
+.definition-card strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ffc-blue);
+}
+
+.definition-card p,
+.empty-state {
+  margin: 0;
+}
+
+.dashboard-footer {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.danger-button {
+  background: linear-gradient(135deg, #b52618, var(--ffc-red));
+}
+
+.closed-panel {
+  text-align: center;
+}
+
+.finish-icon {
+  margin-bottom: 12px;
+  font-size: 4rem;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 18px 12px 24px;
+  }
+
+  .institutional-header {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .partner-logos {
+    gap: 20px;
+  }
+
+  .logo-ffc {
+    width: 90px;
+  }
+
+  .logo-procyclean {
+    width: 105px;
+  }
+
+  .logo-lamhess {
+    width: 135px;
+  }
+
+  .dashboard {
+    padding: 32px 20px;
+    border-radius: 20px;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .answer-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

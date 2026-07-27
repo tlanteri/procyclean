@@ -1,0 +1,144 @@
+.global-menu-button {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1001;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  background: #0066b3;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 31, 91, 0.3);
+  font: inherit;
+  font-size: 1.65rem;
+  cursor: pointer;
+}
+
+.global-menu-button:focus-visible,
+.global-navigation a:focus-visible,
+.global-menu-close:focus-visible {
+  outline: 3px solid #00b7c3;
+  outline-offset: 3px;
+}
+
+.global-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1098;
+  background: rgba(0, 18, 55, 0.58);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.global-navigation {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1099;
+  width: min(360px, 88vw);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  color: #17324d;
+  background: #ffffff;
+  box-shadow: 20px 0 55px rgba(0, 18, 55, 0.3);
+  transform: translateX(-105%);
+  transition: transform 0.28s ease;
+}
+
+.global-navigation.open {
+  transform: translateX(0);
+}
+
+.global-menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.global-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 34px;
+}
+
+.global-menu-brand {
+  color: #0066b3;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.global-menu-close {
+  width: 44px;
+  height: 44px;
+  color: #001f5b;
+  background: #edf5fa;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.global-navigation nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.global-navigation nav a:last-child {
+  margin-top: auto;
+}
+
+.global-navigation a {
+  min-height: 58px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #17324d;
+  background: #f3f8fb;
+  border: 1px solid #dce8f0;
+  border-radius: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.global-navigation a:hover,
+.global-navigation a[aria-current="page"] {
+  color: #ffffff;
+  background: linear-gradient(135deg, #0066b3, #00b7c3);
+}
+
+.global-navigation .menu-icon {
+  width: 30px;
+  text-align: center;
+  font-size: 1.35rem;
+}
+
+body.global-menu-open {
+  overflow: hidden;
+}
+
+@media (max-width: 700px) {
+  .global-menu-button {
+    top: 10px;
+    left: 10px;
+    width: 46px;
+    height: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .global-navigation,
+  .global-menu-overlay {
+    transition: none;
+  }
+}

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Activités — PRO-CYCLEAN</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../assets/navigation.css?v=2">
+
+<body>
+  <!-- En-tête institutionnel non fixe -->
+
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+
+    <div class="partner-logos">
+      <a href="./" aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img
+          class="logo-procyclean"
+          src="../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+
+      <img
+        class="logo-lamhess"
+        src="../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="app">
+    <header class="app-header">
+      <p class="project-name">PRO-CYCLEAN</p>
+
+      <h1>Activités</h1>
+
+      <p>
+        Participez à des activités pédagogiques consacrées à la santé,
+        à la performance et à la prévention du dopage.
+      </p>
+    </header>
+
+    <!-- Choix du profil -->
+
+    <section
+      id="mode-selection"
+      class="mode-selection"
+      aria-labelledby="mode-title"
+    >
+      <h2 id="mode-title">Sélectionnez votre profil</h2>
+
+      <div class="mode-buttons">
+        <button
+          id="participant-button"
+          class="mode-card"
+          type="button"
+        >
+          <span class="mode-icon" aria-hidden="true">🚴</span>
+          <strong>Je participe</strong>
+          <span>
+            Rejoindre une activité avec le code transmis par l’éducateur
+          </span>
+        </button>
+
+        <button
+          id="facilitator-button"
+          class="mode-card"
+          type="button"
+        >
+          <span class="mode-icon" aria-hidden="true">📊</span>
+          <strong>Je suis éducateur</strong>
+          <span>
+            Choisir une activité et créer une nouvelle session
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Accès participant -->
+
+    <section
+      id="participant-panel"
+      class="session-panel"
+      aria-labelledby="participant-title"
+      hidden
+    >
+      <button
+        id="participant-back-button"
+        class="back-button"
+        type="button"
+      >
+        ← Retour
+      </button>
+
+      <h2 id="participant-title">Rejoindre une activité</h2>
+
+      <p>
+        Saisissez le code de session transmis par votre éducateur.
+      </p>
+
+      <form id="participant-form">
+        <label for="participant-session-code">
+          Code de la session
+        </label>
+
+        <input
+          id="participant-session-code"
+          class="code-input"
+          name="participant-session-code"
+          type="text"
+          inputmode="text"
+          autocomplete="off"
+          autocapitalize="characters"
+          spellcheck="false"
+          maxlength="6"
+          required
+        >
+
+        <button
+          id="join-session-button"
+          class="primary-button"
+          type="submit"
+        >
+          Rejoindre l’activité
+        </button>
+      </form>
+
+      <p
+        id="participant-error"
+        class="form-error"
+        role="alert"
+        hidden
+      ></p>
+    </section>
+
+    <!-- Choix de l’activité -->
+
+    <section
+      id="activity-selection-panel"
+      class="session-panel"
+      aria-labelledby="activity-selection-title"
+      hidden
+    >
+      <button
+        id="activity-selection-back-button"
+        class="back-button"
+        type="button"
+      >
+        ← Retour
+      </button>
+
+      <h2 id="activity-selection-title">
+        Choisissez une activité
+      </h2>
+
+      <p>
+        Sélectionnez l’activité que vous souhaitez proposer au groupe.
+      </p>
+
+      <div class="activity-buttons">
+        <button
+          class="activity-card"
+          type="button"
+          data-activity-id="podium-valeurs"
+          data-activity-name="Le podium des valeurs"
+        >
+          <span class="activity-icon" aria-hidden="true">🏆</span>
+
+          <strong>Le podium des valeurs</strong>
+
+          <span>
+            Classer les valeurs qui paraissent les plus importantes
+            dans le sport.
+          </span>
+        </button>
+
+        <button
+          class="activity-card"
+          type="button"
+          data-activity-id="vrai-faux-express"
+          data-activity-name="Vrai/Faux express"
+        >
+          <span class="activity-icon" aria-hidden="true">⚡</span>
+
+          <strong>Vrai/Faux express</strong>
+
+          <span>
+            Répondre à huit affirmations pour découvrir les premières
+            notions du sport propre et de l’antidopage.
+          </span>
+        </button>
+
+        <button
+          class="activity-card"
+          type="button"
+          data-activity-id="mission-controle"
+          data-activity-name="La mission contrôle"
+        >
+          <span class="activity-icon" aria-hidden="true">🔎</span>
+
+          <strong>La mission contrôle</strong>
+
+          <span>
+            Reconstitue les étapes d’un contrôle antidopage et adopte
+            les bons réflexes.
+          </span>
+        </button>
+
+        <button
+          class="activity-card"
+          type="button"
+          data-activity-id="produit-mystere"
+          data-activity-name="Le produit mystère"
+        >
+          <span class="activity-icon" aria-hidden="true">🔍</span>
+
+          <strong>Le produit mystère</strong>
+
+          <span>
+            Inspecte un complément alimentaire, repère les signaux
+            d’alerte et adopte les bons réflexes.
+          </span>
+        </button>
+
+        <button
+          class="activity-card"
+          type="button"
+          data-activity-id="traitement-controle"
+          data-activity-name="Médicament : les bons réflexes"
+        >
+          <span class="activity-icon" aria-hidden="true">🩺</span>
+
+          <strong>Médicament : les bons réflexes</strong>
+
+          <span>
+            Fais avancer une situation, prends plusieurs décisions et
+            découvre les vérifications à réaliser avant d’utiliser un
+            médicament.
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Connexion de l’éducateur -->
+
+    <section
+      id="facilitator-login-panel"
+      class="session-panel"
+      aria-labelledby="facilitator-login-title"
+      hidden
+    >
+      <button
+        id="facilitator-login-back-button"
+        class="back-button"
+        type="button"
+      >
+        ← Retour
+      </button>
+
+      <h2 id="facilitator-login-title">Accès éducateur</h2>
+
+      <p>
+        Activité sélectionnée :
+        <strong id="selected-activity-login"></strong>
+      </p>
+
+      <p>
+        Saisissez le code confidentiel pour continuer.
+      </p>
+
+      <form id="facilitator-login-form">
+        <label for="facilitator-secret-code">
+          Code confidentiel
+        </label>
+
+        <input
+          id="facilitator-secret-code"
+          class="code-input"
+          name="facilitator-secret-code"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button
+          id="validate-facilitator-code-button"
+          class="primary-button"
+          type="submit"
+        >
+          Valider
+        </button>
+      </form>
+
+      <p
+        id="facilitator-login-error"
+        class="form-error"
+        role="alert"
+        hidden
+      ></p>
+    </section>
+
+    <!-- Création de la session -->
+
+    <section
+      id="facilitator-panel"
+      class="session-panel"
+      aria-labelledby="facilitator-title"
+      hidden
+    >
+      <button
+        id="facilitator-back-button"
+        class="back-button"
+        type="button"
+      >
+        ← Retour
+      </button>
+
+      <h2 id="facilitator-title">Créer une session</h2>
+
+      <p>
+        Activité sélectionnée :
+        <strong id="selected-activity-session"></strong>
+      </p>
+
+      <p>
+        Créez une session, puis transmettez le code aux participants.
+      </p>
+
+      <button
+        id="create-session-button"
+        class="primary-button"
+        type="button"
+      >
+        Créer une nouvelle session
+      </button>
+
+      <div
+        id="session-created"
+        class="session-created"
+        hidden
+      >
+        <p>Code de la session</p>
+
+        <strong
+          id="session-code"
+          aria-live="polite"
+        ></strong>
+
+        <p>
+          Les participants peuvent maintenant utiliser ce code pour
+          rejoindre l’activité.
+        </p>
+
+        <button
+          id="open-facilitator-dashboard-button"
+          class="primary-button"
+          type="button"
+        >
+          Ouvrir le tableau de bord
+        </button>
+      </div>
+    </section>
+
+    <!-- Message général -->
+
+    <section
+      id="status-panel"
+      class="status-panel"
+      hidden
+    >
+      <p
+        id="status-message"
+        role="status"
+        aria-live="polite"
+      ></p>
+    </section>
+  </main>
+
+  <script
+    src="../assets/navigation.js?v=2"
+    data-root="../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js?v=13"></script>
+</body>
+</html>

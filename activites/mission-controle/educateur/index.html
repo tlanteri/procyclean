@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éducateur — La mission contrôle</title>
+  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+    <div class="partner-logos">
+      <a href="../../../index.html" aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img
+          class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+      <img
+        class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · ÉDUCATEUR</p>
+      <h1>La mission contrôle</h1>
+      <div class="session-line">
+        <span>
+          Session :
+          <strong id="session-code">—</strong>
+        </span>
+        <span id="connection-state">Connexion…</span>
+      </div>
+    </header>
+
+    <section id="loading-panel" class="panel centered-panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Chargement de la session…</h2>
+      <p>Merci de patienter quelques instants.</p>
+    </section>
+
+    <section id="login-panel" class="panel" hidden>
+      <h2>Connexion éducateur</h2>
+      <p>
+        Saisissez le code confidentiel pour ouvrir le tableau de bord.
+      </p>
+      <form id="login-form" class="login-form">
+        <label for="educator-code">Code confidentiel</label>
+        <input
+          id="educator-code"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+        <button id="login-button" class="primary-button" type="submit">
+          Se connecter
+        </button>
+      </form>
+      <p id="login-message" class="form-message" role="alert"></p>
+    </section>
+
+    <section id="error-panel" class="panel error-panel" hidden>
+      <h2>Accès impossible</h2>
+      <p id="error-message"></p>
+      <a class="primary-button" href="../../../activites/index.html">
+        Retour aux activités
+      </a>
+    </section>
+
+    <div id="dashboard-content" hidden>
+      <section class="metrics" aria-label="État de la session">
+        <article>
+          <strong id="participant-count">0</strong>
+          <span>cycliste connecté</span>
+        </article>
+        <article>
+          <strong id="ready-count">0</strong>
+          <span>cycliste prêt</span>
+        </article>
+        <article>
+          <strong id="session-status">En attente</strong>
+          <span>état de la session</span>
+        </article>
+      </section>
+
+      <section class="panel waiting-panel">
+        <p class="step-label">Salle d’attente</p>
+        <h2>La session est prête</h2>
+        <p>
+          Communiquez le code
+          <strong id="waiting-session-code">—</strong>
+          aux cyclistes. Leur arrivée apparaîtra automatiquement.
+        </p>
+        <p class="pedagogical-note">
+          L’activité présente une représentation pédagogique simplifiée
+          des principales étapes d’un contrôle urinaire.
+        </p>
+        <button
+          id="start-activity-button"
+          class="primary-button"
+          type="button"
+          disabled
+        >
+          Commencer l’activité
+        </button>
+        <p id="action-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="ranking-panel" class="panel ranking-panel" hidden>
+        <p class="step-label">Phase individuelle</p>
+        <h2>Classement des étapes en cours</h2>
+        <p>
+          Les cyclistes découvrent les neuf cartes dans un ordre
+          aléatoire et préparent leur proposition.
+        </p>
+        <div class="phase-status">
+          <span aria-hidden="true">↕</span>
+          <strong>
+            <span id="ranking-response-count">0</span>
+            <span id="ranking-response-label">réponse</span> sur
+            <span id="ranking-total-count">0</span>
+          </strong>
+        </div>
+        <progress id="ranking-progress" value="0" max="1"
+          aria-label="Progression des classements"></progress>
+        <button id="reveal-ranking-button" class="primary-button"
+          type="button">
+          Révéler la procédure correcte
+        </button>
+        <p id="ranking-action-message" class="form-message"
+          role="status"></p>
+      </section>
+
+      <section id="correction-panel" class="panel correction-panel" hidden>
+        <p class="step-label">Correction collective</p>
+        <h2>La procédure correcte</h2>
+        <p>
+          Les résultats ci-dessous sont anonymes et servent à guider
+          l’échange avec le groupe.
+        </p>
+
+        <div class="correction-metrics">
+          <article>
+            <strong id="correction-response-count">0</strong>
+            <span>réponse reçue</span>
+          </article>
+          <article>
+            <strong id="fully-correct-count">0</strong>
+            <span>ordre entièrement correct</span>
+          </article>
+        </div>
+
+        <div class="difficult-steps">
+          <h3>Étapes les plus souvent mal positionnées</h3>
+          <ul id="difficult-steps-list"></ul>
+        </div>
+
+        <ol id="procedure-summary" class="procedure-summary"
+          aria-label="Résultats anonymes par étape"></ol>
+
+        <footer class="dashboard-footer">
+          <button id="close-activity-button"
+            class="primary-button danger-button" type="button">
+            Clôturer l’activité
+          </button>
+        </footer>
+        <p id="close-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="closed-panel" class="panel closed-panel" hidden>
+        <div class="finish-icon" aria-hidden="true">🏁</div>
+        <h2>Activité clôturée</h2>
+        <p>
+          Le message de fin et les réflexes à retenir sont maintenant
+          affichés sur tous les téléphones.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js?v=6"></script>
+</body>
+</html>

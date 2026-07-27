@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vrai/Faux express — PRO-CYCLEAN</title>
+  <link rel="stylesheet" href="style.css?v=20260724-5">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+
+    <div class="partner-logos">
+      <a href="../../../index.html" aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img
+          class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+
+      <img
+        class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN</p>
+      <h1>Vrai/Faux express</h1>
+      <p>
+        Teste tes connaissances sur le sport propre et l’antidopage.
+      </p>
+    </header>
+
+    <section id="loading-screen" class="screen centered-screen">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Connexion à la session…</h2>
+      <p>Merci de patienter quelques instants.</p>
+    </section>
+
+    <section id="error-screen" class="screen centered-screen error-screen" hidden>
+      <h2>Impossible d’accéder à l’activité</h2>
+      <p id="error-message"></p>
+      <a class="primary-button" href="../../../index.html">
+        Retour à l’accueil
+      </a>
+    </section>
+
+    <section id="waiting-screen" class="screen centered-screen" hidden>
+      <div class="participant-badge">
+        <span>Tu es</span>
+        <strong id="participant-label">Participant —</strong>
+      </div>
+
+      <div class="waiting-animation" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <h2>En attente de l’éducateur</h2>
+      <p>
+        Tu es bien connecté à la session
+        <strong id="displayed-session-code">—</strong>.
+      </p>
+      <p>
+        L’activité commencera automatiquement lorsque l’éducateur
+        donnera le départ.
+      </p>
+    </section>
+
+    <section id="next-step-screen" class="screen centered-screen" hidden>
+      <p id="question-progress" class="question-progress">
+        Affirmation 1 sur 8
+      </p>
+      <h2 id="participant-question-text"></h2>
+      <p class="question-instruction">
+        Lis attentivement cette affirmation puis choisis ta réponse.
+      </p>
+
+      <div class="answer-buttons">
+        <button id="true-button" class="answer-button true-button" type="button">
+          <span aria-hidden="true">✓</span>
+          Vrai
+        </button>
+        <button id="false-button" class="answer-button false-button" type="button">
+          <span aria-hidden="true">✕</span>
+          Faux
+        </button>
+      </div>
+
+      <p id="answer-message" class="answer-message" role="alert"></p>
+    </section>
+
+    <section id="answer-saved-screen" class="screen centered-screen" hidden>
+      <div class="saved-icon" aria-hidden="true">✓</div>
+      <h2>Réponse enregistrée</h2>
+      <p>
+        Tu as répondu :
+        <strong id="saved-answer">—</strong>
+      </p>
+      <p>
+        Attends que l’éducateur révèle la bonne réponse.
+      </p>
+    </section>
+
+    <section id="correction-screen" class="screen correction-screen" hidden>
+      <p id="correction-progress" class="question-progress">
+        Affirmation 1 sur 8
+      </p>
+      <h2>La bonne réponse est :</h2>
+      <div id="correct-answer-badge" class="correct-answer-badge">—</div>
+
+      <p class="personal-answer">
+        Tu avais répondu :
+        <strong id="participant-answer">—</strong>
+      </p>
+
+      <p id="answer-result" class="answer-result"></p>
+
+      <div class="explanation-box">
+        <h3>Pourquoi ?</h3>
+        <p id="participant-explanation"></p>
+      </div>
+
+      <p class="waiting-next">
+        Attends que l’éducateur affiche l’affirmation suivante.
+      </p>
+    </section>
+
+    <section id="final-definition-screen" class="screen" hidden>
+      <p class="question-progress">Pour terminer</p>
+      <h2>Avec tes propres mots, qu’est-ce que le sport propre ?</h2>
+      <p>
+        Écris une phrase courte. Ta réponse sera affichée anonymement
+        à l’éducateur.
+      </p>
+
+      <form id="final-definition-form" class="definition-form">
+        <label for="final-definition">Ma réponse</label>
+        <textarea
+          id="final-definition"
+          maxlength="300"
+          rows="5"
+          placeholder="Pour moi, le sport propre, c’est…"
+          required
+        ></textarea>
+        <span id="definition-character-count">0 / 300</span>
+        <button id="submit-definition-button" class="primary-button" type="submit">
+          Envoyer ma réponse
+        </button>
+      </form>
+      <p id="definition-message" class="answer-message" role="alert"></p>
+    </section>
+
+    <section id="definition-saved-screen" class="screen centered-screen" hidden>
+      <div class="saved-icon" aria-hidden="true">✓</div>
+      <h2>Ta réponse est enregistrée</h2>
+      <p>
+        Merci ! Attends maintenant les dernières consignes de l’éducateur.
+      </p>
+    </section>
+
+    <section id="closed-screen" class="screen centered-screen" hidden>
+      <div class="finish-icon" aria-hidden="true">🏁</div>
+      <p class="question-progress">Activité terminée</p>
+      <h2>Merci pour ta participation !</h2>
+
+      <div class="take-home-message">
+        <h3>Message à retenir</h3>
+        <p>
+          Le sport propre, c’est respecter sa santé, les règles,
+          les autres et les valeurs du sport.
+        </p>
+        <p>
+          Avant de prendre un médicament ou un complément alimentaire,
+          je vérifie toujours s’il est autorisé et je demande conseil
+          à un professionnel.
+        </p>
+      </div>
+
+      <p>Tu peux maintenant fermer cette page.</p>
+    </section>
+  </main>
+
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js?v=20260724-5"></script>
+</body>
+</html>

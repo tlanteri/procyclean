@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ressources pédagogiques — PRO-CYCLEAN</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+    <div class="partner-logos">
+      <img
+        class="logo-procyclean"
+        src="../assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN"
+      >
+      <img
+        class="logo-lamhess"
+        src="../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="portal">
+    <p class="eyebrow">PRO-CYCLEAN</p>
+    <h1>Ressources pédagogiques</h1>
+    <p class="intro">
+      Retrouvez ici les contenus destinés aux cyclistes et aux
+      éducateurs qui les accompagnent.
+    </p>
+
+    <div class="resource-audiences">
+      <section class="audience-card cyclist-card">
+        <div class="audience-icon" aria-hidden="true">🚴</div>
+        <p class="card-label">Cyclistes</p>
+        <h2>Ton espace ressources</h2>
+        <p>
+          Des contenus pour prolonger les activités et retenir
+          l’essentiel seront bientôt disponibles ici.
+        </p>
+        <span class="coming-soon">Prochainement</span>
+      </section>
+
+      <section class="audience-card educator-card">
+        <div class="audience-icon" aria-hidden="true">📚</div>
+        <p class="card-label">Éducateurs</p>
+        <h2>Supports pédagogiques</h2>
+        <p>
+          Connectez-vous pour accéder aux présentations et aux
+          documents réservés aux éducateurs.
+        </p>
+        <button id="open-educator-login" class="portal-button" type="button">
+          Accéder aux supports
+        </button>
+      </section>
+    </div>
+
+    <section id="educator-login-panel" class="educator-panel" hidden>
+      <button id="close-educator-login" class="panel-close" type="button"
+        aria-label="Fermer l’accès éducateur">×</button>
+      <p class="card-label">Accès sécurisé</p>
+      <h2>Connexion éducateur</h2>
+      <p>
+        Saisissez le code confidentiel pour consulter les supports.
+      </p>
+      <form id="educator-login-form" class="educator-form">
+        <label for="educator-password">Code confidentiel</label>
+        <input
+          id="educator-password"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+        <button id="educator-login-button" class="portal-button" type="submit">
+          Se connecter
+        </button>
+      </form>
+      <p id="educator-login-message" class="form-message" role="alert"></p>
+    </section>
+
+    <section id="educator-library" class="educator-panel library-panel" hidden>
+      <div class="library-heading">
+        <div>
+          <p class="card-label">Espace éducateurs</p>
+          <h2>Bibliothèque de supports</h2>
+        </div>
+        <button id="educator-logout-button" class="logout-button" type="button">
+          Se déconnecter
+        </button>
+      </div>
+
+      <article class="resource-document">
+        <div class="document-heading">
+          <div class="document-icon" aria-hidden="true">P</div>
+          <div>
+            <p class="card-label">Présentation PowerPoint</p>
+            <h3>
+              Procédure de contrôle, compléments alimentaires
+              et médicaments
+            </h3>
+          </div>
+        </div>
+
+        <p>
+          Consultez la présentation directement dans la visionneuse
+          ou téléchargez le fichier PowerPoint pour l’utiliser hors ligne.
+        </p>
+
+        <div class="document-actions">
+          <button id="toggle-preview-button" class="preview-button" type="button">
+            Prévisualiser le document
+          </button>
+          <a
+            class="download-button"
+            href="documents/Procedure de controle_Complement alimentaire_Medicament.pptx"
+            download
+          >
+            Télécharger le PowerPoint
+          </a>
+        </div>
+
+        <div id="preview-container" class="preview-container" hidden>
+          <div class="preview-header">
+            <strong>Prévisualisation</strong>
+            <span>Faites défiler pour parcourir les pages</span>
+          </div>
+          <iframe
+            id="resource-preview"
+            title="Prévisualisation du support pédagogique"
+            data-src="documents/Procedure de controle_Complement alimentaire_Medicament.pdf"
+          ></iframe>
+          <p class="preview-fallback">
+            Si la prévisualisation ne s’affiche pas,
+            <a
+              href="documents/Procedure de controle_Complement alimentaire_Medicament.pdf"
+              target="_blank"
+              rel="noopener"
+            >
+              ouvrez le PDF dans un nouvel onglet
+            </a>.
+          </p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script
+    src="../assets/navigation.js?v=2"
+    data-root="../"
+    data-section="resources"
+  ></script>
+  <script type="module" src="script.js?v=2"></script>
+</body>
+</html>

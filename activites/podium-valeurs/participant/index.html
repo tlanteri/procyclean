@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Le podium des valeurs — PRO-CYCLEAN</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+
+<body>
+  <!-- En-tête institutionnel identique à la page d’accueil -->
+
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+
+    <div class="partner-logos">
+      <a
+        href="../../../index.html"
+        aria-label="Retour à l’accueil PRO-CYCLEAN"
+      >
+        <img
+          class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+
+      <img
+        class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <!-- Contenu de l’activité -->
+
+  <main class="app">
+    <header class="app-header">
+      <p class="project-name">PRO-CYCLEAN</p>
+
+      <h1>Le podium des valeurs</h1>
+
+      <p>
+        Classe les valeurs selon l’importance qu’elles ont pour toi
+        dans le sport.
+      </p>
+    </header>
+
+    <!-- Connexion à la session -->
+
+    <section
+      id="loading-screen"
+      class="screen"
+    >
+      <h2>Connexion à la session…</h2>
+
+      <p>
+        Merci de patienter quelques instants.
+      </p>
+    </section>
+
+    <!-- Erreur de connexion -->
+
+    <section
+      id="error-screen"
+      class="screen"
+      hidden
+    >
+      <h2>Impossible d’accéder à l’activité</h2>
+
+      <p id="error-message">
+        Le code de session est absent ou incorrect.
+      </p>
+
+      <a
+        class="primary-button"
+        href="../../../index.html"
+      >
+        Retour à l’accueil
+      </a>
+    </section>
+
+    <!-- Classement individuel -->
+
+    <section
+      id="ranking-screen"
+      class="screen"
+      hidden
+    >
+      <div class="participant-information">
+        <span id="participant-name">
+          Participant
+        </span>
+
+        <span>
+          Session :
+          <strong id="displayed-session-code">—</strong>
+        </span>
+      </div>
+
+      <h2>Ton classement individuel</h2>
+
+      <p class="instruction">
+        Place en première position la valeur qui te semble la plus
+        importante, puis classe toutes les autres.
+      </p>
+
+      <ol
+        id="values-list"
+        class="values-list"
+        aria-label="Classement des valeurs"
+      >
+        <!-- Les valeurs seront ajoutées avec JavaScript. -->
+      </ol>
+
+      <button
+        id="validate-ranking-button"
+        class="primary-button"
+        type="button"
+      >
+        Valider mon classement
+      </button>
+    </section>
+
+    <!-- Classement enregistré -->
+
+    <section
+      id="waiting-screen"
+      class="screen"
+      hidden
+    >
+      <div
+        class="success-icon"
+        aria-hidden="true"
+      >
+        ✓
+      </div>
+
+      <h2>Ton classement est enregistré !</h2>
+
+      <p>
+        Attends maintenant les consignes de l’éducateur pour
+        poursuivre l’activité.
+      </p>
+
+    </section>
+
+    <section id="group-screen" class="screen group-screen" hidden>
+      <p class="step-label">Ton groupe</p>
+      <div id="group-badge" class="group-badge">
+        <span id="group-symbol" class="large-symbol" aria-hidden="true"></span>
+        <h2 id="group-title"></h2>
+        <p id="group-symbol-name"></p>
+      </div>
+      <p class="group-instruction">
+        Retrouve les autres participants ayant le même numéro,
+        la même couleur et le même symbole.
+      </p>
+      <p id="group-role-message" class="role-message"></p>
+      <button id="start-collective-button" class="primary-button" type="button">
+        Nous sommes réunis
+      </button>
+    </section>
+
+    <section id="collective-screen" class="screen" hidden>
+      <p class="step-label" id="collective-group-label"></p>
+      <h2>Votre top 3 collectif</h2>
+      <p class="instruction">
+        Discutez ensemble puis choisissez vos trois valeurs,
+        dans l’ordre d’importance.
+      </p>
+      <div id="collective-values" class="collective-values"></div>
+      <div class="selected-top">
+        <h3>Votre podium</h3>
+        <ol id="collective-top3"></ol>
+      </div>
+      <label class="rule-field">
+        <strong>Votre règle concrète</strong>
+        <span>
+          Écrivez une règle qui permet de mettre en pratique votre
+          valeur numéro 1.
+        </span>
+        <textarea id="collective-rule" maxlength="300" rows="4"
+          placeholder="Exemple : Nous nous encourageons même après une erreur."></textarea>
+      </label>
+      <button id="submit-collective-button" class="primary-button" type="button">
+        Valider la réponse du groupe
+      </button>
+      <p id="collective-message" role="status"></p>
+    </section>
+
+    <section id="collective-done-screen" class="screen group-screen" hidden>
+      <div class="success-icon" aria-hidden="true">✓</div>
+      <h2>Réponse collective enregistrée !</h2>
+      <p>Votre top 3 et votre règle sont maintenant visibles par l’éducateur.</p>
+    </section>
+
+    <section id="end-screen" class="screen end-screen" hidden>
+      <div class="end-symbol" aria-hidden="true">🏁</div>
+      <p class="step-label">Activité terminée</p>
+      <h2>Merci pour ta participation !</h2>
+      <div class="take-home-message">
+        <h3>Message à retenir</h3>
+        <p>
+          Dans le sport, les valeurs guident nos choix et nos comportements.
+          Une valeur prend tout son sens lorsqu’elle devient une règle
+          concrète que nous appliquons chaque jour.
+        </p>
+      </div>
+      <p>Tu peux maintenant fermer cette page.</p>
+    </section>
+  </main>
+
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

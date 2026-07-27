@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éducateur — Vrai/Faux express</title>
+  <link rel="stylesheet" href="style.css?v=20260724-2">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img
+      class="logo-ffc"
+      src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme"
+    >
+
+    <div class="partner-logos">
+      <a href="../../../index.html" aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img
+          class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN"
+        >
+      </a>
+
+      <img
+        class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS"
+      >
+    </div>
+  </header>
+
+  <main class="dashboard">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · ÉDUCATEUR</p>
+      <h1>Vrai/Faux express</h1>
+
+      <div class="session-line">
+        <span>
+          Session :
+          <strong id="session-code">—</strong>
+        </span>
+        <span id="connection-state">Connexion…</span>
+      </div>
+    </header>
+
+    <section id="loading-panel" class="panel centered-panel">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Chargement de la session…</h2>
+      <p>Merci de patienter quelques instants.</p>
+    </section>
+
+    <section id="login-panel" class="panel" hidden>
+      <h2>Connexion éducateur</h2>
+      <p>
+        Saisissez le code confidentiel pour ouvrir le tableau de bord.
+      </p>
+
+      <form id="login-form" class="login-form">
+        <label for="facilitator-code">Code confidentiel</label>
+        <input
+          id="facilitator-code"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button id="login-button" class="primary-button" type="submit">
+          Se connecter
+        </button>
+      </form>
+
+      <p id="login-message" class="form-message" role="alert"></p>
+    </section>
+
+    <section id="error-panel" class="panel error-panel" hidden>
+      <h2>Accès impossible</h2>
+      <p id="error-message"></p>
+      <a class="primary-button" href="../../../index.html">
+        Retour à l’accueil
+      </a>
+    </section>
+
+    <div id="dashboard-content" hidden>
+      <section class="metrics" aria-label="Informations de la session">
+        <article>
+          <strong id="participant-count">0</strong>
+          <span>participant connecté</span>
+        </article>
+
+        <article>
+          <strong id="session-status">En attente</strong>
+          <span>état de la session</span>
+        </article>
+      </section>
+
+      <section class="panel waiting-panel">
+        <p class="step-label">Salle d’attente</p>
+        <h2>La session est prête</h2>
+        <p>
+          Communiquez le code
+          <strong id="waiting-session-code">—</strong>
+          aux participants. Leur arrivée apparaîtra automatiquement
+          dans le compteur.
+        </p>
+
+        <button id="start-activity-button" class="primary-button" type="button">
+          Commencer l’activité
+        </button>
+        <p id="action-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="question-panel" class="panel question-panel" hidden>
+        <div class="question-progress">
+          <span id="question-number">Affirmation 1 sur 8</span>
+          <span id="question-phase">Question en cours</span>
+        </div>
+        <h2 id="question-text"></h2>
+        <p>
+          L’affirmation est maintenant affichée sur les appareils
+          des participants.
+        </p>
+
+        <div class="answer-metrics">
+          <article>
+            <strong id="answer-count">0</strong>
+            <span>réponse reçue</span>
+          </article>
+          <article class="true-result">
+            <strong id="true-count">0</strong>
+            <span>Vrai · <b id="true-percentage">0 %</b></span>
+          </article>
+          <article class="false-result">
+            <strong id="false-count">0</strong>
+            <span>Faux · <b id="false-percentage">0 %</b></span>
+          </article>
+        </div>
+
+        <div id="correction-box" class="correction-box" hidden>
+          <p>Bonne réponse</p>
+          <strong id="correct-answer">—</strong>
+          <p id="correction-explanation"></p>
+        </div>
+
+        <div class="question-actions">
+          <button id="reveal-answer-button" class="primary-button" type="button">
+            Révéler la réponse
+          </button>
+          <button
+            id="next-question-button"
+            class="primary-button secondary-button"
+            type="button"
+            hidden
+          >
+            Affirmation suivante
+          </button>
+          <button
+            id="start-final-definition-button"
+            class="primary-button secondary-button"
+            type="button"
+            hidden
+          >
+            Passer à la formulation finale
+          </button>
+        </div>
+        <p id="question-action-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="final-definition-panel" class="panel final-definition-panel" hidden>
+        <div class="question-progress">
+          <span>Formulation personnelle</span>
+          <span id="definition-count">0 réponse reçue</span>
+        </div>
+        <h2>« Avec tes propres mots, qu’est-ce que le sport propre ? »</h2>
+        <p>
+          Les formulations envoyées apparaissent anonymement ci-dessous.
+        </p>
+        <div id="definitions-list" class="definitions-list">
+          <p class="empty-state">Aucune formulation reçue pour le moment.</p>
+        </div>
+
+        <footer class="dashboard-footer">
+          <button
+            id="close-activity-button"
+            class="primary-button danger-button"
+            type="button"
+          >
+            Clôturer l’activité
+          </button>
+        </footer>
+        <p id="close-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="closed-panel" class="panel closed-panel" hidden>
+        <div class="finish-icon" aria-hidden="true">🏁</div>
+        <h2>Activité clôturée</h2>
+        <p>
+          Le message de fin est maintenant affiché sur tous les
+          appareils participants.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js?v=20260724-2"></script>
+</body>
+</html>

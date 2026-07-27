@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Médicament : les bons réflexes — PRO-CYCLEAN</title>
+  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <a href="../../../index.html"
+        aria-label="Retour à l’accueil PRO-CYCLEAN">
+        <img class="logo-procyclean"
+          src="../../../assets/images/logo-procyclean.png"
+          alt="PRO-CYCLEAN">
+      </a>
+      <img class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · PARCOURS</p>
+      <h1>Médicament : les bons réflexes</h1>
+      <p>
+        Aide un jeune sportif à se soigner tout en adoptant les bons
+        réflexes face aux médicaments et aux règles antidopage.
+      </p>
+    </header>
+
+    <section id="loading-screen" class="screen centered-screen">
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Connexion à la session…</h2>
+      <p>Merci de patienter quelques instants.</p>
+    </section>
+
+    <section id="error-screen"
+      class="screen centered-screen error-screen" hidden>
+      <div class="screen-icon error-icon" aria-hidden="true">!</div>
+      <h2>Impossible d’accéder à l’activité</h2>
+      <p id="error-message" role="alert"></p>
+      <a class="primary-button" href="../../../activites/index.html">
+        Retour aux activités
+      </a>
+    </section>
+
+    <section id="waiting-screen"
+      class="screen centered-screen" hidden>
+      <div class="participant-badge">
+        <span>Session</span>
+        <strong id="displayed-session-code">—</strong>
+      </div>
+      <div class="screen-icon" aria-hidden="true">📂</div>
+      <h2>Tu as rejoint le parcours</h2>
+      <p>
+        Attends les consignes de l’éducateur. Le mode individuel ou en
+        groupe sera déterminé avant le lancement.
+      </p>
+      <p id="connection-message" class="connection-message"
+        role="status" aria-live="polite">
+        Connexion en temps réel active.
+      </p>
+    </section>
+
+    <section id="ready-screen"
+      class="screen centered-screen" hidden>
+      <div class="participant-number-card">
+        <span>Ton numéro</span>
+        <strong id="participant-number">—</strong>
+      </div>
+      <h2 id="ready-title">Le parcours est prêt</h2>
+      <p id="mode-message"></p>
+      <p id="group-members" class="group-members" hidden></p>
+      <button id="claim-device-button" class="primary-button"
+        type="button" hidden>
+        Utiliser ce téléphone pour le parcours
+      </button>
+      <p id="device-message" class="device-message"
+        role="status" aria-live="polite"></p>
+      <p id="ready-instruction" class="connection-message"
+        role="status">
+        Garde cet écran ouvert et attends le signal de l’éducateur.
+      </p>
+    </section>
+
+    <section id="situation-screen" class="screen" hidden>
+      <p class="step-label">Situation 1 · Avant la prise</p>
+      <h2>Un médicament proposé avant une course</h2>
+      <div class="scenario-card">
+        <p>
+          Le matin d’une compétition, Sami ne se sent pas bien. Un
+          coéquipier lui propose un médicament qu’il utilise souvent.
+        </p>
+        <strong>Quel est le premier bon réflexe de Sami ?</strong>
+      </div>
+      <form id="situation-form" class="answers-form">
+        <label>
+          <input type="radio" name="first-answer"
+            value="half-dose" required>
+          Prendre seulement la moitié de la dose.
+        </label>
+        <label>
+          <input type="radio" name="first-answer"
+            value="professional-check">
+          Consulter un professionnel de santé, préciser qu’il est
+          sportif soumis aux règles antidopage et vérifier le
+          médicament.
+        </label>
+        <label>
+          <input type="radio" name="first-answer"
+            value="teammate-trust">
+          Le prendre puisque son coéquipier le tolère bien.
+        </label>
+        <label>
+          <input type="radio" name="first-answer"
+            value="after-race">
+          Attendre la fin de la course puis le prendre sans autre
+          vérification.
+        </label>
+        <button id="submit-situation-button" class="primary-button"
+          type="submit">
+          Valider la réponse
+        </button>
+      </form>
+      <p id="situation-message" class="device-message"
+        role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="answer-sent-screen"
+      class="screen centered-screen" hidden>
+      <div class="screen-icon" aria-hidden="true">✓</div>
+      <p class="step-label">Réponse enregistrée</p>
+      <h2>Merci pour ta décision</h2>
+      <p>
+        La réponse sera discutée avec l’éducateur lors de la
+        correction collective.
+      </p>
+      <p class="connection-message">
+        Attends la suite du parcours.
+      </p>
+    </section>
+
+    <section id="closed-screen"
+      class="screen centered-screen" hidden>
+      <div class="screen-icon" aria-hidden="true">🏁</div>
+      <h2>Cette session est terminée</h2>
+      <p>Merci pour ta participation.</p>
+    </section>
+  </main>
+
+  <script src="../../../assets/navigation.js?v=2"
+    data-root="../../../" data-section="activities"></script>
+  <script type="module" src="script.js?v=4"></script>
+</body>
+</html>

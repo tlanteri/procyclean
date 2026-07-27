@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord — Le podium des valeurs</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=2">
+</head>
+<body>
+  <main class="dashboard">
+    <header>
+      <p class="eyebrow">PRO-CYCLEAN · ÉDUCATEUR</p>
+      <h1>Le podium des valeurs</h1>
+      <div class="session-line">
+        Session <strong id="session-code">—</strong>
+        <span id="connection-state">Connexion…</span>
+      </div>
+    </header>
+
+    <section id="error-panel" class="panel error" hidden>
+      <h2>Accès impossible</h2>
+      <p id="error-message"></p>
+      <a href="../../../index.html" class="button">Retour à l’accueil</a>
+    </section>
+
+    <section id="login-panel" class="panel" hidden>
+      <h2>Connexion éducateur</h2>
+      <p>
+        Saisissez à nouveau le code confidentiel pour ouvrir cette session.
+      </p>
+      <form id="login-form" class="login-form">
+        <label for="facilitator-code">Code confidentiel</label>
+        <input
+          id="facilitator-code"
+          type="password"
+          autocomplete="current-password"
+          required
+        >
+        <button id="login-button" class="button" type="submit">
+          Se connecter
+        </button>
+      </form>
+      <p id="login-message" class="action-message" role="alert"></p>
+    </section>
+
+    <div id="dashboard-content" hidden>
+      <section class="metrics">
+        <article><strong id="participant-count">0</strong><span>participants</span></article>
+        <article><strong id="ranking-count">0</strong><span>classements terminés</span></article>
+        <article><strong id="group-count">0</strong><span>groupes</span></article>
+      </section>
+
+      <section class="panel controls">
+        <h2>Déroulement de la session</h2>
+        <p id="phase-description">Les participants peuvent rejoindre la session et classer les valeurs.</p>
+        <button id="form-groups-button" class="button" type="button">
+          Former les groupes
+        </button>
+        <p id="action-message" class="action-message" role="status"></p>
+      </section>
+
+      <section id="groups-panel" class="panel" hidden>
+        <h2>Groupes constitués</h2>
+        <p>La répartition est verrouillée. Les retardataires seront placés dans un groupe incomplet.</p>
+        <div id="groups-grid" class="groups-grid"></div>
+      </section>
+
+      <section id="results-panel" class="panel" hidden>
+        <h2>Résultats collectifs</h2>
+        <div id="results-grid" class="results-grid"></div>
+      </section>
+
+      <footer class="dashboard-footer">
+        <button
+          id="close-activity-button"
+          class="button danger-button"
+          type="button"
+          hidden
+        >
+          Clôturer l’activité
+        </button>
+      </footer>
+    </div>
+  </main>
+  <script
+    src="../../../assets/navigation.js?v=2"
+    data-root="../../../"
+    data-section="activities"
+  ></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

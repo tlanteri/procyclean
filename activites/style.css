@@ -1,0 +1,749 @@
+:root {
+  /* Identité FFC / PRO-CYCLEAN */
+  --ffc-blue: #001f5b;
+  --ffc-blue-light: #0066b3;
+  --ffc-purple: #66136f;
+  --ffc-red: #e33013;
+  --pro-cyan: #00b7c3;
+
+  /* Interface */
+  --text-dark: #14233b;
+  --text-soft: #536177;
+  --surface: #ffffff;
+  --surface-soft: #f3f7fb;
+  --border: #dbe5ef;
+
+  --shadow:
+    0 24px 60px rgba(0, 20, 70, 0.24),
+    0 6px 18px rgba(0, 20, 70, 0.12);
+}
+
+/* Réinitialisation */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 28px 24px 40px;
+
+  color: var(--text-dark);
+  font-family: Arial, Helvetica, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 88% 88%,
+      rgba(227, 48, 19, 0.95) 0%,
+      rgba(227, 48, 19, 0.48) 18%,
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 70% 45%,
+      rgba(102, 19, 111, 0.72) 0%,
+      rgba(102, 19, 111, 0.22) 38%,
+      transparent 65%
+    ),
+    linear-gradient(
+      135deg,
+      #001640 0%,
+      var(--ffc-blue) 42%,
+      #18245f 66%,
+      var(--ffc-purple) 100%
+    );
+
+  background-attachment: fixed;
+}
+
+/* Éléments masqués */
+
+[hidden] {
+  display: none !important;
+}
+
+/* Effets graphiques de fond */
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+}
+
+body::before {
+  top: -160px;
+  right: -120px;
+  width: 520px;
+  height: 520px;
+
+  border: 2px solid rgba(255, 255, 255, 0.11);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 55px rgba(255, 255, 255, 0.025),
+    0 0 0 115px rgba(255, 255, 255, 0.018);
+}
+
+body::after {
+  bottom: -220px;
+  left: -170px;
+  width: 520px;
+  height: 520px;
+
+  border: 90px solid rgba(0, 183, 195, 0.06);
+  border-radius: 50%;
+}
+
+/* En-tête institutionnel non fixe */
+
+.institutional-header {
+  width: min(1180px, 100%);
+  margin: 0 auto 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.partner-logos {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 34px;
+}
+
+.partner-logos a {
+  display: block;
+  line-height: 0;
+}
+
+.logo-ffc,
+.logo-procyclean,
+.logo-lamhess {
+  display: block;
+  height: auto;
+  object-fit: contain;
+}
+
+.logo-ffc {
+  width: 125px;
+}
+
+.logo-procyclean {
+  width: 145px;
+}
+
+.logo-lamhess {
+  width: 190px;
+}
+
+/* Conteneur principal */
+
+.app {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 48px;
+
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+/* Trait coloré supérieur */
+
+.app::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 7px;
+  content: "";
+
+  background: linear-gradient(
+    90deg,
+    var(--ffc-blue-light) 0%,
+    var(--pro-cyan) 34%,
+    var(--ffc-purple) 68%,
+    var(--ffc-red) 100%
+  );
+}
+
+/* En-tête de la plateforme */
+
+.app-header {
+  max-width: 720px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.project-name {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 7px 14px;
+
+  color: var(--ffc-blue-light);
+  background: rgba(0, 102, 179, 0.09);
+  border-radius: 999px;
+
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 18px;
+
+  color: var(--ffc-blue);
+
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.app-header > p:last-child {
+  max-width: 630px;
+  margin: 0 auto;
+
+  color: var(--text-soft);
+
+  font-size: 1.12rem;
+  line-height: 1.6;
+}
+
+/* Titres secondaires */
+
+.mode-selection h2,
+.session-panel h2 {
+  margin: 0 0 24px;
+
+  color: var(--text-dark);
+
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+}
+
+.mode-selection h2 {
+  text-align: center;
+}
+
+/* Boutons généraux */
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Choix du profil */
+
+.mode-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.mode-card {
+  position: relative;
+  min-height: 225px;
+  padding: 30px 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+
+  overflow: hidden;
+  cursor: pointer;
+
+  color: var(--text-dark);
+  background: linear-gradient(145deg, #ffffff, var(--surface-soft));
+  border: 2px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 8px 22px rgba(0, 31, 91, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mode-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 5px;
+  content: "";
+
+  background: var(--ffc-blue-light);
+}
+
+.mode-card:last-child::before {
+  background: linear-gradient(
+    90deg,
+    var(--ffc-purple),
+    var(--ffc-red)
+  );
+}
+
+.mode-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--pro-cyan);
+  box-shadow: 0 16px 32px rgba(0, 31, 91, 0.16);
+}
+
+.mode-card:active {
+  transform: translateY(-1px);
+}
+
+.mode-card:focus-visible {
+  outline: 4px solid rgba(0, 183, 195, 0.3);
+  outline-offset: 4px;
+}
+
+.mode-icon {
+  width: 76px;
+  height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 102, 179, 0.09);
+  border-radius: 22px;
+
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.mode-card:last-child .mode-icon {
+  background: rgba(102, 19, 111, 0.09);
+}
+
+.mode-card strong {
+  color: var(--ffc-blue);
+  font-size: 1.4rem;
+}
+
+.mode-card span:last-child {
+  max-width: 280px;
+
+  color: var(--text-soft);
+
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Panneaux participant et éducateur */
+
+.session-panel {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 30px;
+
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+
+.session-panel > h2 {
+  margin-top: 28px;
+}
+
+.session-panel > p {
+  margin: 0 0 22px;
+
+  color: var(--text-soft);
+
+  line-height: 1.6;
+}
+
+.session-panel > p strong {
+  color: var(--ffc-blue);
+}
+
+/* Formulaires */
+
+.session-panel form {
+  display: grid;
+  gap: 14px;
+}
+
+.session-panel label {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.code-input {
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 16px;
+
+  color: var(--ffc-blue);
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.code-input:hover {
+  border-color: rgba(0, 102, 179, 0.45);
+}
+
+.code-input:focus {
+  border-color: var(--pro-cyan);
+  box-shadow: 0 0 0 4px rgba(0, 183, 195, 0.15);
+}
+
+.form-error {
+  margin: 16px 0 0 !important;
+  padding: 12px 14px;
+
+  color: #a32310 !important;
+  background: rgba(227, 48, 19, 0.08);
+  border: 1px solid rgba(227, 48, 19, 0.25);
+  border-radius: 10px;
+
+  font-weight: 700;
+}
+
+/* Choix d’une activité */
+
+.activity-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.activity-card {
+  min-height: 190px;
+  padding: 24px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  cursor: pointer;
+
+  color: var(--text-dark);
+  background: #ffffff;
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 7px 18px rgba(0, 31, 91, 0.07);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pro-cyan);
+  box-shadow: 0 12px 25px rgba(0, 31, 91, 0.14);
+}
+
+.activity-card:active {
+  transform: translateY(-1px);
+}
+
+.activity-card:focus-visible {
+  outline: 4px solid rgba(0, 183, 195, 0.3);
+  outline-offset: 3px;
+}
+
+.activity-icon {
+  width: 66px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 183, 195, 0.1);
+  border-radius: 18px;
+
+  font-size: 2.5rem;
+}
+
+.activity-card strong {
+  color: var(--ffc-blue);
+
+  font-size: 1.15rem;
+  text-align: center;
+}
+
+.activity-card span:last-child {
+  color: var(--text-soft);
+
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Boutons d’action */
+
+.primary-button,
+.back-button {
+  border-radius: 12px;
+
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.primary-button {
+  width: fit-content;
+  min-height: 48px;
+  padding: 13px 22px;
+
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    var(--ffc-blue-light),
+    var(--ffc-purple)
+  );
+  border: none;
+  box-shadow: 0 7px 18px rgba(0, 102, 179, 0.25);
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 102, 179, 0.35);
+}
+
+.primary-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 102, 179, 0.25);
+}
+
+.back-button {
+  padding: 9px 15px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--ffc-blue-light);
+  background: #eaf4fb;
+  border: 1px solid rgba(0, 102, 179, 0.18);
+}
+
+.back-button:hover {
+  color: #ffffff;
+  background: var(--ffc-blue-light);
+
+  transform: translateX(-2px);
+  box-shadow: 0 5px 14px rgba(0, 102, 179, 0.2);
+}
+
+.primary-button:disabled,
+.back-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+  box-shadow: none;
+}
+
+.primary-button:focus-visible,
+.back-button:focus-visible {
+  outline: 3px solid rgba(0, 183, 195, 0.35);
+  outline-offset: 3px;
+}
+
+/* Session créée */
+
+.session-created {
+  margin-top: 26px;
+  padding: 22px;
+
+  text-align: center;
+
+  background: rgba(0, 183, 195, 0.09);
+  border: 1px solid rgba(0, 183, 195, 0.28);
+  border-radius: 16px;
+}
+
+.session-created p {
+  margin: 0 0 12px;
+
+  color: var(--text-soft);
+
+  line-height: 1.5;
+}
+
+.session-created p:last-child {
+  margin: 12px 0 0;
+}
+
+#session-code {
+  display: block;
+
+  color: var(--ffc-blue);
+
+  font-size: clamp(2rem, 7vw, 3.25rem);
+  letter-spacing: 0.16em;
+}
+
+/* Messages d’état */
+
+.status-panel {
+  margin-top: 28px;
+  padding: 18px 20px;
+
+  color: var(--ffc-blue);
+  text-align: center;
+
+  background: rgba(0, 183, 195, 0.09);
+  border: 1px solid rgba(0, 183, 195, 0.28);
+  border-radius: 14px;
+}
+
+.status-panel p {
+  margin: 0;
+
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Tablettes et téléphones */
+
+@media (max-width: 700px) {
+  body {
+    padding: 18px 12px 24px;
+    background-attachment: scroll;
+  }
+
+  .institutional-header {
+    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .partner-logos {
+    width: 100%;
+    justify-content: center;
+    gap: 22px;
+  }
+
+  .logo-ffc {
+    width: 90px;
+  }
+
+  .logo-procyclean {
+    width: 105px;
+  }
+
+  .logo-lamhess {
+    width: 135px;
+  }
+
+  .app {
+    padding: 38px 20px 28px;
+    border-radius: 22px;
+  }
+
+  .app-header {
+    margin-bottom: 32px;
+  }
+
+  .app-header > p:last-child {
+    font-size: 1rem;
+  }
+
+  .mode-buttons,
+  .activity-buttons {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .mode-card {
+    min-height: 175px;
+    padding: 24px 18px;
+  }
+
+  .mode-icon {
+    width: 64px;
+    height: 64px;
+
+    font-size: 2.5rem;
+    border-radius: 18px;
+  }
+
+  .session-panel {
+    padding: 22px 18px;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .app {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .partner-logos {
+    gap: 14px;
+  }
+
+  .logo-procyclean {
+    width: 90px;
+  }
+
+  .logo-lamhess {
+    width: 115px;
+  }
+}
+
+/* Réduction des animations selon les préférences de l’utilisateur */
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-card,
+  .activity-card,
+  .primary-button,
+  .back-button,
+  .code-input {
+    transition: none;
+  }
+}
