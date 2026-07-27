@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Tests du moteur — Médicament : les bons réflexes</title>
+</head>
+<body>
+  <pre id="results">Tests en cours…</pre>
+  <script type="module">
+    import {
+      getWorkContext,
+      getProgress,
+      normalizeAnswer,
+      acceptAnswer
+    } from "./pathway-engine.js";
+
+    const results = [];
+    function test(name, condition) {
+      if (!condition) throw new Error(name);
+      results.push(`✓ ${name}`);
+    }
+
+    const individualSession = {
+      participationMode: "individual",
+      participants: {
+        alpha: {
+          scenarioId: "home-medicine",
+          answers: { "home-first-choice": { choiceId: "ask" } }
+        }
+      }
+    };
+    const individual = getWorkContext(individualSession, "alpha");
+    test("contexte individuel modifiable", individual.canEdit);
+    test(
+      "restauration de l’étape suivante",
+      getProgress(individual).currentStepId === "home-identify-product"
+    );
+    test(
+      "sélection multiple dédupliquée",
+      normalizeAnswer(["dose", "name", "dose"], true)
+        .choiceIds.join(",") === "dose,name"
+    );
+    test(
+      "première écriture acceptée",
+      acceptAnswer(null, { choiceId: "ask" }).choiceId === "ask"
+    );
+    test(
+      "réécriture refusée",
+      acceptAnswer({ choiceId: "ask" }, { choiceId: "other" }) ===
+        undefined
+    );
+
+    const groupSession = {
+      participationMode: "group",
+      participants: {
+        alpha: { groupId: "group-1" },
+        beta: { groupId: "group-1" }
+      },
+      groups: {
+        "group-1": {
+          id: "group-1",
+          scenarioId: "doctor-visit",
+          activeDeviceParticipantId: "alpha"
+        }
+      }
+    };
+    test(
+      "téléphone collectif actif modifiable",
+      getWorkContext(groupSession, "alpha").canEdit
+    );
+    test(
+      "téléphone secondaire en lecture seule",
+      !getWorkContext(groupSession, "beta").canEdit
+    );
+
+    document.querySelector("#results").textContent =
+      `${results.join("\n")}\n\n${results.length} tests réussis`;
+    document.body.dataset.tests = "passed";
+  </script>
+</body>
+</html>
