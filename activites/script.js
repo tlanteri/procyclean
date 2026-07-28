@@ -99,6 +99,18 @@ const facilitatorButton = document.querySelector(
   "#facilitator-button"
 );
 
+const playerChoicePanel = document.querySelector(
+  "#player-choice-panel"
+);
+
+const playerChoiceBackButton = document.querySelector(
+  "#player-choice-back-button"
+);
+
+const joinActivityChoiceButton = document.querySelector(
+  "#join-activity-choice-button"
+);
+
 const statusPanel = document.querySelector("#status-panel");
 const statusMessage = document.querySelector("#status-message");
 
@@ -266,6 +278,7 @@ function userIsFacilitator(user = currentUser) {
 
 function hideAllPanels() {
   modeSelection.hidden = true;
+  playerChoicePanel.hidden = true;
   participantPanel.hidden = true;
   activitySelectionPanel.hidden = true;
   facilitatorLoginPanel.hidden = true;
@@ -286,6 +299,15 @@ function showModeSelection() {
 
   hideParticipantError();
   hideLoginError();
+  hideStatus();
+}
+
+function showPlayerChoicePanel() {
+  hideAllPanels();
+
+  playerChoicePanel.hidden = false;
+
+  hideParticipantError();
   hideStatus();
 }
 
@@ -838,7 +860,7 @@ participantSessionCode.addEventListener("input", () => {
 
 participantButton.addEventListener(
   "click",
-  showParticipantPanel
+  showPlayerChoicePanel
 );
 
 facilitatorButton.addEventListener(
@@ -849,9 +871,19 @@ facilitatorButton.addEventListener(
 
 /* Parcours participant */
 
-participantBackButton.addEventListener(
+playerChoiceBackButton.addEventListener(
   "click",
   showModeSelection
+);
+
+joinActivityChoiceButton.addEventListener(
+  "click",
+  showParticipantPanel
+);
+
+participantBackButton.addEventListener(
+  "click",
+  showPlayerChoicePanel
 );
 
 participantForm.addEventListener(

@@ -7,7 +7,7 @@
   <title>Activités — PRO-CYCLEAN</title>
   <link rel="icon" type="image/png" href="../assets/images/logo-procyclean.png">
 
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
   <link rel="stylesheet" href="../assets/navigation.css?v=7">
 </head>
 
@@ -55,7 +55,7 @@
       class="mode-selection"
       aria-labelledby="mode-title"
     >
-      <h2 id="mode-title">Sélectionnez votre profil</h2>
+      <h2 id="mode-title">Que souhaitez-vous faire ?</h2>
 
       <div class="mode-buttons">
         <button
@@ -64,9 +64,9 @@
           type="button"
         >
           <span class="mode-icon" aria-hidden="true">🚴</span>
-          <strong>Je participe</strong>
+          <strong>Faire une activité</strong>
           <span>
-            Rejoindre une activité avec le code transmis par l’éducateur
+            Rejoindre une session ou réaliser une activité en solo
           </span>
         </button>
 
@@ -82,11 +82,40 @@
           </span>
         </button>
 
+      </div>
+    </section>
+
+    <!-- Choix du parcours joueur -->
+
+    <section
+      id="player-choice-panel"
+      class="session-panel"
+      aria-labelledby="player-choice-title"
+      hidden
+    >
+      <button id="player-choice-back-button" class="back-button"
+        type="button">
+        ← Retour
+      </button>
+
+      <h2 id="player-choice-title">Faire une activité</h2>
+      <p>Choisissez comment vous souhaitez participer.</p>
+
+      <div class="mode-buttons player-choice-buttons">
+        <button id="join-activity-choice-button"
+          class="mode-card" type="button">
+          <span class="mode-icon" aria-hidden="true">🔗</span>
+          <strong>Rejoindre une activité</strong>
+          <span>
+            Saisir le code de session transmis par l’éducateur
+          </span>
+        </button>
+
         <a class="mode-card" href="individuel/index.html">
           <span class="mode-icon" aria-hidden="true">🙋</span>
-          <strong>Je joue en individuel</strong>
+          <strong>Activité en solo</strong>
           <span>
-            Réaliser une activité en autonomie, sans code de session
+            Choisir une activité et avancer à son rythme
           </span>
         </a>
       </div>
@@ -397,6 +426,6 @@
     data-root="../"
     data-section="activities"
   ></script>
-  <script type="module" src="script.js?v=13"></script>
+  <script type="module" src="script.js?v=14"></script>
 </body>
 </html>

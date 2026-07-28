@@ -254,7 +254,7 @@ button {
 
 .mode-buttons {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px;
 }
 
@@ -345,6 +345,10 @@ button {
 
 .mode-card:nth-child(3) .mode-icon {
   background: rgba(0, 183, 195, 0.1);
+}
+
+.player-choice-buttons {
+  margin-top: 26px;
 }
 
 .mode-card strong {
