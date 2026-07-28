@@ -76,6 +76,30 @@ button { font: inherit; }
   text-transform: uppercase;
 }
 
+.selection-back-button {
+  width: fit-content;
+  min-height: 44px;
+  margin: 0 0 24px;
+  padding: 11px 15px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--blue);
+  background: #edf5fa;
+  border: 1px solid #d6e5ee;
+  border-radius: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.selection-back-button:hover {
+  background: #e0f0f7;
+}
+
+.selection-back-button:focus-visible {
+  outline: 4px solid rgba(0,183,195,.3);
+  outline-offset: 3px;
+}
+
 h1, h2, h3 { color: var(--navy); }
 h1 { margin: 0 0 16px; font-size: clamp(2.2rem, 5vw, 3.8rem); }
 h2 { margin: 0 0 14px; font-size: clamp(1.7rem, 4vw, 2.5rem); }

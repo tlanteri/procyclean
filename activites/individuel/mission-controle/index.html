@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La mission contrôle — Mode individuel</title>
+  <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="../../mission-controle/participant/style.css?v=6">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN">
+      <img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
+      <h1>La mission contrôle</h1>
+      <p>Découvre les principales étapes d’un contrôle antidopage urinaire.</p>
+    </header>
+    <section id="ranking-screen" class="screen">
+      <p class="step-label">Phase individuelle</p>
+      <h2>Remets les étapes dans l’ordre</h2>
+      <p class="instruction">
+        Observe les neuf cartes et place-les dans l’ordre qui te paraît
+        correct avec les boutons « Monter » et « Descendre ».
+      </p>
+      <ol id="control-steps-list" class="control-steps-list"
+        aria-label="Étapes du contrôle à classer"></ol>
+      <button id="validate-ranking-button"
+        class="primary-button validate-ranking-button" type="button">
+        Valider mon ordre
+      </button>
+    </section>
+    <section id="ranking-correction-screen" class="screen" hidden>
+      <p class="step-label">Correction</p>
+      <h2>Découvre la procédure correcte</h2>
+      <p id="personal-result-summary" class="correction-score"></p>
+      <h3>Ta proposition</h3>
+      <ol id="personal-ranking-list" class="comparison-list"></ol>
+      <h3 class="correct-order-title">L’ordre correct</h3>
+      <ol id="correct-procedure-list" class="correct-procedure-list"></ol>
+      <button id="finish-mission" class="primary-button" type="button">
+        Terminer l’activité
+      </button>
+    </section>
+    <section id="closed-screen" class="screen centered-screen" hidden>
+      <div class="finish-icon" aria-hidden="true">🏁</div>
+      <p class="step-label">Activité terminée</p>
+      <h2>Merci pour ta participation !</h2>
+      <div class="take-home-message">
+        <h3>À retenir après cette activité</h3>
+        <p>
+          Pendant un contrôle, je respecte la procédure tout en restant
+          acteur : je demande des explications, je vérifie le matériel et
+          le formulaire, je déclare mes médicaments et compléments, et je
+          fais inscrire toute remarque avant de signer.
+        </p>
+      </div>
+      <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+    </section>
+  </main>
+  <script src="../../../assets/navigation.js?v=7"
+    data-root="../../../" data-section="activities"></script>
+  <script src="script.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vrai/Faux express — Mode individuel</title>
+  <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="../../vrai-faux-express/participant/style.css?v=20260724-5">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN">
+      <img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
+      <h1>Vrai/Faux express</h1>
+      <p>Teste tes connaissances sur le sport propre et découvre immédiatement chaque correction.</p>
+    </header>
+
+    <section id="question-screen" class="screen centered-screen">
+      <p id="question-progress" class="step-label"></p>
+      <h2 id="question-text"></h2>
+      <div class="answer-buttons">
+        <button id="true-button" class="answer-button true-button" type="button">
+          <span aria-hidden="true">✓</span><strong>Vrai</strong>
+        </button>
+        <button id="false-button" class="answer-button false-button" type="button">
+          <span aria-hidden="true">×</span><strong>Faux</strong>
+        </button>
+      </div>
+    </section>
+
+    <section id="correction-screen" class="screen correction-screen" hidden>
+      <p id="correction-progress" class="step-label"></p>
+      <h2>La bonne réponse est :</h2>
+      <div id="correct-answer-badge" class="correct-answer-badge"></div>
+      <p id="answer-result" class="answer-result"></p>
+      <div class="explanation-card">
+        <strong>Pourquoi ?</strong>
+        <p id="correction-explanation"></p>
+      </div>
+      <button id="next-question-button" class="primary-button" type="button">
+        Question suivante
+      </button>
+    </section>
+
+    <section id="final-definition-screen" class="screen" hidden>
+      <p class="step-label">Pour terminer</p>
+      <h2>Avec tes propres mots, qu’est-ce que le sport propre ?</h2>
+      <form id="definition-form">
+        <label for="sport-definition">Ta définition</label>
+        <textarea id="sport-definition" rows="6" required
+          placeholder="Pour moi, le sport propre, c’est…"></textarea>
+        <button class="primary-button" type="submit">Valider ma définition</button>
+      </form>
+    </section>
+
+    <section id="closed-screen" class="screen centered-screen" hidden>
+      <div class="screen-icon finish-icon" aria-hidden="true">🏁</div>
+      <h2>Merci pour ta participation !</h2>
+      <p id="score-message"></p>
+      <div class="final-message">
+        <strong>Le sport propre</strong>
+        <p>Respecter sa santé, les règles, les autres et les valeurs du sport, même lorsque personne ne regarde.</p>
+      </div>
+      <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+    </section>
+  </main>
+  <script src="../../../assets/navigation.js?v=7"
+    data-root="../../../" data-section="activities"></script>
+  <script src="script.js?v=1"></script>
+</body>
+</html>

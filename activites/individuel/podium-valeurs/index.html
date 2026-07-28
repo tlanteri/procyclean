@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le podium des valeurs — Mode individuel</title>
+  <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="../../podium-valeurs/participant/style.css">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+  <link rel="stylesheet" href="solo.css?v=4">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN">
+      <img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
+      <h1>Le podium des valeurs</h1>
+      <p>Classe les valeurs qui comptent dans ta pratique puis transforme ta valeur principale en règle concrète.</p>
+    </header>
+    <a class="solo-back-button" href="../index.html">
+      ← Retour au choix des activités
+    </a>
+    <section id="ranking-screen" class="screen">
+      <h2>Ton classement individuel</h2>
+      <p class="instruction">
+        Place en première position la valeur la plus importante, puis classe
+        toutes les autres. Fais glisser les cartes ou utilise ↑ et ↓.
+      </p>
+      <ol id="values-list" class="values-list"
+        aria-label="Classement des valeurs"></ol>
+      <button id="validate-ranking-button" class="primary-button" type="button">
+        Valider mon classement
+      </button>
+    </section>
+    <section id="collective-screen" class="screen" hidden>
+      <p class="step-label">Ton podium</p>
+      <h2>Ton top 3 individuel</h2>
+      <p class="instruction">
+        Voici les trois valeurs placées en tête. Écris maintenant une règle
+        concrète qui permet de mettre en pratique ta valeur numéro 1.
+      </p>
+      <div id="collective-values" class="collective-values"></div>
+      <div class="selected-top">
+        <h3>Ton podium</h3>
+        <ol id="collective-top3"></ol>
+      </div>
+      <label class="rule-field">
+        <strong>Ta règle concrète</strong>
+        <span>Comment appliqueras-tu ta valeur numéro 1 ?</span>
+        <textarea id="collective-rule" maxlength="300" rows="4"
+          placeholder="Exemple : J’encourage les autres même après une erreur."></textarea>
+      </label>
+      <button id="submit-collective-button" class="primary-button" type="button">
+        Valider mon podium
+      </button>
+      <p id="collective-message" role="status"></p>
+    </section>
+    <section id="end-screen" class="screen end-screen" hidden>
+      <div class="end-symbol" aria-hidden="true">🏁</div>
+      <p class="step-label">Activité terminée</p>
+      <h2>Tes valeurs personnelles</h2>
+
+      <div class="selected-top personal-summary">
+        <h3>Ton top 3</h3>
+        <div id="final-podium" class="final-podium"
+          aria-label="Podium personnel des valeurs"></div>
+      </div>
+
+      <div class="personal-rule-card">
+        <p class="step-label"><u>Ta valeur numéro 1 :</u></p>
+        <h3 id="final-top-value"></h3>
+        <strong>
+          Ce que tu mets en place pour respecter ma valeur principale :
+        </strong>
+        <p id="final-rule"></p>
+      </div>
+
+      <div class="take-home-message">
+        <h3>Message à retenir</h3>
+        <p>
+          Dans le sport, les valeurs guident nos choix et nos comportements.
+          Une valeur prend tout son sens lorsqu’elle devient une règle
+          concrète que nous appliquons chaque jour.
+        </p>
+      </div>
+      <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+    </section>
+  </main>
+  <script src="../../../assets/navigation.js?v=7"
+    data-root="../../../" data-section="activities"></script>
+  <script src="script.js?v=3"></script>
+</body>
+</html>

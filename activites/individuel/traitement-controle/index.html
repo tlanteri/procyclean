@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Médicament : les bons réflexes — Mode individuel</title>
+  <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="../../traitement-controle/participant/style.css?v=5">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+  <link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN">
+      <img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
+      <h1>Médicament : les bons réflexes</h1>
+      <p>Prends une décision face à une situation concrète puis découvre la correction.</p>
+    </header>
+    <section id="situation-screen" class="screen">
+      <p class="step-label">Situation 1 · Avant la prise</p>
+      <h2>Un médicament proposé avant une course</h2>
+      <div class="scenario-card">
+        <p>
+          Le matin d’une compétition, Sami ne se sent pas bien. Un
+          coéquipier lui propose un médicament qu’il utilise souvent.
+        </p>
+        <strong>Quel est le premier bon réflexe de Sami ?</strong>
+      </div>
+      <form id="situation-form" class="answers-form">
+        <label><input type="radio" name="answer" value="half-dose" required>
+          Prendre seulement la moitié de la dose.</label>
+        <label><input type="radio" name="answer" value="professional-check">
+          Consulter un professionnel de santé, préciser qu’il est sportif
+          soumis aux règles antidopage et vérifier le médicament.</label>
+        <label><input type="radio" name="answer" value="teammate-trust">
+          Le prendre puisque son coéquipier le tolère bien.</label>
+        <label><input type="radio" name="answer" value="after-race">
+          Attendre la fin de la course puis le prendre sans vérification.</label>
+        <button class="primary-button" type="submit">Valider la réponse</button>
+      </form>
+    </section>
+    <section id="correction-screen" class="screen" hidden>
+      <p class="step-label">Correction</p>
+      <h2 id="correction-title"></h2>
+      <div class="correction-card">
+        <strong>Le bon réflexe</strong>
+        <p>
+          Consulter un professionnel de santé, signaler sa pratique sportive
+          et vérifier le statut du médicament avant toute prise.
+        </p>
+        <p>
+          Un médicament adapté à un coéquipier ne l’est pas forcément pour
+          Sami. Une demi-dose ou une prise hors compétition ne supprime ni le
+          risque pour la santé ni le risque antidopage.
+        </p>
+      </div>
+      <button id="show-reflexes" class="primary-button" type="button">
+        Découvrir les bons réflexes
+      </button>
+    </section>
+    <section id="reflexes-screen" class="screen" hidden>
+      <p class="step-label">À retenir</p>
+      <h2>Les bons réflexes avec un médicament</h2>
+      <div class="reflex-grid">
+        <article><span>1</span><h3>Demander conseil</h3><p>Je consulte un médecin ou un pharmacien.</p></article>
+        <article><span>2</span><h3>Signaler ma pratique</h3><p>Je précise que je suis sportif soumis aux règles antidopage.</p></article>
+        <article><span>3</span><h3>Vérifier le médicament</h3><p>Je vérifie son statut avant chaque utilisation.</p></article>
+        <article><span>4</span><h3>Ne pas partager</h3><p>Je ne prends jamais le traitement d’une autre personne.</p></article>
+        <article><span>5</span><h3>Conserver les preuves</h3><p>Je garde ordonnance, boîte et justificatifs.</p></article>
+        <article><span>6</span><h3>Protéger ma santé</h3><p>Je ne modifie jamais seul un traitement nécessaire.</p></article>
+      </div>
+      <div class="take-home-card">
+        <strong>Message à retenir</strong>
+        <p>Avant toute prise : je demande conseil, je signale ma pratique sportive et je vérifie le médicament.</p>
+      </div>
+      <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+    </section>
+  </main>
+  <script src="../../../assets/navigation.js?v=7"
+    data-root="../../../" data-section="activities"></script>
+  <script src="script.js?v=1"></script>
+</body>
+</html>

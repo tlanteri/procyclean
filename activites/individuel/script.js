@@ -423,8 +423,15 @@ const renderers = {
 
 document.querySelectorAll(".activity-card").forEach((card) => {
   card.addEventListener("click", () => {
-    if (card.dataset.activity === "produit") {
-      window.location.href = "produit-mystere/index.html";
+    const dedicatedRoutes = {
+      podium: "podium-valeurs/index.html",
+      "vrai-faux": "vrai-faux-express/index.html",
+      mission: "mission-controle/index.html",
+      produit: "produit-mystere/index.html",
+      traitement: "traitement-controle/index.html"
+    };
+    if (dedicatedRoutes[card.dataset.activity]) {
+      window.location.href = dedicatedRoutes[card.dataset.activity];
       return;
     }
     openActivity(renderers[card.dataset.activity]);
