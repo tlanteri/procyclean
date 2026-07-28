@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Éducateur — Médicament : les bons réflexes</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=8">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
 </head>
 <body>
@@ -118,6 +118,58 @@
         <p id="pathway-state" class="devices-state" hidden></p>
       </section>
 
+      <section id="monitoring-panel" class="panel" hidden>
+        <p class="step-label">Suivi en direct</p>
+        <h2>Avancement des histoires</h2>
+        <p>Les réponses apparaissent en temps réel, sans correction côté participant.</p>
+        <div id="scenario-metrics" class="scenario-metrics"></div>
+        <button id="start-review-button" class="primary-action" type="button">
+          Commencer la mise en commun
+        </button>
+        <p id="review-action-message" class="form-message" role="status"></p>
+      </section>
+
+      <section id="review-panel" class="panel review-panel" hidden>
+        <div class="review-heading">
+          <div>
+            <p id="review-story-marker" class="step-label"></p>
+            <h2 id="review-story-title"></h2>
+          </div>
+          <span id="review-position" class="review-position"></span>
+        </div>
+        <h3 id="review-step-title"></h3>
+        <p id="review-question" class="review-question"></p>
+        <div id="answer-breakdown" class="answer-breakdown"></div>
+        <div id="recommended-panel" class="recommended-panel" hidden>
+          <strong id="recommended-answer"></strong>
+          <p id="recommended-reflex"></p>
+        </div>
+        <div class="review-actions">
+          <button id="reveal-answer-button" class="primary-action" type="button">
+            Révéler la réponse recommandée
+          </button>
+          <button id="next-review-button" class="secondary-action" type="button" hidden>
+            Étape suivante
+          </button>
+        </div>
+      </section>
+
+      <section id="final-panel" class="panel final-panel" hidden>
+        <p class="step-label">Bilan commun</p>
+        <h2>Les neuf bons réflexes</h2>
+        <ol id="final-reflexes" class="final-reflexes"></ol>
+        <button id="reveal-reflex-button" class="primary-action" type="button">
+          Afficher le réflexe suivant
+        </button>
+        <div id="key-message-panel" class="key-message" hidden>
+          <h3>Le message clé</h3><p id="key-message"></p>
+        </div>
+        <button id="reveal-key-message-button" class="secondary-action"
+          type="button" hidden>Afficher le message clé</button>
+        <button id="close-activity-button" class="primary-action"
+          type="button" hidden>Terminer l’activité</button>
+      </section>
+
       <section id="closed-panel"
         class="panel centered-panel" hidden>
         <div class="screen-icon" aria-hidden="true">🏁</div>
@@ -129,6 +181,6 @@
 
   <script src="../../../assets/navigation.js?v=7"
     data-root="../../../" data-section="activities"></script>
-  <script type="module" src="script.js?v=5"></script>
+  <script type="module" src="script.js?v=8"></script>
 </body>
 </html>

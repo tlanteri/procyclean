@@ -87,6 +87,6 @@ export function buildProgressUpdate(context, progress) {
     progress: progress.totalCount
       ? progress.completedCount / progress.totalCount
       : 0,
-    status: progress.isComplete ? "scenario-completed" : "playing"
+    status: progress.isComplete ? "completed" : "in-progress"
   };
 }

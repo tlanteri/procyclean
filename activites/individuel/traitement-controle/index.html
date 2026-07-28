@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Médicament : les bons réflexes — Mode individuel</title>
+  <title>Médicaments : les bons réflexes — Mode individuel</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="../../traitement-controle/participant/style.css?v=5">
+  <link rel="stylesheet" href="../../traitement-controle/participant/style.css?v=8">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
-  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <header class="institutional-header">
@@ -20,74 +20,88 @@
         alt="Laboratoire LAMHESS">
     </div>
   </header>
+
   <main class="app">
     <header class="activity-header">
       <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
-      <h1>Médicament : les bons réflexes</h1>
-      <p>Prends une décision face à une situation concrète puis découvre la correction.</p>
+      <h1>Médicaments : les bons réflexes</h1>
+      <p>Choisis une histoire et prends cinq décisions dans la peau d’un jeune cycliste.</p>
     </header>
-    <section id="situation-screen" class="screen">
-      <p class="step-label">Situation 1 · Avant la prise</p>
-      <h2>Un médicament proposé avant une course</h2>
-      <div class="scenario-card">
-        <p>
-          Le matin d’une compétition, Sami ne se sent pas bien. Un
-          coéquipier lui propose un médicament qu’il utilise souvent.
-        </p>
-        <strong>Quel est le premier bon réflexe de Sami ?</strong>
-      </div>
-      <form id="situation-form" class="answers-form">
-        <label><input type="radio" name="answer" value="half-dose" required>
-          Prendre seulement la moitié de la dose.</label>
-        <label><input type="radio" name="answer" value="professional-check">
-          Consulter un professionnel de santé, préciser qu’il est sportif
-          soumis aux règles antidopage et vérifier le médicament.</label>
-        <label><input type="radio" name="answer" value="teammate-trust">
-          Le prendre puisque son coéquipier le tolère bien.</label>
-        <label><input type="radio" name="answer" value="after-race">
-          Attendre la fin de la course puis le prendre sans vérification.</label>
-        <button class="primary-button" type="submit">Valider la réponse</button>
-      </form>
+
+    <section id="story-selection-screen" class="screen">
+      <p class="step-label">Choisis ton histoire</p>
+      <h2>Quel parcours veux-tu réaliser ?</h2>
+      <div id="story-options" class="story-options"></div>
+      <a class="secondary-link" href="../index.html">Retour à « Choisis ton activité »</a>
     </section>
-    <section id="correction-screen" class="screen" hidden>
-      <p class="step-label">Correction</p>
-      <h2 id="correction-title"></h2>
-      <div class="correction-card">
-        <strong>Le bon réflexe</strong>
-        <p>
-          Consulter un professionnel de santé, signaler sa pratique sportive
-          et vérifier le statut du médicament avant toute prise.
-        </p>
-        <p>
-          Un médicament adapté à un coéquipier ne l’est pas forcément pour
-          Sami. Une demi-dose ou une prise hors compétition ne supprime ni le
-          risque pour la santé ni le risque antidopage.
-        </p>
+
+    <section id="intro-screen" class="screen story-screen" hidden>
+      <div class="story-identity">
+        <span id="story-icon" class="story-icon" aria-hidden="true"></span>
+        <div>
+          <p id="story-marker" class="step-label"></p>
+          <h2 id="story-title"></h2>
+        </div>
       </div>
-      <button id="show-reflexes" class="primary-button" type="button">
-        Découvrir les bons réflexes
+      <p id="story-context" class="story-context"></p>
+      <button id="start-story-button" class="primary-button full-button"
+        type="button">Commencer l’histoire</button>
+      <button class="text-button" data-action="change-story" type="button">
+        Choisir une autre histoire
       </button>
     </section>
-    <section id="reflexes-screen" class="screen" hidden>
-      <p class="step-label">À retenir</p>
-      <h2>Les bons réflexes avec un médicament</h2>
-      <div class="reflex-grid">
-        <article><span>1</span><h3>Demander conseil</h3><p>Je consulte un médecin ou un pharmacien.</p></article>
-        <article><span>2</span><h3>Signaler ma pratique</h3><p>Je précise que je suis sportif soumis aux règles antidopage.</p></article>
-        <article><span>3</span><h3>Vérifier le médicament</h3><p>Je vérifie son statut avant chaque utilisation.</p></article>
-        <article><span>4</span><h3>Ne pas partager</h3><p>Je ne prends jamais le traitement d’une autre personne.</p></article>
-        <article><span>5</span><h3>Conserver les preuves</h3><p>Je garde ordonnance, boîte et justificatifs.</p></article>
-        <article><span>6</span><h3>Protéger ma santé</h3><p>Je ne modifie jamais seul un traitement nécessaire.</p></article>
+
+    <section id="situation-screen" class="screen story-screen" hidden>
+      <div class="progress-heading">
+        <p id="step-label" class="step-label">Étape 1 sur 5</p>
+        <strong id="story-character"></strong>
       </div>
+      <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+      <h2 id="step-title"></h2>
+      <div class="scenario-card"><p id="step-text"></p></div>
+      <form id="situation-form" class="answers-form">
+        <div id="answer-options"></div>
+        <button id="submit-answer-button" class="primary-button full-button"
+          type="submit">Valider ma réponse</button>
+      </form>
+      <p id="answer-message" class="device-message" role="status"
+        aria-live="polite"></p>
+    </section>
+
+    <section id="transition-screen" class="screen centered-screen" hidden>
+      <div class="screen-icon" aria-hidden="true">✓</div>
+      <h2>Décision enregistrée</h2>
+      <p id="transition-message"></p>
+    </section>
+
+    <section id="completed-screen" class="screen centered-screen" hidden>
+      <div class="screen-icon" aria-hidden="true">🏁</div>
+      <p class="step-label">Parcours terminé</p>
+      <h2>Tu as terminé l’histoire</h2>
+      <p>Tes cinq décisions sont enregistrées sur cet appareil.</p>
+      <button id="show-results-button" class="primary-button full-button"
+        type="button">Découvrir le bilan</button>
+    </section>
+
+    <section id="results-screen" class="screen" hidden>
+      <p class="step-label">Ton parcours</p>
+      <h2 id="results-title"></h2>
+      <div id="personal-results" class="personal-results"></div>
       <div class="take-home-card">
         <strong>Message à retenir</strong>
-        <p>Avant toute prise : je demande conseil, je signale ma pratique sportive et je vérifie le médicament.</p>
+        <p id="key-message"></p>
       </div>
-      <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+      <div class="result-actions">
+        <button class="secondary-action" data-action="change-story" type="button">
+          Essayer une autre histoire
+        </button>
+        <a class="primary-button" href="../index.html">Choisir une autre activité</a>
+      </div>
     </section>
   </main>
+
   <script src="../../../assets/navigation.js?v=7"
     data-root="../../../" data-section="activities"></script>
-  <script src="script.js?v=1"></script>
+  <script type="module" src="script.js?v=3"></script>
 </body>
 </html>

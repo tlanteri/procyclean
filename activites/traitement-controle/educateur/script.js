@@ -18,8 +18,14 @@ import {
 } from
   "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 import {
-  balancedScenarioIds
+  balancedScenarioIds,
+  SCENARIOS
 } from "../scenarios.js";
+import {
+  FACILITATOR_CONTENT,
+  FINAL_REFLEXES,
+  KEY_MESSAGE
+} from "../facilitator-content.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCX6Y_ImG1YNEMY19pSSl4FxaHKqo72B3s",
@@ -72,6 +78,12 @@ const pathwayState = document.querySelector("#pathway-state");
 const confirmPreparationButton = document.querySelector(
   "#confirm-preparation-button"
 );
+const monitoringPanel = document.querySelector("#monitoring-panel");
+const scenarioMetrics = document.querySelector("#scenario-metrics");
+const startReviewButton = document.querySelector("#start-review-button");
+const reviewActionMessage = document.querySelector("#review-action-message");
+const reviewPanel = document.querySelector("#review-panel");
+const finalPanel = document.querySelector("#final-panel");
 
 let stopSessionListener = null;
 let currentSession = null;
@@ -120,6 +132,8 @@ function readableStatus(status) {
     "participation-ready": "Mode individuel prêt",
     "group-device-selection": "Choix des téléphones",
     pathway: "Parcours en cours",
+    review: "Mise en commun",
+    "final-recap": "Bilan final",
     correction: "Correction",
     "final-decision": "Décision finale",
     results: "Synthèse",
@@ -192,6 +206,114 @@ function renderParticipants(entries, session) {
   });
 }
 
+function responseUnits(session) {
+  return session.participationMode === "group"
+    ? Object.values(session.groups || {})
+    : participantEntries(session).map(([, participant]) => participant);
+}
+
+function unitsForScenario(session, scenarioId) {
+  const legacyAliases = {
+    "home-medicine": "ines",
+    "doctor-visit": "lea",
+    "parent-medicine": "yanis"
+  };
+  return responseUnits(session).filter(
+    (unit) => (legacyAliases[unit.scenarioId] || unit.scenarioId) === scenarioId
+  );
+}
+
+function renderScenarioMetrics(session) {
+  scenarioMetrics.replaceChildren();
+  SCENARIOS.forEach((scenario) => {
+    const units = unitsForScenario(session, scenario.id);
+    const started = units.filter((unit) => unit.startedAt).length;
+    const completed = units.filter((unit) =>
+      unit.status === "completed" || unit.completedAt
+    ).length;
+    const card = document.createElement("article");
+    card.dataset.theme = scenario.theme;
+    card.innerHTML = `
+      <div class="metric-story"><span aria-hidden="true">${scenario.icon}</span>
+        <div><strong>${scenario.character}</strong><small>${scenario.marker}</small></div>
+      </div>
+      <dl>
+        <div><dt>Attribués</dt><dd>${units.length}</dd></div>
+        <div><dt>Commencés</dt><dd>${started}</dd></div>
+        <div><dt>Terminés</dt><dd>${completed}</dd></div>
+      </dl>`;
+    scenarioMetrics.append(card);
+  });
+}
+
+function reviewState(session) {
+  const state = session.review || {};
+  return {
+    scenarioIndex: Math.min(Number(state.scenarioIndex) || 0, 2),
+    stepIndex: Math.min(Number(state.stepIndex) || 0, 4),
+    revealed: Boolean(state.revealed)
+  };
+}
+
+function renderReview(session) {
+  const state = reviewState(session);
+  const scenario = SCENARIOS[state.scenarioIndex];
+  const step = scenario.steps[state.stepIndex];
+  const counts = { A: 0, B: 0, C: 0 };
+  unitsForScenario(session, scenario.id).forEach((unit) => {
+    const choice = unit.answers?.[step.id]?.choiceId;
+    if (counts[choice] != null) counts[choice] += 1;
+  });
+  const total = Object.values(counts).reduce((sum, count) => sum + count, 0);
+  document.querySelector("#review-story-marker").textContent =
+    `${scenario.icon} ${scenario.marker}`;
+  document.querySelector("#review-story-title").textContent =
+    `${scenario.character} — ${scenario.title}`;
+  document.querySelector("#review-position").textContent =
+    `Histoire ${state.scenarioIndex + 1}/3 · Étape ${state.stepIndex + 1}/5`;
+  document.querySelector("#review-step-title").textContent = step.title;
+  document.querySelector("#review-question").textContent = step.text;
+  const breakdown = document.querySelector("#answer-breakdown");
+  breakdown.replaceChildren();
+  Object.entries(step.choices).forEach(([letter, text]) => {
+    const percent = total ? Math.round((counts[letter] / total) * 100) : 0;
+    const row = document.createElement("article");
+    row.innerHTML = `
+      <div class="breakdown-label"><strong>${letter}</strong><span>${text}</span></div>
+      <div class="breakdown-result"><span>${counts[letter]} réponse${counts[letter] > 1 ? "s" : ""}</span><b>${percent} %</b></div>
+      <div class="breakdown-bar"><span style="width:${percent}%"></span></div>`;
+    breakdown.append(row);
+  });
+  const correction = FACILITATOR_CONTENT[scenario.id][state.stepIndex];
+  document.querySelector("#recommended-panel").hidden = !state.revealed;
+  document.querySelector("#recommended-answer").textContent =
+    `Réponse recommandée : ${correction[0]}`;
+  document.querySelector("#recommended-reflex").textContent = correction[1];
+  document.querySelector("#reveal-answer-button").hidden = state.revealed;
+  document.querySelector("#next-review-button").hidden = !state.revealed;
+  document.querySelector("#next-review-button").textContent =
+    state.scenarioIndex === 2 && state.stepIndex === 4
+      ? "Ouvrir le bilan final" : "Étape suivante";
+}
+
+function renderFinal(session) {
+  const count = Math.min(Number(session.finalReflexCount) || 0, 9);
+  const list = document.querySelector("#final-reflexes");
+  list.replaceChildren();
+  FINAL_REFLEXES.slice(0, count).forEach((text) => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    list.append(item);
+  });
+  document.querySelector("#reveal-reflex-button").hidden = count >= 9;
+  document.querySelector("#reveal-key-message-button").hidden =
+    count < 9 || session.keyMessageRevealed;
+  document.querySelector("#key-message-panel").hidden = !session.keyMessageRevealed;
+  document.querySelector("#key-message").textContent = KEY_MESSAGE;
+  document.querySelector("#close-activity-button").hidden =
+    !session.keyMessageRevealed;
+}
+
 function renderSession(session) {
   currentSession = session;
   const participants = participantEntries(session);
@@ -232,9 +354,8 @@ function renderSession(session) {
     (groups.length > 0 && activeDeviceCount === groups.length);
   const pathwayStarted = [
     "pathway",
-    "correction",
-    "final-decision",
-    "results"
+    "review",
+    "final-recap"
   ].includes(session.status);
   startPathwayButton.hidden = !session.modeLocked;
   startPathwayButton.disabled =
@@ -242,19 +363,19 @@ function renderSession(session) {
   startPathwayButton.textContent = pathwayStarted
     ? "Parcours démarré"
     : "Démarrer le parcours";
-  const responseUnits = mode === "group"
+  const units = mode === "group"
     ? groups
     : participants.map(([, participant]) => participant);
-  const responseCount = responseUnits.filter(
-    (unit) => unit.firstSituation?.submittedAt
+  const responseCount = units.filter(
+    (unit) => unit.status === "completed" || unit.completedAt
   ).length;
   pathwayState.hidden = !pathwayStarted;
   pathwayState.classList.toggle(
     "ready",
-    responseUnits.length > 0 && responseCount === responseUnits.length
+    units.length > 0 && responseCount === units.length
   );
   pathwayState.textContent =
-    `${responseCount} réponse${responseCount > 1 ? "s" : ""} reçue${responseCount > 1 ? "s" : ""} sur ${responseUnits.length}.`;
+    `${responseCount} parcours terminé${responseCount > 1 ? "s" : ""} sur ${units.length}.`;
   lockModeButton.disabled =
     actionInProgress || session.modeLocked || numberOfParticipants === 0;
   lockModeButton.textContent = session.modeLocked
@@ -269,8 +390,15 @@ function renderSession(session) {
     actionMessage.textContent =
       "Les numéros et le mode de participation sont verrouillés.";
   }
-  waitingPanel.hidden = session.status === "closed";
+  waitingPanel.hidden = ["review", "final-recap", "closed"].includes(session.status);
   closedPanel.hidden = session.status !== "closed";
+  monitoringPanel.hidden = !["pathway", "review"].includes(session.status);
+  reviewPanel.hidden = session.status !== "review";
+  finalPanel.hidden = session.status !== "final-recap";
+  if (!monitoringPanel.hidden) renderScenarioMetrics(session);
+  startReviewButton.hidden = session.status !== "pathway";
+  if (session.status === "review") renderReview(session);
+  if (session.status === "final-recap") renderFinal(session);
 }
 
 async function prepareParticipation() {
@@ -307,6 +435,11 @@ async function prepareParticipation() {
     changes[`participants/${uid}/groupNumber`] = null;
     changes[`participants/${uid}/groupId`] = null;
     changes[`participants/${uid}/scenarioId`] = null;
+    changes[`participants/${uid}/answers`] = null;
+    changes[`participants/${uid}/currentStep`] = 0;
+    changes[`participants/${uid}/currentStepId`] = null;
+    changes[`participants/${uid}/startedAt`] = null;
+    changes[`participants/${uid}/completedAt`] = null;
     changes[`participants/${uid}/status`] = "prepared";
   });
 
@@ -314,6 +447,11 @@ async function prepareParticipation() {
     const scenarioIds = balancedScenarioIds(randomized.length);
     randomized.forEach(([uid], index) => {
       changes[`participants/${uid}/scenarioId`] = scenarioIds[index];
+      changes[`participants/${uid}/sessionId`] = sessionCode;
+      changes[`participants/${uid}/unitId`] = uid;
+      changes[`participants/${uid}/participationMode`] = "individual";
+      changes[`participants/${uid}/scenarioVersion`] = 2;
+      changes[`participants/${uid}/progress`] = 0;
     });
   } else {
     const sizes = balancedGroupSizes(randomized.length);
@@ -338,6 +476,14 @@ async function prepareParticipation() {
           "#80583d", "#687583"
         ][index],
         scenarioId: scenarioIds[index],
+        sessionId: sessionCode,
+        unitId: id,
+        participationMode: "group",
+        scenarioVersion: 2,
+        currentStep: 0,
+        currentStepId: null,
+        progress: 0,
+        answers: {},
         status: "awaiting-lock",
         members: Object.fromEntries(
           members.map(([uid]) => [uid, true])
@@ -417,7 +563,7 @@ async function startPathway() {
   if (
     actionInProgress ||
     !currentSession?.modeLocked ||
-    ["pathway", "correction", "final-decision", "results"].includes(
+    ["pathway", "review", "final-recap", "correction", "final-decision", "results"].includes(
       currentSession.status
     )
   ) {
@@ -458,6 +604,66 @@ async function startPathway() {
     actionInProgress = false;
     if (currentSession) renderSession(currentSession);
   }
+}
+
+async function updateSession(values) {
+  if (actionInProgress) return;
+  actionInProgress = true;
+  try {
+    await update(ref(database, `sessions/${sessionCode}`), values);
+  } catch (error) {
+    console.error(error);
+    reviewActionMessage.textContent = "L’action n’a pas pu être enregistrée.";
+  } finally {
+    actionInProgress = false;
+  }
+}
+
+async function startReview() {
+  await updateSession({
+    status: "review",
+    review: { scenarioIndex: 0, stepIndex: 0, revealed: false },
+    reviewStartedAt: serverTimestamp()
+  });
+}
+
+async function revealAnswer() {
+  await updateSession({ "review/revealed": true });
+}
+
+async function nextReviewStep() {
+  if (!currentSession || !reviewState(currentSession).revealed) return;
+  const state = reviewState(currentSession);
+  if (state.scenarioIndex === 2 && state.stepIndex === 4) {
+    await updateSession({
+      status: "final-recap",
+      finalReflexCount: 0,
+      keyMessageRevealed: false,
+      finalRecapStartedAt: serverTimestamp()
+    });
+    return;
+  }
+  const nextStep = state.stepIndex === 4 ? 0 : state.stepIndex + 1;
+  const nextScenario = state.stepIndex === 4
+    ? state.scenarioIndex + 1 : state.scenarioIndex;
+  await updateSession({
+    "review/scenarioIndex": nextScenario,
+    "review/stepIndex": nextStep,
+    "review/revealed": false
+  });
+}
+
+async function revealNextReflex() {
+  const current = Math.min(Number(currentSession?.finalReflexCount) || 0, 9);
+  if (current < 9) await updateSession({ finalReflexCount: current + 1 });
+}
+
+async function revealKeyMessage() {
+  await updateSession({ keyMessageRevealed: true });
+}
+
+async function closeActivity() {
+  await updateSession({ status: "closed", closedAt: serverTimestamp() });
 }
 
 async function openDashboard(user) {
@@ -544,6 +750,22 @@ confirmPreparationButton.addEventListener(
   confirmPreparation
 );
 startPathwayButton.addEventListener("click", startPathway);
+startReviewButton.addEventListener("click", startReview);
+document.querySelector("#reveal-answer-button").addEventListener(
+  "click", revealAnswer
+);
+document.querySelector("#next-review-button").addEventListener(
+  "click", nextReviewStep
+);
+document.querySelector("#reveal-reflex-button").addEventListener(
+  "click", revealNextReflex
+);
+document.querySelector("#reveal-key-message-button").addEventListener(
+  "click", revealKeyMessage
+);
+document.querySelector("#close-activity-button").addEventListener(
+  "click", closeActivity
+);
 
 onAuthStateChanged(auth, (user) => {
   if (!user || user.isAnonymous) {

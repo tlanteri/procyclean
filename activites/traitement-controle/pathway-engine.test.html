@@ -1,78 +1,76 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Tests du moteur — Médicament : les bons réflexes</title>
-</head>
+<head><meta charset="UTF-8"><title>Tests — parcours Médicaments</title></head>
 <body>
   <pre id="results">Tests en cours…</pre>
   <script type="module">
-    import {
-      getWorkContext,
-      getProgress,
-      normalizeAnswer,
-      acceptAnswer
-    } from "./pathway-engine.js";
-
+    import { SCENARIOS, balancedScenarioIds } from "./scenarios.js";
+    import { getWorkContext, getProgress, normalizeAnswer, acceptAnswer }
+      from "./pathway-engine.js";
     const results = [];
     function test(name, condition) {
       if (!condition) throw new Error(name);
       results.push(`✓ ${name}`);
     }
-
-    const individualSession = {
+    test("trois histoires", SCENARIOS.length === 3);
+    test("cinq étapes par histoire",
+      SCENARIOS.every((scenario) => scenario.steps.length === 5));
+    test("quinze mini-situations",
+      SCENARIOS.flatMap((scenario) => scenario.steps).length === 15);
+    test("trois choix A, B et C par étape",
+      SCENARIOS.every((scenario) => scenario.steps.every(
+        (step) => Object.keys(step.choices).join("") === "ABC"
+      )));
+    const assignment = balancedScenarioIds(10, () => 0);
+    const counts = assignment.reduce((all, id) => {
+      all[id] = (all[id] || 0) + 1; return all;
+    }, {});
+    test("attribution équilibrée",
+      Math.max(...Object.values(counts)) - Math.min(...Object.values(counts)) <= 1);
+    const session = {
       participationMode: "individual",
       participants: {
         alpha: {
-          scenarioId: "home-medicine",
-          answers: { "home-first-choice": { choiceId: "ask" } }
+          scenarioId: "lea",
+          answers: { "lea-symptoms": { choiceId: "B" } }
         }
       }
     };
-    const individual = getWorkContext(individualSession, "alpha");
-    test("contexte individuel modifiable", individual.canEdit);
-    test(
-      "restauration de l’étape suivante",
-      getProgress(individual).currentStepId === "home-identify-product"
-    );
-    test(
-      "sélection multiple dédupliquée",
-      normalizeAnswer(["dose", "name", "dose"], true)
-        .choiceIds.join(",") === "dose,name"
-    );
-    test(
-      "première écriture acceptée",
-      acceptAnswer(null, { choiceId: "ask" }).choiceId === "ask"
-    );
-    test(
-      "réécriture refusée",
-      acceptAnswer({ choiceId: "ask" }, { choiceId: "other" }) ===
-        undefined
-    );
-
+    const context = getWorkContext(session, "alpha");
+    test("contexte individuel modifiable", context.canEdit);
+    test("reprise à l’étape suivante",
+      getProgress(context).currentStepId === "lea-doctor");
+    test("réponse normalisée", normalizeAnswer("B").choiceId === "B");
+    test("première écriture acceptée",
+      acceptAnswer(null, { choiceId: "B" }).choiceId === "B");
+    test("réécriture refusée",
+      acceptAnswer({ choiceId: "B" }, { choiceId: "A" }) === undefined);
     const groupSession = {
       participationMode: "group",
       participants: {
-        alpha: { groupId: "group-1" },
-        beta: { groupId: "group-1" }
+        alpha: { groupId: "group-1" }, beta: { groupId: "group-1" }
       },
       groups: {
         "group-1": {
-          id: "group-1",
-          scenarioId: "doctor-visit",
+          id: "group-1", scenarioId: "yanis",
           activeDeviceParticipantId: "alpha"
         }
       }
     };
-    test(
-      "téléphone collectif actif modifiable",
-      getWorkContext(groupSession, "alpha").canEdit
-    );
-    test(
-      "téléphone secondaire en lecture seule",
-      !getWorkContext(groupSession, "beta").canEdit
-    );
-
+    test("téléphone actif modifiable",
+      getWorkContext(groupSession, "alpha").canEdit);
+    test("téléphone secondaire en lecture seule",
+      !getWorkContext(groupSession, "beta").canEdit);
+    const completed = {
+      ...context,
+      unit: {
+        scenarioId: "lea",
+        answers: Object.fromEntries(
+          SCENARIOS[0].stepIds.map((id) => [id, { choiceId: "A" }])
+        )
+      }
+    };
+    test("fin après cinq réponses", getProgress(completed).isComplete);
     document.querySelector("#results").textContent =
       `${results.join("\n")}\n\n${results.length} tests réussis`;
     document.body.dataset.tests = "passed";

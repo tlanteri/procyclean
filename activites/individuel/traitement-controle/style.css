@@ -1,44 +1,197 @@
-.correction-card, .take-home-card {
-  margin: 22px 0;
-  padding: 24px;
-  color: #17324d;
-  background: #f3f8fb;
-  border: 2px solid #d7e6ef;
-  border-left: 6px solid #00b7c3;
-  border-radius: 16px;
-  line-height: 1.6;
-}
-.correction-card > strong, .take-home-card > strong {
-  display: block;
-  margin-bottom: 8px;
-  color: #0066b3;
-  font-size: 1.1rem;
-}
-.reflex-grid {
+.story-options {
   margin: 24px 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
-.reflex-grid article {
-  position: relative;
+
+.app {
+  overflow: hidden;
+}
+
+.story-choice {
+  min-height: 190px;
   padding: 20px;
-  background: #f3f8fb;
-  border: 1px solid #d7e6ef;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  color: #17324d;
+  background: #fff;
+  border: 2px solid #d7e5ee;
+  border-top: 6px solid #00aeb9;
+  border-radius: 16px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.story-choice[data-theme="orange"] { border-top-color: #e75b27; }
+.story-choice[data-theme="purple"] { border-top-color: #7651b5; }
+.story-choice:hover { transform: translateY(-3px); box-shadow: 0 12px 24px #002b6818; }
+.story-choice:focus-visible { outline: 4px solid #00b7c3; outline-offset: 3px; }
+
+.choice-icon {
+  font-size: 2rem;
+}
+
+.story-choice > span:last-child {
+  display: grid;
+  gap: 7px;
+}
+
+.story-choice strong {
+  color: #0066b3;
+  font-size: 1.3rem;
+}
+
+.story-choice small { color: #587088; }
+.story-choice b { line-height: 1.35; }
+
+.secondary-link,
+.text-button {
+  color: #0066b3;
+  font-weight: 900;
+}
+
+.secondary-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.text-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.personal-results {
+  margin: 22px 0;
+  display: grid;
+  gap: 14px;
+}
+
+.personal-results article {
+  padding: 20px;
+  color: #17324d;
+  background: #fff;
+  border: 2px solid #d7e6ef;
+  border-left: 6px solid #e75b27;
   border-radius: 15px;
 }
-.reflex-grid span {
+
+.personal-results article.is-recommended {
+  border-left-color: #26a269;
+}
+
+.result-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.result-heading span {
   width: 34px;
   height: 34px;
   display: grid;
   place-items: center;
+  flex: 0 0 auto;
   color: #fff;
   background: #0066b3;
-  border-radius: 10px;
+  border-radius: 50%;
   font-weight: 900;
 }
-.reflex-grid h3 { margin: 12px 0 6px; color: #001f5b; }
-.reflex-grid p { margin: 0; line-height: 1.5; }
-@media (max-width: 650px) {
-  .reflex-grid { grid-template-columns: 1fr; }
+
+.result-heading h3 {
+  margin: 0;
+  color: #002b68;
+}
+
+.personal-results p {
+  margin-bottom: 0;
+  font-size: 1rem;
+}
+
+.recommended-choice {
+  color: #0066b3 !important;
+  font-weight: 900;
+}
+
+.reflex-text {
+  padding: 12px;
+  color: #10593e !important;
+  background: #eaf8f1;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.take-home-card {
+  margin: 22px 0;
+  padding: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, #0066b3, #65419b);
+  border-radius: 16px;
+  line-height: 1.6;
+}
+
+.take-home-card > strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+
+.take-home-card p {
+  margin-bottom: 0;
+  color: #fff !important;
+}
+
+.result-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.secondary-action {
+  min-height: 52px;
+  padding: 14px 20px;
+  color: #0066b3;
+  background: #fff;
+  border: 2px solid #0066b3;
+  border-radius: 13px;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .eyebrow {
+    max-width: 100%;
+    letter-spacing: .07em;
+    white-space: normal;
+  }
+
+  .institutional-header {
+    gap: 8px;
+  }
+
+  .partner-logos {
+    gap: 8px;
+  }
+
+  .logo-ffc { width: 60px; }
+  .logo-procyclean { width: 86px; }
+  .logo-lamhess { width: 112px; }
+
+  .story-options,
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .story-choice {
+    min-height: 0;
+  }
 }

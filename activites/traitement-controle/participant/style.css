@@ -194,6 +194,11 @@ h1 {
   gap: 12px;
 }
 
+.answers-form > div {
+  display: grid;
+  gap: 12px;
+}
+
 .answers-form label {
   padding: 16px;
   display: flex;
@@ -206,6 +211,108 @@ h1 {
   font-weight: 700;
   line-height: 1.45;
   cursor: pointer;
+}
+
+.answer-letter {
+  width: 32px;
+  height: 32px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #fff;
+  background: var(--ffc-blue);
+  border-radius: 50%;
+  font-weight: 900;
+}
+
+.answers-form label:has(input:checked) .answer-letter {
+  background: var(--pro-cyan);
+}
+
+.answers-form input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.full-button {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.full-button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.story-identity,
+.progress-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.story-identity {
+  justify-content: flex-start;
+}
+
+.story-identity h2 {
+  margin: 0;
+}
+
+.story-icon {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  background: #fff;
+  border: 3px solid var(--story-color, var(--pro-cyan));
+  border-radius: 18px;
+  font-size: 2.25rem;
+}
+
+.story-context {
+  margin: 24px 0;
+  padding: 20px;
+  color: var(--ffc-blue-dark) !important;
+  background: #fff;
+  border-left: 6px solid var(--story-color, var(--pro-cyan));
+  border-radius: 14px;
+}
+
+.story-screen[data-theme="cyan"] { --story-color: #00aeb9; }
+.story-screen[data-theme="orange"] { --story-color: #e75b27; }
+.story-screen[data-theme="purple"] { --story-color: #7651b5; }
+
+.story-screen .scenario-card {
+  border-left-color: var(--story-color);
+}
+
+.progress-heading p {
+  margin-bottom: 0 !important;
+}
+
+.progress-heading strong {
+  color: var(--story-color);
+}
+
+.progress-track {
+  height: 12px;
+  margin: 12px 0 26px;
+  overflow: hidden;
+  background: #dce7ed;
+  border-radius: 999px;
+}
+
+.progress-track span {
+  height: 100%;
+  display: block;
+  background: var(--story-color);
+  border-radius: inherit;
+  transition: width 250ms ease;
 }
 
 .answers-form label:has(input:checked) {
@@ -265,13 +372,16 @@ h1 {
 
 @media (max-width: 700px) {
   body { padding: 18px 12px 24px; }
-  .institutional-header { flex-direction: column; }
-  .partner-logos { gap: 18px; }
-  .logo-ffc { width: 90px; }
+  .institutional-header { gap: 12px; }
+  .partner-logos { gap: 12px; }
+  .logo-ffc { width: 72px; }
   .logo-procyclean { width: 105px; }
   .logo-lamhess { width: 135px; }
   .app { padding: 32px 18px; border-radius: 20px; }
   .screen { padding: 30px 16px; }
+  .activity-header h1 { font-size: 2.15rem; }
+  .story-identity { align-items: flex-start; }
+  .story-icon { width: 58px; height: 58px; font-size: 1.8rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
