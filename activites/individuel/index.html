@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Réalisez les activités PRO-CYCLEAN en autonomie, sans session ni connexion.">
+  <title>Mode individuel — PRO-CYCLEAN</title>
+  <link rel="icon" type="image/png"
+    href="../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="../../assets/navigation.css?v=7">
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean"
+        src="../../assets/images/logo-procyclean.png" alt="PRO-CYCLEAN">
+      <img class="logo-lamhess"
+        src="../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+
+  <main class="solo-app">
+    <section id="activity-selection" class="selection-screen">
+      <p class="eyebrow">Mode individuel</p>
+      <h1>Choisis ton activité</h1>
+      <p class="intro">
+        Avance à ton rythme. Les corrections et les explications apparaissent
+        directement, sans code de session et sans éducateur.
+      </p>
+
+      <div class="activity-grid">
+        <button class="activity-card" type="button" data-activity="podium">
+          <span class="activity-icon" aria-hidden="true">🏆</span>
+          <strong>Le podium des valeurs</strong>
+          <span>Classe les valeurs qui guident ta pratique sportive.</span>
+        </button>
+        <button class="activity-card" type="button" data-activity="vrai-faux">
+          <span class="activity-icon" aria-hidden="true">⚡</span>
+          <strong>Vrai/Faux express</strong>
+          <span>Teste tes connaissances et découvre chaque correction.</span>
+        </button>
+        <button class="activity-card" type="button" data-activity="mission">
+          <span class="activity-icon" aria-hidden="true">🔎</span>
+          <strong>La mission contrôle</strong>
+          <span>Replace les étapes d’un contrôle antidopage dans l’ordre.</span>
+        </button>
+        <button class="activity-card" type="button" data-activity="produit">
+          <span class="activity-icon" aria-hidden="true">🔍</span>
+          <strong>Le produit mystère</strong>
+          <span>Analyse les indices avant de prendre une décision.</span>
+        </button>
+        <button class="activity-card" type="button" data-activity="traitement">
+          <span class="activity-icon" aria-hidden="true">🩺</span>
+          <strong>Médicament : les bons réflexes</strong>
+          <span>Choisis la conduite sûre dans des situations concrètes.</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="activity-runner" class="runner-screen" hidden>
+      <div class="runner-toolbar">
+        <button id="back-to-selection" class="secondary-button" type="button">
+          ← Toutes les activités
+        </button>
+        <span class="offline-badge">Sans connexion Firebase</span>
+      </div>
+      <div id="activity-content" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="../../assets/navigation.js?v=7"
+    data-root="../../" data-section="activities"></script>
+  <script src="script.js?v=3"></script>
+</body>
+</html>

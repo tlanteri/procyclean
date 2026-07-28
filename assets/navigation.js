@@ -19,17 +19,17 @@
   drawer.setAttribute("aria-hidden", "true");
 
   const links = [
-    ["home", "⌂", "Accueil", `${root}index.html`],
+    ["home", "🏠", "Accueil", `${root}index.html`],
     ["activities", "⚡", "Activités", `${root}activites/index.html`],
     [
       "resources",
-      "▤",
+      "📖",
       "Ressources pédagogiques",
       `${root}ressources-pedagogiques/index.html`
     ],
     [
       "share",
-      "↗",
+      "📤",
       "Partager l’application",
       `${root}partager/index.html`
     ]
@@ -37,7 +37,10 @@
 
   drawer.innerHTML = `
     <div class="global-menu-header">
-      <span class="global-menu-brand">PRO-CYCLEAN</span>
+      <span class="global-menu-brand">
+        <img src="${root}assets/images/logo-procyclean.png" alt="">
+        <span>PRO-CYCLEAN</span>
+      </span>
       <button class="global-menu-close" type="button"
         aria-label="Fermer le menu">×</button>
     </div>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le produit mystère — Mode individuel</title>
+  <link rel="icon" type="image/png"
+    href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet"
+    href="../../produit-mystere/participant/style.css?v=8">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png"
+      alt="Fédération Française de Cyclisme">
+    <div class="partner-logos">
+      <img class="logo-procyclean"
+        src="../../../assets/images/logo-procyclean.png" alt="PRO-CYCLEAN">
+      <img class="logo-lamhess"
+        src="../../../assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    </div>
+  </header>
+
+  <main class="app">
+    <header class="activity-header">
+      <p class="eyebrow">PRO-CYCLEAN · ENQUÊTE · MODE INDIVIDUEL</p>
+      <h1>Le produit mystère</h1>
+      <p>
+        Inspecte un complément alimentaire, repère les signaux d’alerte
+        et adopte les bons réflexes.
+      </p>
+    </header>
+
+    <section id="mission-screen" class="screen centered-screen">
+      <div class="investigation-icon" aria-hidden="true">🔍</div>
+      <p class="step-label">Ta mission</p>
+      <h2>Mène l’enquête sur POWER MAX RECOVERY</h2>
+      <p>
+        Un coéquipier te recommande un nouveau complément alimentaire
+        appelé <strong>POWER MAX RECOVERY</strong>. Il affirme que ce produit
+        l’aide à mieux récupérer après ses entraînements.
+      </p>
+      <p>
+        Avant de décider si tu peux l’utiliser, examine le produit,
+        repère les informations importantes et identifie les éventuels
+        signaux d’alerte.
+      </p>
+      <button id="start-mission-button" class="primary-action-button"
+        type="button">Commencer l’enquête</button>
+    </section>
+
+    <section id="inspection-screen" class="screen" hidden>
+      <div class="progress-header">
+        <div>
+          <p class="step-label">Inspection du produit</p>
+          <h2>POWER MAX RECOVERY</h2>
+        </div>
+        <strong id="inspection-progress">0 indice examiné sur 7</strong>
+      </div>
+
+      <div class="product-layout">
+        <div class="prospectus-panel">
+          <p class="viewer-instruction">
+            Observe la publication, puis utilise la loupe pour lire les
+            détails du produit.
+          </p>
+          <div class="prospectus-tabs" role="tablist"
+            aria-label="Vues du prospectus">
+            <button id="show-front-view" type="button" role="tab"
+              aria-selected="true">1 · Publication</button>
+            <button id="show-back-view" type="button" role="tab"
+              aria-selected="false">2 · Étiquette</button>
+          </div>
+          <div id="prospectus-viewer" class="prospectus-viewer" tabindex="0"
+            aria-label="Prospectus POWER MAX RECOVERY avec loupe interactive">
+            <img id="prospectus-image"
+              src="../../../assets/images/produit-mystere-prospectus.png"
+              alt="Publication et étiquette de POWER MAX RECOVERY"
+              draggable="false">
+            <div id="magnifier-lens" class="magnifier-lens"
+              aria-hidden="true"></div>
+          </div>
+          <div class="viewer-controls" aria-label="Contrôles de la loupe">
+            <button id="toggle-magnifier" type="button"
+              aria-pressed="false">🔍 Activer la loupe</button>
+            <button id="decrease-magnification" type="button"
+              aria-label="Réduire le grossissement">−</button>
+            <strong id="magnification-level" aria-live="polite">Zoom ×2</strong>
+            <button id="increase-magnification" type="button"
+              aria-label="Augmenter le grossissement">+</button>
+          </div>
+          <aside class="traceability-note">
+            <strong>Détail imprimé sous le pot</strong>
+            <span>Lot PMR-2407-B18 · Fabrication 06/2026</span>
+          </aside>
+        </div>
+
+        <div class="inspection-zones">
+          <h3>Les 7 zones à examiner</h3>
+          <p>Sélectionne chaque zone pour enregistrer ton observation.</p>
+          <div id="clue-buttons" class="clue-buttons"></div>
+        </div>
+      </div>
+      <button id="open-ranking-button" class="primary-action-button"
+        type="button" disabled>Classer les indices</button>
+      <p id="inspection-message" class="claim-device-message"
+        role="status"></p>
+    </section>
+
+    <section id="clue-screen" class="screen" hidden>
+      <button id="back-to-product-button" class="back-button" type="button">
+        ← Retour au produit
+      </button>
+      <p id="clue-number" class="step-label"></p>
+      <h2 id="clue-title"></h2>
+      <div class="clue-information">
+        <h3>Information observée</h3>
+        <p id="clue-information"></p>
+      </div>
+      <form id="clue-form">
+        <fieldset>
+          <legend id="clue-question"></legend>
+          <div id="clue-answers" class="answer-list"></div>
+        </fieldset>
+        <button class="primary-action-button" type="submit">
+          Enregistrer ma réponse
+        </button>
+      </form>
+      <p id="clue-message" class="claim-device-message" role="status"></p>
+    </section>
+
+    <section id="ranking-screen" class="screen" hidden>
+      <p class="step-label">Classement des indices</p>
+      <h2>Comment classes-tu chaque indice ?</h2>
+      <p>
+        Pour chaque indice, choisis la catégorie qui te paraît la plus
+        adaptée. Tu peux modifier tes choix avant la validation.
+      </p>
+      <div class="category-legend" aria-label="Catégories">
+        <span>✓ Plutôt rassurant</span>
+        <span>⚠ Vigilance</span>
+        <span>! Signal d’alerte</span>
+      </div>
+      <div id="ranking-list" class="ranking-list"></div>
+      <div id="ranking-summary" class="ranking-summary"></div>
+      <button id="submit-investigation-button"
+        class="primary-action-button" type="button" disabled>
+        Valider mon enquête
+      </button>
+      <button id="back-to-inspection-button" class="back-button"
+        type="button">Retourner aux indices</button>
+    </section>
+
+    <section id="investigation-correction-screen" class="screen" hidden>
+      <p class="step-label">Correction</p>
+      <h2>Ce que révèle l’enquête</h2>
+      <p>
+        Compare ton analyse avec les repères pédagogiques. Plusieurs
+        indices peuvent se renforcer : une décision ne repose jamais
+        sur un seul élément.
+      </p>
+      <div id="investigation-correction-list"
+        class="investigation-correction-list"></div>
+      <button id="continue-to-decision" class="primary-action-button"
+        type="button">Passer à la décision finale</button>
+    </section>
+
+    <section id="final-decision-screen" class="screen" hidden>
+      <p class="step-label">Décision finale</p>
+      <h2>Après ton enquête, que fais-tu avec POWER MAX RECOVERY ?</h2>
+      <p>Choisis la conduite qui te paraît la plus adaptée.</p>
+      <div id="final-decision-options"
+        class="final-decision-options"></div>
+      <button id="submit-final-decision-button"
+        class="primary-action-button" type="button" disabled>
+        Valider ma décision
+      </button>
+    </section>
+
+    <section id="final-guidance-screen" class="screen" hidden>
+      <p class="step-label">La conduite à adopter</p>
+      <h2>Réduire les risques au maximum</h2>
+      <div class="guidance-card">
+        <p id="final-guidance-main"></p>
+        <p id="final-guidance-responsibility"></p>
+      </div>
+      <h3>Les six réflexes essentiels</h3>
+      <div id="participant-reflexes-grid"
+        class="participant-reflexes-grid"></div>
+      <div class="take-home-card">
+        <strong>Message à retenir</strong>
+        <p id="final-take-home-message"></p>
+        <b id="final-highlight-message"></b>
+      </div>
+      <div class="actions">
+        <button id="restart-activity" class="primary-action-button"
+          type="button">Recommencer l’activité</button>
+        <a class="back-button" href="../index.html">
+          Choisir une autre activité
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../../assets/navigation.js?v=7"
+    data-root="../../../" data-section="activities"></script>
+  <script src="script.js?v=2"></script>
+</body>
+</html>

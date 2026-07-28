@@ -69,9 +69,19 @@
 }
 
 .global-menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   color: #0066b3;
   font-weight: 900;
   letter-spacing: 0.08em;
+}
+
+.global-menu-brand img {
+  width: 46px;
+  height: 38px;
+  display: block;
+  object-fit: contain;
 }
 
 .global-menu-close {

@@ -254,7 +254,7 @@ button {
 
 .mode-buttons {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
 }
 
@@ -282,6 +282,7 @@ button {
     transform 0.2s ease,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
+  text-decoration: none;
 }
 
 .mode-card::before {
@@ -296,12 +297,16 @@ button {
   background: var(--ffc-blue-light);
 }
 
-.mode-card:last-child::before {
+.mode-card:nth-child(2)::before {
   background: linear-gradient(
     90deg,
     var(--ffc-purple),
     var(--ffc-red)
   );
+}
+
+.mode-card:nth-child(3)::before {
+  background: linear-gradient(90deg, var(--pro-cyan), #2e9a69);
 }
 
 .mode-card:hover {
@@ -334,8 +339,12 @@ button {
   line-height: 1;
 }
 
-.mode-card:last-child .mode-icon {
+.mode-card:nth-child(2) .mode-icon {
   background: rgba(102, 19, 111, 0.09);
+}
+
+.mode-card:nth-child(3) .mode-icon {
+  background: rgba(0, 183, 195, 0.1);
 }
 
 .mode-card strong {
