@@ -1,6 +1,49 @@
 .portal {
+  position: relative;
+  width: min(1120px, 100%);
   min-height: 0;
-  place-content: initial;
+  margin: 0 auto;
+  padding: 58px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.985);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 28px;
+  box-shadow: 0 28px 70px rgba(0, 16, 55, 0.34);
+}
+
+.portal::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: linear-gradient(
+    90deg,
+    #0066b3,
+    #00b7c3 38%,
+    #66136f 72%,
+    #e33013
+  );
+  content: "";
+}
+
+.portal .intro {
+  max-width: 780px;
+  margin: 0 0 34px;
+  color: #5c7083;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.portal-button {
+  min-height: 48px;
+  padding: 12px 18px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0066b3, #00b7c3);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(0, 102, 179, 0.2);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
 }
 
 .resource-audiences {
@@ -259,6 +302,16 @@
 }
 
 @media (max-width: 720px) {
+  .portal {
+    padding: 42px 20px 34px;
+    border-radius: 22px;
+  }
+
+  .portal .intro {
+    margin-bottom: 28px;
+    font-size: 1rem;
+  }
+
   .resource-audiences {
     grid-template-columns: 1fr;
   }
