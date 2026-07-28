@@ -12,10 +12,7 @@ const qrCodeContainer = document.querySelector("#qr-code");
 const qrError = document.querySelector("#qr-error");
 const localWarning = document.querySelector("#local-warning");
 
-const applicationUrl = new URL("../index.html", window.location.href);
-applicationUrl.search = "";
-applicationUrl.hash = "";
-const shareUrl = applicationUrl.href;
+const shareUrl = "https://tlanteri.github.io/procyclean/";
 const shareTitle = "PRO-CYCLEAN";
 const shareText =
   "Découvrez l’application pédagogique PRO-CYCLEAN.";

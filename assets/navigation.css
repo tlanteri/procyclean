@@ -127,12 +127,59 @@ body.global-menu-open {
   overflow: hidden;
 }
 
+.institutional-header .logo-ffc {
+  transform: scale(0.8);
+}
+
+.global-site-footer {
+  width: min(1180px, 100%);
+  margin: 15px auto 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.global-site-footer p {
+  margin: 0;
+}
+
 @media (max-width: 700px) {
   .global-menu-button {
     top: 10px;
     left: 10px;
     width: 46px;
     height: 46px;
+  }
+
+  .institutional-header {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: center;
+    gap: 8px;
+  }
+
+  .institutional-header .partner-logos {
+    display: contents;
+  }
+
+  .institutional-header .logo-ffc {
+    width: clamp(56px, 18vw, 72px);
+    justify-self: end;
+  }
+
+  .institutional-header .partner-logos a {
+    justify-self: center;
+  }
+
+  .institutional-header .logo-procyclean {
+    width: clamp(68px, 23vw, 92px);
+  }
+
+  .institutional-header .logo-lamhess {
+    width: clamp(78px, 26vw, 112px);
+    justify-self: start;
   }
 }
 

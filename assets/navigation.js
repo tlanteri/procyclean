@@ -54,6 +54,18 @@
   document.body.prepend(overlay, drawer, menuButton);
   const closeButton = drawer.querySelector(".global-menu-close");
 
+  if (!document.querySelector(".global-site-footer")) {
+    const siteFooter = document.createElement("footer");
+    siteFooter.className = "global-site-footer";
+
+    const footerMessage = document.createElement("p");
+    footerMessage.textContent =
+      "Rouler fort, rester sain, s'engager pour demain";
+
+    siteFooter.append(footerMessage);
+    document.body.append(siteFooter);
+  }
+
   function openMenu() {
     drawer.classList.add("open");
     overlay.classList.add("open");
