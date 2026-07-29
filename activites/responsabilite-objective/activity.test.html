@@ -1,0 +1,14 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Tests responsabilité objective</title></head>
+<body><pre id="results">Tests en cours…</pre><script type="module">
+import {SITUATIONS,VIGILANCE_CHOICES,FINAL_MESSAGE} from "./situations.js";
+const results=[];function test(name,value){if(!value)throw new Error(name);results.push(`✓ ${name}`)}
+test("six situations",SITUATIONS.length===6);
+test("identifiants uniques",new Set(SITUATIONS.map(item=>item.id)).size===6);
+test("trois niveaux de vigilance",Object.keys(VIGILANCE_CHOICES).length===3);
+test("trois réponses complémentaires par situation",SITUATIONS.every(item=>item.followUpChoices.length===3));
+test("niveau recommandé valide",SITUATIONS.every(item=>VIGILANCE_CHOICES[item.recommended]));
+test("explication pédagogique complète",SITUATIONS.every(item=>item.explanation.length>40));
+test("lien avec la responsabilité objective",SITUATIONS.every(item=>item.objectiveLink.length>40));
+test("message final exact",FINAL_MESSAGE==="Les autres peuvent me conseiller ou influencer mes décisions, mais je dois rester vigilant face à ce que je consomme. Dans le cadre de l’antidopage, je suis responsable des substances retrouvées dans mon organisme, même si je n’avais pas l’intention de tricher.");
+document.querySelector("#results").textContent=`${results.join("\n")}\n\n${results.length} tests réussis`;document.body.dataset.tests="passed";
+</script></body></html>

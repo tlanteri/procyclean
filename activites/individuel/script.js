@@ -428,7 +428,9 @@ document.querySelectorAll(".activity-card").forEach((card) => {
       "vrai-faux": "vrai-faux-express/index.html",
       mission: "mission-controle/index.html",
       produit: "produit-mystere/index.html",
-      traitement: "traitement-controle/index.html"
+      traitement: "traitement-controle/index.html",
+      responsabilite: "responsabilite-objective/index.html",
+      "onde-choc": "onde-choc/index.html"
     };
     if (dedicatedRoutes[card.dataset.activity]) {
       window.location.href = dedicatedRoutes[card.dataset.activity];

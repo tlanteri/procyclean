@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>À ta place, serais-tu vigilant ? — PRO-CYCLEAN</title>
+  <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
+</head>
+<body>
+  <header class="institutional-header">
+    <img class="logo-ffc" src="../../../assets/images/logo-ffc.png" alt="Fédération Française de Cyclisme">
+    <div class="partner-logos"><img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png" alt="PRO-CYCLEAN"><img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png" alt="Laboratoire LAMHESS"></div>
+  </header>
+  <main class="app">
+    <header class="activity-header"><p class="eyebrow">PRO-CYCLEAN · RESPONSABILITÉ</p><h1>À ta place, serais-tu vigilant ?</h1><p>Observe chaque situation et décide jusqu’où doit aller ta vigilance.</p></header>
+    <section id="loading" class="screen centered"><div class="spinner"></div><h2>Connexion…</h2></section>
+    <section id="error" class="screen centered" hidden><h2>Accès impossible</h2><p id="error-message"></p><a class="primary" href="../../../activites/index.html">Retour aux activités</a></section>
+    <section id="waiting" class="screen centered" hidden><span class="participant-badge" id="participant-label"></span><h2>Tu es prêt</h2><p>Attends le signal de l’éducateur pour commencer.</p></section>
+    <section id="situation" class="screen" hidden>
+      <div class="progress-line"><strong id="progress-label"></strong><span id="situation-icon"></span></div>
+      <div class="progress"><span id="progress-bar"></span></div>
+      <h2 id="situation-title"></h2><p id="situation-text" class="situation-card"></p>
+      <form id="answer-form">
+        <fieldset><legend>Que fais-tu ?</legend><div id="vigilance-options" class="choice-list"></div></fieldset>
+        <fieldset><legend id="follow-up-question"></legend><div id="follow-up-options" class="choice-list"></div></fieldset>
+        <button id="submit-button" class="primary" type="submit">Valider mes réponses</button>
+      </form><p id="answer-message" role="status"></p>
+    </section>
+    <section id="transition" class="screen centered" hidden><div class="success">✓</div><h2>Réponses enregistrées</h2><p>Passons à la situation suivante…</p></section>
+    <section id="completed" class="screen centered" hidden><div class="success">✓</div><h2>Parcours terminé</h2><p>Tes réponses ont bien été enregistrées. Attends la mise en commun avec l’animateur.</p></section>
+    <section id="closed" class="screen centered" hidden><h2>Activité terminée</h2><div class="take-home"><p id="final-message"></p></div></section>
+  </main>
+  <script src="../../../assets/navigation.js?v=7" data-root="../../../" data-section="activities"></script>
+  <script type="module" src="script.js?v=1"></script>
+</body>
+</html>

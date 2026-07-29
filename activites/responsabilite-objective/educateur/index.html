@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Éducateur — À ta place, serais-tu vigilant ?</title><link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png"><link rel="stylesheet" href="style.css?v=1"><link rel="stylesheet" href="../../../assets/navigation.css?v=7"></head>
+<body>
+  <header class="institutional-header"><img class="logo-ffc" src="../../../assets/images/logo-ffc.png" alt="Fédération Française de Cyclisme"><div class="partner-logos"><img class="logo-procyclean" src="../../../assets/images/logo-procyclean.png" alt="PRO-CYCLEAN"><img class="logo-lamhess" src="../../../assets/images/logo-lamhess-blanc.png" alt="LAMHESS"></div></header>
+  <main class="dashboard">
+    <header class="activity-header"><p class="eyebrow">PRO-CYCLEAN · ÉDUCATEUR</p><h1>À ta place, serais-tu vigilant ?</h1><p>Session : <strong id="session-code">—</strong> · <span id="connection-state">Connexion…</span></p></header>
+    <section id="loading-panel" class="panel centered"><div class="spinner"></div><h2>Chargement…</h2></section>
+    <section id="login-panel" class="panel" hidden><h2>Connexion éducateur</h2><form id="login-form"><label for="code">Code confidentiel</label><input id="code" type="password" required><button class="primary" type="submit">Se connecter</button></form><p id="login-message"></p></section>
+    <section id="error-panel" class="panel centered" hidden><h2>Accès impossible</h2><p id="error-message"></p></section>
+    <div id="dashboard" hidden>
+      <section class="metrics"><article><strong id="participant-count">0</strong><span>participants</span></article><article><strong id="completed-count">0</strong><span>parcours terminés</span></article><article><strong id="status">En attente</strong><span>état</span></article></section>
+      <section id="waiting-panel" class="panel"><h2>Préparation</h2><p>Communiquez le code <strong id="waiting-code"></strong> aux participants.</p><button id="start-button" class="primary" type="button">Démarrer l’activité</button></section>
+      <section id="monitor-panel" class="panel" hidden><h2>Parcours en cours</h2><p id="progress-message"></p><progress id="activity-progress" value="0" max="1"></progress><button id="review-button" class="primary" type="button">Commencer la mise en commun</button></section>
+      <section id="review-panel" class="panel" hidden>
+        <div class="review-head"><div><p id="review-progress" class="eyebrow"></p><h2 id="review-title"></h2></div><span id="review-icon"></span></div>
+        <p id="review-text" class="situation-card"></p><div id="vigilance-results" class="results"></div>
+        <h3 id="follow-up-title"></h3><div id="follow-up-results" class="results follow-up"></div>
+        <div id="correction" class="correction" hidden><strong id="recommended"></strong><p id="explanation"></p><p id="objective-link"></p></div>
+        <div class="actions"><button id="reveal-button" class="primary" type="button">Révéler la correction</button><button id="next-button" class="secondary" type="button" hidden>Situation suivante</button></div>
+      </section>
+      <section id="final-panel" class="panel centered" hidden><h2>Message final</h2><div class="final-message"><p id="final-message"></p></div><button id="close-button" class="primary" type="button">Clôturer l’activité</button></section>
+      <section id="closed-panel" class="panel centered" hidden><h2>Activité terminée</h2><p>Le message final est affiché sur les téléphones.</p></section>
+      <p id="action-message" role="status"></p>
+    </div>
+  </main>
+  <script src="../../../assets/navigation.js?v=7" data-root="../../../" data-section="activities"></script><script type="module" src="script.js?v=1"></script>
+</body></html>

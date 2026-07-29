@@ -83,6 +83,12 @@ const activityRoutes = {
       "traitement-controle/participant/index.html",
     facilitator:
       "traitement-controle/educateur/index.html"
+  },
+  "responsabilite-objective": {
+    participant:
+      "responsabilite-objective/participant/index.html",
+    facilitator:
+      "responsabilite-objective/educateur/index.html"
   }
 };
 
@@ -754,6 +760,13 @@ async function joinSession(event) {
         "group-device-selection",
         "pathway"
       );
+    }
+
+    if (
+      session.activity === "responsabilite-objective" &&
+      existingParticipant
+    ) {
+      accessibleStatuses.push("activity", "review", "final");
     }
 
     if (!accessibleStatuses.includes(session.status)) {
