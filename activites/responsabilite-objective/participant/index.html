@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>À ta place, serais-tu vigilant ? — PRO-CYCLEAN</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="style.css?v=1">
+  <link rel="stylesheet" href="style.css?v=3">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
 </head>
 <body>
@@ -29,9 +29,23 @@
     </section>
     <section id="transition" class="screen centered" hidden><div class="success">✓</div><h2>Réponses enregistrées</h2><p>Passons à la situation suivante…</p></section>
     <section id="completed" class="screen centered" hidden><div class="success">✓</div><h2>Parcours terminé</h2><p>Tes réponses ont bien été enregistrées. Attends la mise en commun avec l’animateur.</p></section>
-    <section id="closed" class="screen centered" hidden><h2>Activité terminée</h2><div class="take-home"><p id="final-message"></p></div></section>
+    <section id="closed" class="screen objective-conclusion" hidden>
+      <p class="eyebrow">L’essentiel à retenir</p>
+      <div class="conclusion-symbol" aria-hidden="true">⚖️</div>
+      <h2>La responsabilité objective</h2>
+      <p class="conclusion-lead">Dans le cadre de l’antidopage, tu es responsable des substances retrouvées dans ton organisme, même si tu n’avais pas l’intention de tricher.</p>
+      <div class="objective-definition"><strong>Concrètement</strong><p>Un produit donné par un proche, un coéquipier ou un membre de l’encadrement ne transfère pas cette responsabilité. La confiance ne remplace jamais la vérification.</p></div>
+      <h3>Mon réflexe en 3 temps</h3>
+      <div class="reflex-grid">
+        <article class="reflex-card"><span>1</span><div><strong>Je ne prends rien</strong><p>Je ne consomme pas un produit si j’ai un doute.</p></div></article>
+        <article class="reflex-card"><span>2</span><div><strong>Je vérifie</strong><p>Je contrôle précisément le produit et sa composition.</p></div></article>
+        <article class="reflex-card"><span>3</span><div><strong>Je demande conseil</strong><p>Je sollicite un professionnel de santé et je précise que je suis sportif.</p></div></article>
+      </div>
+      <div class="objective-message"><strong>Ma décision, ma vigilance</strong><p id="final-message"></p></div>
+      <p class="conclusion-source">Message fondé sur le <a href="https://www.afld.fr/la-lutte-antidopage/les-regles-antidopage/la-responsabilite-objective/" target="_blank" rel="noopener noreferrer">principe de responsabilité objective présenté par l’AFLD</a>.</p>
+    </section>
   </main>
   <script src="../../../assets/navigation.js?v=7" data-root="../../../" data-section="activities"></script>
-  <script type="module" src="script.js?v=1"></script>
+  <script type="module" src="script.js?v=4"></script>
 </body>
 </html>

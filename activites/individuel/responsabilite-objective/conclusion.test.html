@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Test conclusion Responsabilité objective</title></head>
+<body>
+  <pre id="results">Test en cours…</pre>
+  <iframe id="activity" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const frame = document.querySelector("#activity");
+    const output = document.querySelector("#results");
+    const wait = (delay = 50) => new Promise((resolve) => setTimeout(resolve, delay));
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        await wait(150);
+        page.querySelector("#start-button").click();
+        for (let step = 0; step < 6; step += 1) {
+          await wait();
+          page.querySelector("#vigilance-options input").checked = true;
+          page.querySelector("#follow-up-options input").checked = true;
+          page.querySelector("#form").requestSubmit();
+          await wait(650);
+        }
+        page.querySelector("#results-button").click();
+        await wait();
+        page.querySelector("#conclusion-button").click();
+        await wait(120);
+        const conclusion = page.querySelector("#conclusion");
+        const checks = [
+          !conclusion.hidden,
+          page.querySelectorAll(".reflex-card").length === 3,
+          page.querySelector("#final-message").textContent.length > 40,
+          frame.contentWindow.scrollY > 0
+        ];
+        if (checks.some((check) => !check)) throw new Error("conclusion incomplète");
+        output.textContent = "✓ conclusion affichée\n✓ 3 réflexes présents\n✓ message final présent\n✓ cadrage conservé\n\n4 tests réussis";
+      } catch (error) {
+        output.textContent = "ÉCHEC : " + error.message;
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>À ta place, serais-tu vigilant ? — Mode individuel</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="../../responsabilite-objective/participant/style.css?v=2">
+  <link rel="stylesheet" href="../../responsabilite-objective/participant/style.css?v=3">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
   <link rel="stylesheet" href="style.css?v=1">
 </head>
@@ -16,7 +16,23 @@
     <section id="situation" class="screen" hidden><div class="progress-line"><strong id="progress-label"></strong><span id="icon"></span></div><div class="progress"><span id="progress-bar"></span></div><h2 id="title"></h2><p id="text" class="situation-card"></p><form id="form"><fieldset><legend>Que fais-tu ?</legend><div id="vigilance-options" class="choice-list"></div></fieldset><fieldset><legend id="follow-up-question"></legend><div id="follow-up-options" class="choice-list"></div></fieldset><button id="submit-button" class="primary" type="submit">Valider mes réponses</button></form><p id="message"></p></section>
     <section id="transition" class="screen centered" hidden><div class="success">✓</div><h2>Réponses enregistrées</h2><p>Situation suivante…</p></section>
     <section id="completed" class="screen centered" hidden><div class="success">✓</div><h2>Parcours terminé</h2><p>Tu as répondu aux six situations.</p><button id="results-button" class="primary" type="button">Découvrir le bilan</button></section>
-    <section id="results" class="screen" hidden><p class="eyebrow">Bilan individuel</p><h2>Vigilance et responsabilité</h2><div id="result-list" class="result-list"></div><div class="final-message"><strong>Message à retenir</strong><p id="final-message"></p></div><div class="actions"><button id="restart-button" class="secondary" type="button">Recommencer</button><a class="primary" href="../index.html">Choisir une autre activité</a></div></section>
+    <section id="results" class="screen" hidden><p class="eyebrow">Bilan individuel</p><h2>Vigilance et responsabilité</h2><div id="result-list" class="result-list"></div><button id="conclusion-button" class="primary conclusion-button" type="button">Voir la conclusion</button></section>
+    <section id="conclusion" class="screen objective-conclusion" hidden>
+      <p class="eyebrow">L’essentiel à retenir</p>
+      <div class="conclusion-symbol" aria-hidden="true">⚖️</div>
+      <h2>La responsabilité objective</h2>
+      <p class="conclusion-lead">Dans le cadre de l’antidopage, tu es responsable des substances retrouvées dans ton organisme, même si tu n’avais pas l’intention de tricher.</p>
+      <div class="objective-definition"><strong>Concrètement</strong><p>Un produit donné par un proche, un coéquipier ou un membre de l’encadrement ne transfère pas cette responsabilité. La confiance ne remplace jamais la vérification.</p></div>
+      <h3>Mon réflexe en 3 temps</h3>
+      <div class="reflex-grid">
+        <article class="reflex-card"><span>1</span><div><strong>Je ne prends rien</strong><p>Je ne consomme pas un produit si j’ai un doute.</p></div></article>
+        <article class="reflex-card"><span>2</span><div><strong>Je vérifie</strong><p>Je contrôle précisément le produit et sa composition.</p></div></article>
+        <article class="reflex-card"><span>3</span><div><strong>Je demande conseil</strong><p>Je sollicite un professionnel de santé et je précise que je suis sportif.</p></div></article>
+      </div>
+      <div class="objective-message"><strong>Ma décision, ma vigilance</strong><p id="final-message"></p></div>
+      <p class="conclusion-source">Message fondé sur le <a href="https://www.afld.fr/la-lutte-antidopage/les-regles-antidopage/la-responsabilite-objective/" target="_blank" rel="noopener noreferrer">principe de responsabilité objective présenté par l’AFLD</a>.</p>
+      <div class="actions"><button id="restart-button" class="secondary" type="button">Recommencer</button><a class="primary" href="../index.html">Choisir une autre activité</a></div>
+    </section>
   </main>
-  <script src="../../../assets/navigation.js?v=7" data-root="../../../" data-section="activities"></script><script type="module" src="script.js?v=1"></script>
+  <script src="../../../assets/navigation.js?v=7" data-root="../../../" data-section="activities"></script><script type="module" src="script.js?v=4"></script>
 </body></html>

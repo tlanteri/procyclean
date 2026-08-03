@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Test centrage Médicaments</title></head>
+<body>
+  <pre id="results">Tests en cours…</pre>
+  <iframe id="activity" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const frame = document.querySelector("#activity");
+    const output = document.querySelector("#results");
+    const passed = [];
+    const wait = (delay = 100) => new Promise((resolve) => setTimeout(resolve, delay));
+    const test = (name, condition) => {
+      if (!condition) throw new Error(name);
+      passed.push(`✓ ${name}`);
+    };
+    const focused = (window, element) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.height > window.innerHeight - 32) return Math.abs(bounds.top - 16) < 4;
+      return bounds.top >= 12 && bounds.bottom <= window.innerHeight - 12;
+    };
+
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        const view = frame.contentWindow;
+        await wait(180);
+        page.querySelector(".story-choice").click();
+        await wait();
+        page.querySelector("#start-story-button").click();
+        await wait();
+        test("question centrée dans la zone de jeu", focused(view, page.querySelector("#situation-screen")));
+        test("la page ne revient pas en haut", view.scrollY > 0);
+        page.querySelector('#answer-options input').checked = true;
+        page.querySelector("#situation-form").requestSubmit();
+        await wait();
+        test("transition maintenue dans la zone de jeu", focused(view, page.querySelector("#transition-screen")));
+        await wait(800);
+        test("question suivante recentrée", focused(view, page.querySelector("#situation-screen")));
+        test("position conservée dans le cœur de l’activité", view.scrollY > 0);
+        output.textContent = `${passed.join("\n")}\n\n${passed.length} tests réussis`;
+        document.body.dataset.tests = "passed";
+      } catch (error) {
+        output.textContent = `ÉCHEC : ${error.message}`;
+        document.body.dataset.tests = "failed";
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>

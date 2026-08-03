@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Test cadrage Vigilance</title></head>
+<body>
+  <pre id="results">Tests en cours…</pre>
+  <iframe id="activity" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const frame = document.querySelector("#activity");
+    const output = document.querySelector("#results");
+    const passed = [];
+    const wait = (delay = 100) => new Promise((resolve) => setTimeout(resolve, delay));
+    const test = (name, condition) => {
+      if (!condition) throw new Error(name);
+      passed.push(`✓ ${name}`);
+    };
+    const focused = (view, element) => {
+      const bounds = element.getBoundingClientRect();
+      if (bounds.height > view.innerHeight - 32) return bounds.top >= 0 && bounds.top <= 20;
+      return bounds.top >= 12 && bounds.bottom <= view.innerHeight - 12;
+    };
+
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        const view = frame.contentWindow;
+        await wait(180);
+        page.querySelector("#start-button").click();
+        await wait();
+        test("situation cadrée dans la zone de jeu", focused(view, page.querySelector("#situation")));
+        test("la page ne revient pas en haut", view.scrollY > 0);
+        page.querySelector('#vigilance-options input').checked = true;
+        page.querySelector('#follow-up-options input').checked = true;
+        page.querySelector("#form").requestSubmit();
+        await wait();
+        test("transition maintenue dans la zone de jeu", focused(view, page.querySelector("#transition")));
+        await wait(650);
+        test("situation suivante recadrée", focused(view, page.querySelector("#situation")));
+        test("position conservée dans le cœur de l’activité", view.scrollY > 0);
+        output.textContent = `${passed.join("\n")}\n\n${passed.length} tests réussis`;
+      } catch (error) {
+        output.textContent = `ÉCHEC : ${error.message}`;
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>

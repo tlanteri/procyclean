@@ -6,8 +6,8 @@ export const STORIES = [
     id: "camille", icon: "💊", name: "Camille", color: "cyan",
     story: "Avant une compétition, Camille prend un médicament sans vérifier s’il est autorisé.",
     stages: [
-      stage("Conséquences immédiates", "Que peut-il se passer après la prise de ce médicmants sans vérfication ?", "Plusieurs réponses sont possibles : la conséquence n’est pas automatique.", [
-        option("allowed", "Le médicament est autorisé : il n’y a pas de conséquence du point vue réglementation autidopage."),
+      stage("Conséquences immédiates", "Que peut-il se passer après la prise de ce médicament sans vérification ?", "Plusieurs réponses sont possibles : la conséquence n’est pas automatique.", [
+        option("allowed", "Le médicament est autorisé : il n’y a pas de conséquence du point de vue de la réglementation antidopage."),
         option("side-effect", "Le médicament provoque un effet indésirable."),
         option("detected", "Le médicament contient une substance interdite qui est détectée lors d’un contrôle.", true, true),
         option("unknown", "Il est impossible de le savoir sans vérifier le médicament.")
@@ -49,7 +49,7 @@ export const STORIES = [
         option("suspended", "Une suspension peut être prononcée."),
         option("manufacturer", "Seul le fabricant est concerné : Sami ne risque rien.", false)
       ]),
-      stage("Conséquences sportives", "Que peuvent provoquer une annulation ou une suspension dans le parcours de Sami ?", "Relie la décision de départ à ses effets sportifs possibles.", [
+      stage("Conséquences sportives", "Que peut provoquer une suspension dans le parcours de Sami ?", "Relie la décision de départ à ses effets sportifs possibles.", [
         option("result", "Perdre le bénéfice d’un résultat obtenu."),
         option("recovery", "Interrompre son programme d’entraînement et de récupération."),
         option("selection", "Ne plus pouvoir participer à une sélection ou à une compétition."),
@@ -134,5 +134,12 @@ export const LEVEL_SUMMARIES = [
   "Une annulation ou une suspension peut ensuite affecter les résultats, la participation et le projet sportif.",
   "Des conséquences personnelles, relationnelles ou matérielles peuvent enfin apparaître, selon le contexte."
 ];
+
+export const OBJECTIVE_RESPONSIBILITY = {
+  title: "Responsabilité objective",
+  message: "Dans le cadre de l’antidopage, chaque sportif est responsable des substances décelées dans ses échantillons. Une violation peut être constatée même sans intention de tricher : vérifier ce que l’on consomme reste donc essentiel."
+};
+
+export const SCENARIOS = STORIES;
 
 export const FINAL_MESSAGE = "Une onde de choc n’est pas une liste de conséquences automatiques. Elle relie une décision à des événements successifs : ce qui arrive immédiatement, une éventuelle procédure, ses effets sportifs, puis des effets personnels possibles. Vérifier, demander conseil et parler des pressions permet d’intervenir avant que cette chaîne ne commence.";

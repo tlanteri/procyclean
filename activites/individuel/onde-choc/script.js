@@ -1,12 +1,40 @@
 import { SCENARIOS, LEVEL_SUMMARIES, FINAL_MESSAGE, OBJECTIVE_RESPONSIBILITY } from "../../onde-choc/content.js";
 
 const $ = selector => document.querySelector(selector);
-const screens = ["#selection", "#intro", "#activity", "#transition", "#completed", "#results"].map($);
+const screens = ["#selection", "#intro", "#activity", "#transition", "#completed", "#results", "#take-home"].map($);
 let story = null, step = 0, answers = [];
+let visibleScreen = null;
+const activityFocusSpacer = document.createElement("div");
+activityFocusSpacer.setAttribute("aria-hidden", "true");
+activityFocusSpacer.style.height = "0";
+document.body.append(activityFocusSpacer);
 
+function focusActivityScreen(screen) {
+  const focus = () => {
+    const bounds = screen.getBoundingClientRect();
+    const visibleHeight = Math.min(bounds.height, window.innerHeight - 32);
+    const centeredTop =
+      window.scrollY + bounds.top - (window.innerHeight - visibleHeight) / 2;
+    const targetTop = Math.max(0, centeredTop);
+    const naturalMaximumTop =
+      document.documentElement.scrollHeight - window.innerHeight -
+      activityFocusSpacer.offsetHeight;
+    activityFocusSpacer.style.height =
+      String(Math.max(0, targetTop - naturalMaximumTop)) + "px";
+    window.scrollTo({ top: targetTop, behavior: "auto" });
+  };
+  focus();
+  requestAnimationFrame(focus);
+}
 function show(screen) {
+  const screenChanged = visibleScreen !== screen;
+  const shouldFocus = screenChanged && visibleScreen !== null;
+  if (shouldFocus) {
+    activityFocusSpacer.style.height = String(window.innerHeight) + "px";
+  }
   screens.forEach(item => { item.hidden = item !== screen; });
-  scrollTo({ top: 0, behavior: "smooth" });
+  visibleScreen = screen;
+  if (shouldFocus) focusActivityScreen(screen);
 }
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -37,13 +65,12 @@ function choose(item) {
   $("#story-icon").textContent = item.icon;
   $("#story-name").textContent = `L’histoire de ${item.name}`;
   $("#story-text").textContent = item.story;
-  $("#story-context").textContent = item.context;
   setPersistentStory();
   show($("#intro"));
 }
 function renderStep() {
   const current = story.stages[step];
-  $("#step-label").textContent = `Étape ${step + 1} sur ${story.stages.length} · ${current.title}`;
+  $("#step-label").textContent = `Étape ${step + 1} sur ${story.stages.length} · ${current.level}`;
   $("#bar").style.width = `${((step + 1) / story.stages.length) * 100}%`;
   $("#step-title").textContent = current.question;
   $("#instruction").textContent = current.instruction;
@@ -86,14 +113,14 @@ function stageAssessment(stageIndex) {
   const current = story.stages[stageIndex];
   const selected = answers[stageIndex] || [];
   const isCorrect = current.options.every(item =>
-    item.isPossible === selected.includes(item.id)
+    item.correct === selected.includes(item.id)
   );
   const options = current.options.map(item => {
     const isSelected = selected.includes(item.id);
-    if (item.isPossible && isSelected) {
+    if (item.correct && isSelected) {
       return `<li class="answer-correct"><strong>✓ Bonne réponse :</strong> ${item.text}</li>`;
     }
-    if (item.isPossible) {
+    if (item.correct) {
       return `<li class="answer-missed"><strong>À retenir :</strong> ${item.text}<small>Cette conséquence était possible, mais tu ne l’as pas sélectionnée.</small></li>`;
     }
     if (isSelected) {
@@ -112,12 +139,14 @@ function results() {
   const overall = correctCount === story.stages.length
     ? "Bravo, toutes tes réponses sont justes."
     : `Tu as entièrement réussi ${correctCount} étape${correctCount > 1 ? "s" : ""} sur ${story.stages.length}. Regarde les corrections ci-dessous.`;
-  $("#result-content").innerHTML = `<section class="result-card score-card"><h3>Ton résultat</h3><p>${overall}</p></section><section class="result-card causal-result"><h3>Correction détaillée</h3>${story.stages.map((item, index) => `<div class="result-level"><span>${index + 1}</span><div><p class="level-name">${item.title}</p>${assessments[index].html}<p class="level-explanation">${LEVEL_SUMMARIES[index]}</p></div></div>`).join("")}</section><section class="result-card rule-note"><h3>${OBJECTIVE_RESPONSIBILITY.title}</h3><p>${OBJECTIVE_RESPONSIBILITY.message}</p></section><section class="result-card"><h3>Intervenir avant l’onde de choc</h3><p>${story.prevention}</p></section>`;
+  $("#result-content").innerHTML = `<section class="result-card score-card"><h3>Ton résultat</h3><p>${overall}</p></section><section class="result-card causal-result"><h3>Correction détaillée</h3>${story.stages.map((item, index) => `<div class="result-level"><span>${index + 1}</span><div><p class="level-name">${item.level}</p>${assessments[index].html}<p class="level-explanation">${LEVEL_SUMMARIES[index]}</p></div></div>`).join("")}</section><section class="result-card rule-note"><h3>${OBJECTIVE_RESPONSIBILITY.title}</h3><p>${OBJECTIVE_RESPONSIBILITY.message}</p></section><section class="result-card"><h3>Intervenir avant l’onde de choc</h3><p>${story.prevention}</p></section>`;
   $("#final-message").textContent = FINAL_MESSAGE;
   show($("#results"));
 }
 
 $("#discover").onclick = renderStep;
+$("#change-story").onclick = renderStories;
 $("#results-button").onclick = results;
+$("#take-home-button").onclick = () => show($("#take-home"));
 $("#restart").onclick = renderStories;
 renderStories();

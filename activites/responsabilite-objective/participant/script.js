@@ -8,7 +8,13 @@ const auth=getAuth(initializeApp(config)), database=getDatabase();
 const $=s=>document.querySelector(s);
 const screens=["#loading","#error","#waiting","#situation","#transition","#completed","#closed"].map($);
 let user, session, code, busy=false, transitionId=null;
-const showOnly=screen=>screens.forEach(item=>item.hidden=item!==screen);
+let visibleScreen=null;
+const activityFocusSpacer=document.createElement("div");
+activityFocusSpacer.setAttribute("aria-hidden","true");
+activityFocusSpacer.style.height="0";
+document.body.append(activityFocusSpacer);
+function focusActivityScreen(screen){const focus=()=>{const bounds=screen.getBoundingClientRect(),visibleHeight=Math.min(bounds.height,window.innerHeight-32),centeredTop=window.scrollY+bounds.top-(window.innerHeight-visibleHeight)/2,targetTop=Math.max(0,centeredTop),naturalMaximumTop=document.documentElement.scrollHeight-window.innerHeight-activityFocusSpacer.offsetHeight;activityFocusSpacer.style.height=`${Math.max(0,targetTop-naturalMaximumTop)}px`;window.scrollTo({top:targetTop,behavior:"auto"})};focus();requestAnimationFrame(focus)}
+function showOnly(screen){const screenChanged=visibleScreen!==screen;if(screenChanged)activityFocusSpacer.style.height=`${window.innerHeight}px`;screens.forEach(item=>item.hidden=item!==screen);visibleScreen=screen;if(screenChanged)focusActivityScreen(screen)}
 const sessionCode=()=>String(new URLSearchParams(location.search).get("session")||"").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,6);
 function fail(message){$("#error-message").textContent=message;showOnly($("#error"))}
 function authUser(){return new Promise((resolve,reject)=>{const stop=onAuthStateChanged(auth,async current=>{try{if(current?.isAnonymous){stop();resolve(current)}else{const credential=await signInAnonymously(auth);stop();resolve(credential.user)}}catch(error){stop();reject(error)}},reject)})}

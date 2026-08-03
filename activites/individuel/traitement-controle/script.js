@@ -13,10 +13,38 @@ let scenario = null;
 let stepIndex = 0;
 let answers = {};
 let transitionTimer = null;
+let visibleScreen = null;
+const activityFocusSpacer = document.createElement("div");
+activityFocusSpacer.setAttribute("aria-hidden", "true");
+activityFocusSpacer.style.height = `${window.innerHeight}px`;
+document.body.append(activityFocusSpacer);
+
+function focusActivityScreen(screen) {
+  requestAnimationFrame(() => {
+    const bounds = screen.getBoundingClientRect();
+    const visibleHeight = Math.min(bounds.height, window.innerHeight - 32);
+    const centeredTop =
+      window.scrollY + bounds.top - (window.innerHeight - visibleHeight) / 2;
+    const targetTop = Math.max(0, centeredTop);
+    const naturalMaximumTop =
+      document.documentElement.scrollHeight - window.innerHeight -
+      activityFocusSpacer.offsetHeight;
+    activityFocusSpacer.style.height =
+      `${Math.max(0, targetTop - naturalMaximumTop)}px`;
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: targetTop, behavior: "auto" });
+    });
+  });
+}
 
 function showOnly(screen) {
+  const screenChanged = visibleScreen !== screen;
+  if (screenChanged) {
+    activityFocusSpacer.style.height = `${window.innerHeight}px`;
+  }
   screens.forEach((item) => { item.hidden = item !== screen; });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  visibleScreen = screen;
+  if (screenChanged) focusActivityScreen(screen);
 }
 
 function applyTheme() {

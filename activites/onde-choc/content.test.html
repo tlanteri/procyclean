@@ -1,14 +1,14 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tests onde de choc</title></head><body><pre id="r"></pre><script type="module">
-import{SCENARIOS,CONSEQUENCE_CATEGORIES,OBJECTIVE_RESPONSIBILITY,LEVEL_SUMMARIES,FINAL_MESSAGE}from"./content.js";
+import{SCENARIOS,OBJECTIVE_RESPONSIBILITY,LEVEL_SUMMARIES,FINAL_MESSAGE}from"./content.js";
 const r=[],t=(n,v)=>{if(!v)throw Error(n);r.push(`✓ ${n}`)};
 t("quatre histoires",SCENARIOS.length===4);
-t("trois catégories",CONSEQUENCE_CATEGORIES.length===3);
-t("trois étapes par histoire",SCENARIOS.every(s=>s.stages.length===3));
-t("une étape par catégorie",SCENARIOS.every(s=>s.stages.every((stage,index)=>stage.id===CONSEQUENCE_CATEGORIES[index].id)));
+t("quatre étapes par histoire",SCENARIOS.every(s=>s.stages.length===4));
+t("les quatre familles de conséquences",SCENARIOS.every(s=>s.stages.map(stage=>stage.level).join("|")==="Conséquences immédiates|Conséquences disciplinaires|Conséquences sportives|Conséquences personnelles"));
 t("quatre propositions par étape",SCENARIOS.every(s=>s.stages.every(stage=>stage.options.length===4)));
-t("au moins une idée reçue par histoire",SCENARIOS.every(s=>s.stages.some(stage=>stage.options.some(option=>!option.isPossible))));
-t("trois résumés pédagogiques",LEVEL_SUMMARIES.length===3);
+t("au moins une idée reçue par histoire",SCENARIOS.every(s=>s.stages.some(stage=>stage.options.some(option=>!option.correct))));
+t("quatre résumés pédagogiques",LEVEL_SUMMARIES.length===4);
 t("responsabilité objective séparée",OBJECTIVE_RESPONSIBILITY.message.length>50);
+t("question sportive de Sami reformulée",SCENARIOS.find(s=>s.id==="sami").stages[2].question==="Que peut provoquer une suspension dans le parcours de Sami ?");
 t("message final présent",FINAL_MESSAGE.length>200);
 document.querySelector("#r").textContent=`${r.join("\n")}\n\n${r.length} tests réussis`;
 </script></body></html>
