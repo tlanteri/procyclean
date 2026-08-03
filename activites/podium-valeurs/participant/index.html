@@ -11,7 +11,7 @@
   <title>Le podium des valeurs — PRO-CYCLEAN</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=4">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
 </head>
 
@@ -109,17 +109,30 @@
       <h2>Ton classement individuel</h2>
 
       <p class="instruction">
-        Place en première position la valeur qui te semble la plus
-        importante, puis classe toutes les autres.
+        Fais glisser les cartes de la banque vers les emplacements. Tu peux
+        ensuite déplacer ou échanger les cartes déjà posées.
       </p>
 
+      <div class="ranking-status" aria-live="polite">
+        <strong id="ranking-prompt">Quelle valeur places-tu en numéro 1 ?</strong>
+        <span id="ranking-progress">0 valeur sur 10 placée</span>
+      </div>
+
+      <h3 class="ranking-board-title">Ton plateau</h3>
       <ol
         id="values-list"
         class="values-list"
         aria-label="Classement des valeurs"
-      >
-        <!-- Les valeurs seront ajoutées avec JavaScript. -->
-      </ol>
+      ></ol>
+
+      <section class="value-bank-panel" aria-labelledby="value-bank-title">
+        <h3 id="value-bank-title">Banque de valeurs</h3>
+        <p>Fais glisser chaque carte vers la place de ton choix.</p>
+        <div id="value-bank" class="value-bank"></div>
+      </section>
+
+      <button id="undo-ranking-button" class="secondary-button"
+        type="button" disabled>↶ Annuler le dernier placement</button>
 
       <button
         id="validate-ranking-button"
@@ -224,6 +237,6 @@
     data-root="../../../"
     data-section="activities"
   ></script>
-  <script type="module" src="script.js"></script>
+  <script type="module" src="script.js?v=4"></script>
 </body>
 </html>

@@ -83,6 +83,11 @@ const displayedSessionCode = document.querySelector(
 );
 
 const valuesList = document.querySelector("#values-list");
+const valueBank = document.querySelector("#value-bank");
+const valueBankPanel = document.querySelector(".value-bank-panel");
+const rankingPrompt = document.querySelector("#ranking-prompt");
+const rankingProgress = document.querySelector("#ranking-progress");
+const undoRankingButton = document.querySelector("#undo-ranking-button");
 
 const validateRankingButton = document.querySelector(
   "#validate-ranking-button"
@@ -99,6 +104,11 @@ let submissionInProgress = false;
 let assignedGroup = null;
 let selectedCollectiveValues = [];
 let stopSessionListener = null;
+let rankingPositions = Array(VALUES.length).fill(null);
+let rankingHistory = [];
+let activeRankingSlot = 0;
+let bankValues = [];
+let rankingDrag = null;
 
 
 /* =========================================================
@@ -363,7 +373,10 @@ async function loadActivity() {
       return;
     }
 
-    renderValues(VALUES);
+    rankingPositions = Array(VALUES.length).fill(null);
+    rankingHistory = [];
+    activeRankingSlot = 0;
+    renderValues(shuffled(VALUES));
     showOnly(rankingScreen);
   } catch (error) {
     console.error(
@@ -380,244 +393,183 @@ async function loadActivity() {
 
 
 /* =========================================================
-   AFFICHAGE DES VALEURS
+   PLATEAU DE CLASSEMENT ET BANQUE DE CARTES
    ========================================================= */
 
-function renderValues(values) {
+function shuffled(values) {
+  const result = [...values];
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const target = Math.floor(Math.random() * (index + 1));
+    [result[index], result[target]] = [result[target], result[index]];
+  }
+  return result;
+}
+
+function saveRankingStep() {
+  rankingHistory.push([...rankingPositions]);
+}
+
+function findNextEmptySlot() {
+  return rankingPositions.findIndex((value) => value === null);
+}
+
+function renderValues(values = bankValues) {
+  if (values.length) bankValues = [...values];
+  const placedCount = rankingPositions.filter(Boolean).length;
+  const nextEmpty = findNextEmptySlot();
+
+  if (nextEmpty >= 0 && rankingPositions[activeRankingSlot]) {
+    activeRankingSlot = nextEmpty;
+  }
+
   valuesList.replaceChildren();
-
-  values.forEach((value) => {
+  rankingPositions.forEach((value, index) => {
     const item = document.createElement("li");
-
-    item.textContent = value;
-    item.dataset.value = value;
-    item.draggable = true;
-    item.tabIndex = 0;
-
-    item.setAttribute(
-      "aria-label",
-      `${value}. Utilise les flèches haut et bas pour déplacer cette valeur.`
-    );
-
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "ranking-slot";
+    button.dataset.slotIndex = index;
+    button.classList.toggle("filled", Boolean(value));
+    button.classList.toggle("active", index === activeRankingSlot && !value);
+    if (value) button.dataset.dragValue = value;
+    button.innerHTML = value
+      ? `<span class="slot-value">${value}</span><span class="slot-hint">Faire glisser</span>`
+      : `<span class="slot-placeholder">${index === activeRankingSlot ? "Dépose une valeur ici" : "Emplacement libre"}</span>`;
+    button.setAttribute("aria-label", value
+      ? `Position ${index + 1} : ${value}. Carte à faire glisser.`
+      : `Position ${index + 1}, emplacement libre.`);
+    item.append(button);
     valuesList.append(item);
+  });
+
+  valueBank.replaceChildren();
+  bankValues.filter((value) => !rankingPositions.includes(value))
+    .forEach((value) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "value-card";
+      button.dataset.value = value;
+      button.dataset.dragValue = value;
+      button.textContent = value;
+      valueBank.append(button);
+    });
+
+  rankingProgress.textContent = `${placedCount} valeur${placedCount > 1 ? "s" : ""} sur ${VALUES.length} placée${placedCount > 1 ? "s" : ""}`;
+  rankingPrompt.textContent = nextEmpty < 0
+    ? "Ton classement est complet. Fais glisser les cartes pour les échanger."
+    : `Fais glisser une valeur vers la position ${activeRankingSlot + 1}.`;
+  undoRankingButton.disabled = rankingHistory.length === 0;
+  validateRankingButton.disabled = placedCount !== VALUES.length;
+}
+
+function clearDropTarget() {
+  document.querySelectorAll(".drop-target").forEach((element) => {
+    element.classList.remove("drop-target");
   });
 }
 
+function moveDragPreview(clientX, clientY) {
+  if (!rankingDrag) return;
+  rankingDrag.preview.style.transform =
+    `translate3d(${clientX - rankingDrag.offsetX}px, ${clientY - rankingDrag.offsetY}px, 0)`;
+}
 
-/* =========================================================
-   CLASSEMENT AU CLAVIER
-   ========================================================= */
+function autoScrollRankingDrag() {
+  if (!rankingDrag) return;
+  const edge = 85;
+  if (rankingDrag.hasMoved && rankingDrag.clientY < edge) window.scrollBy(0, -10);
+  if (rankingDrag.hasMoved && rankingDrag.clientY > window.innerHeight - edge) window.scrollBy(0, 10);
+  rankingDrag.autoScrollFrame = requestAnimationFrame(autoScrollRankingDrag);
+}
 
-function moveItem(item, direction) {
-  if (direction < 0) {
-    const previousItem = item.previousElementSibling;
+rankingScreen.addEventListener("pointerdown", (event) => {
+  const source = event.target.closest("[data-drag-value]");
+  if (!source || event.button > 0) return;
+  const box = source.getBoundingClientRect();
+  const preview = document.createElement("div");
+  preview.className = "drag-preview";
+  preview.textContent = source.dataset.dragValue;
+  preview.style.width = `${Math.min(box.width, 220)}px`;
+  document.body.append(preview);
+  rankingDrag = {
+    pointerId: event.pointerId,
+    value: source.dataset.dragValue,
+    sourceSlot: source.dataset.slotIndex === undefined
+      ? null
+      : Number(source.dataset.slotIndex),
+    source,
+    preview,
+    clientY: event.clientY,
+    hasMoved: false,
+    offsetX: Math.min(event.clientX - box.left, 90),
+    offsetY: Math.min(event.clientY - box.top, 28)
+  };
+  source.classList.add("drag-source");
+  source.setPointerCapture(event.pointerId);
+  moveDragPreview(event.clientX, event.clientY);
+  rankingDrag.autoScrollFrame = requestAnimationFrame(autoScrollRankingDrag);
+  event.preventDefault();
+});
 
-    if (previousItem) {
-      valuesList.insertBefore(item, previousItem);
-      item.focus();
+rankingScreen.addEventListener("pointermove", (event) => {
+  if (!rankingDrag || event.pointerId !== rankingDrag.pointerId) return;
+  rankingDrag.clientY = event.clientY;
+  rankingDrag.hasMoved = true;
+  moveDragPreview(event.clientX, event.clientY);
+  clearDropTarget();
+  const target = document.elementFromPoint(event.clientX, event.clientY);
+  const dropTarget = target?.closest(".ranking-slot, .value-bank-panel");
+  dropTarget?.classList.add("drop-target");
+  event.preventDefault();
+});
+
+function finishRankingDrag(event, cancelled = false) {
+  if (!rankingDrag || event.pointerId !== rankingDrag.pointerId) return;
+  const drag = rankingDrag;
+  const target = document.elementFromPoint(event.clientX, event.clientY);
+  const targetSlot = target?.closest(".ranking-slot");
+  const targetBank = target?.closest(".value-bank-panel");
+  cancelAnimationFrame(drag.autoScrollFrame);
+  drag.source.classList.remove("drag-source");
+  drag.preview.remove();
+  clearDropTarget();
+  rankingDrag = null;
+  if (cancelled) return;
+
+  if (targetSlot) {
+    const targetIndex = Number(targetSlot.dataset.slotIndex);
+    if (drag.sourceSlot !== targetIndex) {
+      saveRankingStep();
+      if (drag.sourceSlot === null) {
+        rankingPositions[targetIndex] = drag.value;
+      } else {
+        [rankingPositions[targetIndex], rankingPositions[drag.sourceSlot]] =
+          [rankingPositions[drag.sourceSlot], rankingPositions[targetIndex]];
+      }
     }
+  } else if (targetBank && drag.sourceSlot !== null) {
+    saveRankingStep();
+    rankingPositions[drag.sourceSlot] = null;
   } else {
-    const nextItem = item.nextElementSibling;
-
-    if (nextItem) {
-      valuesList.insertBefore(nextItem, item);
-      item.focus();
-    }
+    return;
   }
+  activeRankingSlot = Math.max(findNextEmptySlot(), 0);
+  renderValues();
 }
 
-valuesList.addEventListener("keydown", (event) => {
-  const item = event.target.closest("li");
+rankingScreen.addEventListener("pointerup", (event) => finishRankingDrag(event));
+rankingScreen.addEventListener("pointercancel", (event) => finishRankingDrag(event, true));
 
-  if (!item) {
-    return;
-  }
-
-  if (event.key === "ArrowUp") {
-    event.preventDefault();
-    moveItem(item, -1);
-  }
-
-  if (event.key === "ArrowDown") {
-    event.preventDefault();
-    moveItem(item, 1);
-  }
+undoRankingButton.addEventListener("click", () => {
+  const previousRanking = rankingHistory.pop();
+  if (!previousRanking) return;
+  rankingPositions = previousRanking;
+  activeRankingSlot = Math.max(findNextEmptySlot(), 0);
+  renderValues();
 });
-
-
-/* =========================================================
-   GLISSER-DÉPOSER AVEC LA SOURIS
-   ========================================================= */
-
-let draggedItem = null;
-
-valuesList.addEventListener("dragstart", (event) => {
-  const item = event.target.closest("li");
-
-  if (!item) {
-    return;
-  }
-
-  draggedItem = item;
-  item.classList.add("dragging");
-
-  event.dataTransfer.effectAllowed = "move";
-  event.dataTransfer.setData(
-    "text/plain",
-    item.dataset.value
-  );
-});
-
-valuesList.addEventListener("dragover", (event) => {
-  event.preventDefault();
-
-  if (!draggedItem) {
-    return;
-  }
-
-  const target = event.target.closest("li");
-
-  if (!target || target === draggedItem) {
-    return;
-  }
-
-  const targetBox = target.getBoundingClientRect();
-
-  const insertAfter =
-    event.clientY > targetBox.top + targetBox.height / 2;
-
-  valuesList.insertBefore(
-    draggedItem,
-    insertAfter ? target.nextElementSibling : target
-  );
-});
-
-valuesList.addEventListener("dragend", () => {
-  draggedItem?.classList.remove("dragging");
-  draggedItem = null;
-});
-
-
-/* =========================================================
-   GLISSER-DÉPOSER SUR TÉLÉPHONE
-   ========================================================= */
-
-let pointerDraggedItem = null;
-let activePointerId = null;
-
-valuesList.addEventListener("pointerdown", (event) => {
-  if (event.pointerType === "mouse") {
-    return;
-  }
-
-  const item = event.target.closest("li");
-
-  if (!item) {
-    return;
-  }
-
-  pointerDraggedItem = item;
-  activePointerId = event.pointerId;
-
-  item.classList.add("dragging");
-  item.setPointerCapture(event.pointerId);
-
-  event.preventDefault();
-});
-
-valuesList.addEventListener("pointermove", (event) => {
-  if (
-    !pointerDraggedItem ||
-    event.pointerId !== activePointerId
-  ) {
-    return;
-  }
-
-  const elements = document.elementsFromPoint(
-    event.clientX,
-    event.clientY
-  );
-
-  const target = elements
-    .map((element) => element.closest?.("li"))
-    .find(
-      (item) =>
-        item &&
-        item !== pointerDraggedItem
-    );
-
-  if (
-    !target ||
-    target.parentElement !== valuesList
-  ) {
-    return;
-  }
-
-  const targetBox = target.getBoundingClientRect();
-
-  const insertAfter =
-    event.clientY > targetBox.top + targetBox.height / 2;
-
-  valuesList.insertBefore(
-    pointerDraggedItem,
-    insertAfter ? target.nextElementSibling : target
-  );
-
-  /*
-   * Défilement automatique lorsque le participant
-   * approche du haut ou du bas de l’écran.
-   */
-
-  const edgeDistance = 70;
-
-  if (event.clientY < edgeDistance) {
-    window.scrollBy({
-      top: -12,
-      behavior: "auto"
-    });
-  } else if (
-    event.clientY > window.innerHeight - edgeDistance
-  ) {
-    window.scrollBy({
-      top: 12,
-      behavior: "auto"
-    });
-  }
-});
-
-function endPointerDrag(event) {
-  if (
-    !pointerDraggedItem ||
-    event.pointerId !== activePointerId
-  ) {
-    return;
-  }
-
-  pointerDraggedItem.classList.remove("dragging");
-
-  pointerDraggedItem = null;
-  activePointerId = null;
-}
-
-valuesList.addEventListener(
-  "pointerup",
-  endPointerDrag
-);
-
-valuesList.addEventListener(
-  "pointercancel",
-  endPointerDrag
-);
-
-
-/* =========================================================
-   RÉCUPÉRATION DU CLASSEMENT
-   ========================================================= */
 
 function getCurrentRanking() {
-  return [
-    ...valuesList.querySelectorAll("li")
-  ].map((item) => item.dataset.value);
+  return [...rankingPositions];
 }
 
 
