@@ -18,6 +18,8 @@ import {
 } from
   "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
+import { CONTROL_STEPS, analyzeRanking } from "../content.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCX6Y_ImG1YNEMY19pSSl4FxaHKqo72B3s",
   authDomain: "activites-procyclean.firebaseapp.com",
@@ -31,7 +33,7 @@ const firebaseConfig = {
 
 const ACTIVITY_ID = "mission-controle";
 const EDUCATOR_EMAIL = "prevention.dopage@ffc.fr";
-const CONTROL_STEPS = [
+const LEGACY_CONTROL_STEPS = [
   {
     id: "notification",
     label: "Notification au sportif",
@@ -210,24 +212,24 @@ function renderCorrectionSummary(submittedParticipants) {
   correctionResponseCount.nextElementSibling.textContent =
     `réponse${submittedParticipants.length === 1 ? "" : "s"} reçue${submittedParticipants.length === 1 ? "" : "s"}`;
 
-  const entirelyCorrect = submittedParticipants.filter(
-    (participant) =>
-      participant.controlRanking.every(
-        (stepId, index) => stepId === CONTROL_STEPS[index].id
-      )
+  const participantAnalyses = submittedParticipants.map(
+    (participant) => analyzeRanking(participant.controlRanking)
+  );
+  const entirelyCorrect = participantAnalyses.filter(
+    (analysis) => analysis.errorCount === 0
   ).length;
   fullyCorrectCount.textContent = entirelyCorrect;
   fullyCorrectCount.nextElementSibling.textContent =
     `ordre${entirelyCorrect === 1 ? "" : "s"} entièrement correct${entirelyCorrect === 1 ? "" : "s"}`;
 
   const stepResults = CONTROL_STEPS.map((step, index) => {
-    const correctPlacements = submittedParticipants.filter(
-      (participant) => participant.controlRanking[index] === step.id
+    const errorPlacements = participantAnalyses.filter(
+      (analysis) => analysis.errors.some((error) => error.id === step.id)
     ).length;
     const percentage = submittedParticipants.length
-      ? Math.round(correctPlacements * 100 / submittedParticipants.length)
+      ? Math.round((submittedParticipants.length - errorPlacements) * 100 / submittedParticipants.length)
       : 0;
-    return { ...step, correctPlacements, percentage, index };
+    return { ...step, errorPlacements, percentage, index };
   });
 
   difficultStepsList.replaceChildren();
@@ -237,7 +239,7 @@ function renderCorrectionSummary(submittedParticipants) {
   difficultSteps.forEach((step) => {
     const item = document.createElement("li");
     item.textContent = submittedParticipants.length
-      ? `${step.label} — ${100 - step.percentage} % mal positionnée`
+      ? `${step.label} — ${step.errorPlacements} participant${step.errorPlacements > 1 ? "s" : ""} doit${step.errorPlacements > 1 ? "vent" : ""} repositionner cette carte`
       : `${step.label} — aucune réponse reçue`;
     difficultStepsList.append(item);
   });
@@ -253,8 +255,8 @@ function renderCorrectionSummary(submittedParticipants) {
     title.textContent = `${step.index + 1}. ${step.label}`;
     const result = document.createElement("span");
     result.textContent =
-      `${step.percentage} % à la bonne position ` +
-      `(${step.correctPlacements}/${submittedParticipants.length})`;
+      `${step.percentage} % déjà dans la bonne séquence ` +
+      `(${submittedParticipants.length - step.errorPlacements}/${submittedParticipants.length})`;
     content.append(title, result);
     item.append(image, content);
     procedureSummary.append(item);

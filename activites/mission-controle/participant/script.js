@@ -19,6 +19,8 @@ import {
 } from
   "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
+import { CONTROL_STEPS, CHAPTERS, analyzeRanking } from "../content.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCX6Y_ImG1YNEMY19pSSl4FxaHKqo72B3s",
   authDomain: "activites-procyclean.firebaseapp.com",
@@ -32,7 +34,7 @@ const firebaseConfig = {
 
 const ACTIVITY_ID = "mission-controle";
 
-const CONTROL_STEPS = [
+const LEGACY_CONTROL_STEPS = [
   {
     id: "notification",
     label: "Notification au sportif",
@@ -140,6 +142,15 @@ const personalRankingList = document.querySelector(
 const correctProcedureList = document.querySelector(
   "#correct-procedure-list"
 );
+const missionTimeline = document.querySelector("#mission-timeline");
+const missionChoices = document.querySelector("#mission-choices");
+const missionFeedback = document.querySelector("#mission-feedback");
+const missionQuestionTitle = document.querySelector("#mission-question-title");
+const missionProgress = document.querySelector("#mission-progress");
+const missionProgressLabel = document.querySelector("#mission-progress-label");
+const chapterTitle = document.querySelector("#chapter-title");
+const chapterRange = document.querySelector("#chapter-range");
+const undoMissionButton = document.querySelector("#undo-mission-button");
 
 let currentUser = null;
 let sessionCode = "";
@@ -147,6 +158,14 @@ let stopSessionListener = null;
 let draggedStep = null;
 let pointerDraggedStep = null;
 let submissionInProgress = false;
+let missionIndex = 0;
+let missionAttempts = {};
+let missionInitialized = false;
+let missionTransitioning = false;
+let controlPositions = Array(CONTROL_STEPS.length).fill(null);
+let controlHistory = [];
+let controlBankOrder = [];
+let controlDrag = null;
 
 function showOnly(screen) {
   [
@@ -427,7 +446,7 @@ function enableRankingInteractions() {
   controlStepsList.addEventListener("pointercancel", finishPointerDrag);
 }
 
-function renderRanking() {
+function renderLegacyRanking() {
   if (controlStepsList.children.length) return;
   shuffledSteps().forEach((step) => {
     const item = document.createElement("li");
@@ -480,7 +499,7 @@ function renderRanking() {
   updateMoveButtons();
 }
 
-function getCurrentRanking() {
+function getLegacyRanking() {
   return [...controlStepsList.children].map(
     (item) => item.dataset.stepId
   );
@@ -505,7 +524,7 @@ function createCorrectionCard(step, position, isCorrect) {
   return item;
 }
 
-function renderRankingCorrection(participant) {
+function renderLegacyRankingCorrection(participant) {
   const ranking = Array.isArray(participant?.controlRanking)
     ? participant.controlRanking
     : [];
@@ -557,10 +576,328 @@ function renderRankingCorrection(participant) {
   });
 }
 
+function missionStorageKey() {
+  return `procyclean-mission:${sessionCode}:${currentUser?.uid || "participant"}`;
+}
+
+function saveMissionProgress() {
+  localStorage.setItem(
+    missionStorageKey(),
+    JSON.stringify({ index: missionIndex, attempts: missionAttempts })
+  );
+}
+
+function restoreMissionProgress() {
+  if (missionInitialized) return;
+  missionInitialized = true;
+  try {
+    const saved = JSON.parse(localStorage.getItem(missionStorageKey()));
+    if (saved && Number.isInteger(saved.index)) {
+      missionIndex = Math.min(Math.max(saved.index, 0), CONTROL_STEPS.length);
+      missionAttempts = saved.attempts || {};
+    }
+  } catch {
+    missionIndex = 0;
+    missionAttempts = {};
+  }
+}
+
+function missionCandidates(index) {
+  const correct = CONTROL_STEPS[index];
+  const futureSteps = CONTROL_STEPS.slice(index + 1);
+  const random = seededRandom(createSeed(`${sessionCode}:${currentUser.uid}:${index}`));
+  for (let cursor = futureSteps.length - 1; cursor > 0; cursor -= 1) {
+    const target = Math.floor(random() * (cursor + 1));
+    [futureSteps[cursor], futureSteps[target]] = [futureSteps[target], futureSteps[cursor]];
+  }
+  const candidates = [correct, ...futureSteps.slice(0, 2)];
+  while (candidates.length < 3) {
+    const earlier = CONTROL_STEPS.find((step) => !candidates.includes(step));
+    if (!earlier) break;
+    candidates.push(earlier);
+  }
+  return candidates.sort(() => random() - 0.5);
+}
+
+function renderMissionTimeline() {
+  missionTimeline.replaceChildren();
+  CONTROL_STEPS.slice(0, missionIndex).forEach((step, index) => {
+    const item = document.createElement("li");
+    item.className = "timeline-step completed";
+    item.innerHTML = `
+      <span class="timeline-number">${index + 1}</span>
+      <img src="${step.image}" alt="">
+      <strong>${step.label}</strong>`;
+    missionTimeline.append(item);
+  });
+  if (missionIndex < CONTROL_STEPS.length) {
+    const pending = document.createElement("li");
+    pending.className = "timeline-step current";
+    pending.innerHTML = `<span class="timeline-number">${missionIndex + 1}</span><strong>Prochaine étape ?</strong>`;
+    missionTimeline.append(pending);
+  }
+}
+
+function renderProgressiveRanking() {
+  restoreMissionProgress();
+  const chapterIndex = Math.min(Math.floor(missionIndex / 3), 2);
+  const chapter = CHAPTERS[chapterIndex];
+  chapterTitle.textContent = chapter.title;
+  chapterRange.textContent = chapter.range;
+  missionProgress.value = missionIndex;
+  missionProgressLabel.textContent = `${missionIndex} / ${CONTROL_STEPS.length}`;
+  renderMissionTimeline();
+  missionChoices.replaceChildren();
+  missionFeedback.replaceChildren();
+  missionFeedback.className = "mission-feedback";
+
+  if (missionIndex >= CONTROL_STEPS.length) {
+    missionQuestionTitle.textContent = "Procédure reconstituée !";
+    missionFeedback.classList.add("success");
+    missionFeedback.innerHTML = `<strong>Mission accomplie.</strong><p>Relis ta frise puis enregistre ton parcours.</p>`;
+    validateRankingButton.hidden = false;
+    return;
+  }
+
+  validateRankingButton.hidden = true;
+  const previousStep = CONTROL_STEPS[missionIndex - 1];
+  missionQuestionTitle.textContent = previousStep
+    ? `Après « ${previousStep.label} », que se passe-t-il ?`
+    : "Comment commence la procédure ?";
+
+  missionCandidates(missionIndex).forEach((step) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "mission-choice";
+    button.dataset.stepId = step.id;
+    button.innerHTML = `<img src="${step.image}" alt=""><strong>${step.label}</strong>`;
+    missionChoices.append(button);
+  });
+}
+
+missionChoices.addEventListener("click", (event) => {
+  const choice = event.target.closest("button[data-step-id]");
+  if (!choice || missionTransitioning || missionIndex >= CONTROL_STEPS.length) return;
+  const expected = CONTROL_STEPS[missionIndex];
+  const selected = CONTROL_STEPS.find((step) => step.id === choice.dataset.stepId);
+  missionAttempts[expected.id] ||= { errors: 0, choices: {} };
+
+  if (selected.id !== expected.id) {
+    missionAttempts[expected.id].errors += 1;
+    missionAttempts[expected.id].choices[selected.id] =
+      (missionAttempts[expected.id].choices[selected.id] || 0) + 1;
+    choice.classList.add("incorrect");
+    choice.disabled = true;
+    missionFeedback.className = "mission-feedback error";
+    missionFeedback.innerHTML = `<strong>Pas encore.</strong><p>${expected.hint}</p>`;
+    saveMissionProgress();
+    return;
+  }
+
+  missionTransitioning = true;
+  choice.classList.add("correct");
+  missionChoices.querySelectorAll("button").forEach((button) => {
+    button.disabled = true;
+  });
+  missionFeedback.className = "mission-feedback success";
+  missionFeedback.innerHTML = `
+    <strong>Bonne étape !</strong>
+    <p>${expected.explanation}</p>
+    <div class="reflex-card"><span>Ton réflexe</span>${expected.reflex}</div>
+    <button type="button" class="continue-mission-button">Continuer</button>`;
+  missionIndex += 1;
+  saveMissionProgress();
+});
+
+missionFeedback.addEventListener("click", (event) => {
+  if (!event.target.closest(".continue-mission-button")) return;
+  missionTransitioning = false;
+  renderRanking();
+});
+
+function nextControlSlot() {
+  return controlPositions.findIndex((value) => value === null);
+}
+
+function renderRanking() {
+  if (!controlBankOrder.length) controlBankOrder = shuffledSteps();
+  const placed = controlPositions.filter(Boolean).length;
+  const active = nextControlSlot();
+  chapterRange.textContent = "Classement";
+  chapterTitle.textContent = "Les étapes du contrôle";
+  missionProgress.value = placed;
+  missionProgressLabel.textContent = `${placed} / ${CONTROL_STEPS.length}`;
+  missionQuestionTitle.textContent = active < 0
+    ? "Ton ordre est complet. Tu peux encore échanger les cartes."
+    : "Fais glisser chaque carte vers la place de ton choix.";
+  missionFeedback.replaceChildren();
+
+  missionTimeline.replaceChildren();
+  controlPositions.forEach((stepId, index) => {
+    const step = CONTROL_STEPS.find((item) => item.id === stepId);
+    const item = document.createElement("li");
+    const slot = document.createElement("div");
+    slot.className = "control-slot";
+    slot.dataset.slotIndex = index;
+    slot.classList.toggle("filled", Boolean(step));
+    slot.classList.toggle("active", index === active);
+    if (step) slot.dataset.dragStep = step.id;
+    slot.innerHTML = step
+      ? `<span class="control-slot-number">${index + 1}</span><img src="${step.image}" alt=""><strong>${step.label}</strong><small>Faire glisser</small>`
+      : `<span class="control-slot-number">${index + 1}</span><strong>${index === active ? "Dépose une étape ici" : "Emplacement libre"}</strong>`;
+    item.append(slot);
+    missionTimeline.append(item);
+  });
+
+  missionChoices.replaceChildren();
+  controlBankOrder.filter((step) => !controlPositions.includes(step.id))
+    .forEach((step) => {
+      const card = document.createElement("div");
+      card.className = "control-card";
+      card.dataset.dragStep = step.id;
+      card.innerHTML = `<img src="${step.image}" alt=""><strong>${step.label}</strong>`;
+      missionChoices.append(card);
+    });
+  undoMissionButton.disabled = controlHistory.length === 0;
+  validateRankingButton.hidden = false;
+  validateRankingButton.disabled = placed !== CONTROL_STEPS.length;
+}
+
+function clearControlTarget() {
+  document.querySelectorAll(".control-drop-target").forEach((item) =>
+    item.classList.remove("control-drop-target"));
+}
+
+function moveControlPreview(x, y) {
+  if (!controlDrag) return;
+  controlDrag.preview.style.transform =
+    `translate3d(${x - controlDrag.offsetX}px, ${y - controlDrag.offsetY}px, 0)`;
+}
+
+function autoScrollControlDrag() {
+  if (!controlDrag) return;
+  if (controlDrag.moved && controlDrag.clientY < 85) window.scrollBy(0, -10);
+  if (controlDrag.moved && controlDrag.clientY > innerHeight - 85) window.scrollBy(0, 10);
+  controlDrag.frame = requestAnimationFrame(autoScrollControlDrag);
+}
+
+rankingScreen.addEventListener("pointerdown", (event) => {
+  const source = event.target.closest("[data-drag-step]");
+  if (!source || event.button > 0) return;
+  const step = CONTROL_STEPS.find((item) => item.id === source.dataset.dragStep);
+  const box = source.getBoundingClientRect();
+  const preview = document.createElement("div");
+  preview.className = "control-drag-preview";
+  preview.innerHTML = `<img src="${step.image}" alt=""><strong>${step.label}</strong>`;
+  preview.style.width = `${Math.min(box.width, 240)}px`;
+  document.body.append(preview);
+  controlDrag = {
+    pointerId: event.pointerId,
+    stepId: step.id,
+    sourceSlot: source.dataset.slotIndex === undefined
+      ? null
+      : Number(source.dataset.slotIndex),
+    source, preview, clientY: event.clientY, moved: false,
+    offsetX: Math.min(event.clientX - box.left, 90),
+    offsetY: Math.min(event.clientY - box.top, 32)
+  };
+  source.classList.add("control-drag-source");
+  source.setPointerCapture(event.pointerId);
+  moveControlPreview(event.clientX, event.clientY);
+  controlDrag.frame = requestAnimationFrame(autoScrollControlDrag);
+  event.preventDefault();
+});
+
+rankingScreen.addEventListener("pointermove", (event) => {
+  if (!controlDrag || event.pointerId !== controlDrag.pointerId) return;
+  controlDrag.clientY = event.clientY;
+  controlDrag.moved = true;
+  moveControlPreview(event.clientX, event.clientY);
+  clearControlTarget();
+  document.elementFromPoint(event.clientX, event.clientY)
+    ?.closest(".control-slot, .control-bank-panel")
+    ?.classList.add("control-drop-target");
+  event.preventDefault();
+});
+
+function finishControlDrag(event, cancelled = false) {
+  if (!controlDrag || event.pointerId !== controlDrag.pointerId) return;
+  const current = controlDrag;
+  const target = document.elementFromPoint(event.clientX, event.clientY);
+  const slot = target?.closest(".control-slot");
+  const returnToBank = target?.closest(".control-bank-panel");
+  cancelAnimationFrame(current.frame);
+  current.source.classList.remove("control-drag-source");
+  current.preview.remove();
+  clearControlTarget();
+  controlDrag = null;
+  if (cancelled) return;
+  if (slot) {
+    const targetIndex = Number(slot.dataset.slotIndex);
+    if (targetIndex === current.sourceSlot) return;
+    controlHistory.push([...controlPositions]);
+    if (current.sourceSlot === null) controlPositions[targetIndex] = current.stepId;
+    else [controlPositions[targetIndex], controlPositions[current.sourceSlot]] =
+      [controlPositions[current.sourceSlot], controlPositions[targetIndex]];
+  } else if (returnToBank && current.sourceSlot !== null) {
+    controlHistory.push([...controlPositions]);
+    controlPositions[current.sourceSlot] = null;
+  } else return;
+  renderRanking();
+}
+
+rankingScreen.addEventListener("pointerup", (event) => finishControlDrag(event));
+rankingScreen.addEventListener("pointercancel", (event) => finishControlDrag(event, true));
+undoMissionButton.addEventListener("click", () => {
+  const previous = controlHistory.pop();
+  if (!previous) return;
+  controlPositions = previous;
+  renderRanking();
+});
+
+function renderRankingCorrection(participant) {
+  const ranking = participant?.controlRanking || [];
+  const analysis = analyzeRanking(ranking);
+  personalResultSummary.textContent = analysis.errorCount
+    ? `${analysis.score} étapes sur 9 sont déjà dans la bonne séquence · ${analysis.errorCount} carte${analysis.errorCount > 1 ? "s" : ""} à repositionner.`
+    : "9 étapes sur 9 dans la bonne séquence · aucune erreur de placement.";
+  const placementFeedback = document.querySelector("#placement-feedback");
+  placementFeedback.replaceChildren();
+  placementFeedback.classList.toggle("perfect", analysis.errorCount === 0);
+  const feedbackTitle = document.createElement("h3");
+  feedbackTitle.textContent = analysis.errorCount
+    ? "Tes erreurs de placement"
+    : "Ordre entièrement correct";
+  placementFeedback.append(feedbackTitle);
+  if (!analysis.errorCount) {
+    const message = document.createElement("p");
+    message.textContent = "Toutes les cartes suivent la chronologie attendue.";
+    placementFeedback.append(message);
+  } else {
+    const list = document.createElement("ul");
+    analysis.errors.forEach((error) => {
+      const item = document.createElement("li");
+      item.innerHTML = `<img src="${error.image}" alt=""><div><strong>${error.label}</strong><span>Placée en ${error.actualPosition}, attendue en ${error.expectedPosition}</span></div>`;
+      list.append(item);
+    });
+    placementFeedback.append(list);
+  }
+  correctProcedureList.replaceChildren();
+  CONTROL_STEPS.forEach((step, index) => {
+    const item = document.createElement("li");
+    item.className = "procedure-step";
+    item.innerHTML = `
+      <img src="${step.image}" alt="">
+      <div><h3>${index + 1}. ${step.label}</h3><p>${step.explanation}</p>
+      <div class="procedure-reflex"><strong>Ton réflexe :</strong> ${step.reflex}</div></div>`;
+    correctProcedureList.append(item);
+  });
+}
+
 async function submitRanking() {
   if (submissionInProgress || !currentUser || !sessionCode) return;
 
-  const ranking = getCurrentRanking();
+  const ranking = [...controlPositions];
   const validStepIds = new Set(CONTROL_STEPS.map((step) => step.id));
   const isComplete =
     ranking.length === CONTROL_STEPS.length &&
@@ -611,10 +948,13 @@ async function submitRanking() {
       ),
       {
         controlRanking: ranking,
+        controlAttempts: null,
+        firstTryCorrectCount: null,
         status: "ranking-submitted",
         controlRankingSubmittedAt: serverTimestamp()
       }
     );
+
 
     showOnly(rankingSubmittedScreen);
   } catch (error) {
@@ -655,7 +995,7 @@ function renderSession(session) {
       return;
     }
 
-    renderRanking();
+    renderProgressiveRanking();
     showOnly(rankingScreen);
     return;
   }
@@ -731,6 +1071,5 @@ async function loadActivity() {
   }
 }
 
-enableRankingInteractions();
 validateRankingButton.addEventListener("click", submitRanking);
 loadActivity();

@@ -1,75 +1,195 @@
-const STEPS = [
-  ["notification", "Notification au sportif", "01-notification.png", "Le sportif est informé de sa sélection et suit les consignes de l’agent."],
-  ["control-station", "Accueil au poste de contrôle du dopage", "02-accueil-poste-controle.png", "L’identité et les informations utiles sont vérifiées."],
-  ["collection-vessel", "Choix d’un gobelet de recueil", "03-choix-gobelet.png", "Le sportif choisit un gobelet encore scellé."],
-  ["observation", "Observation de la miction par un ACD du même sexe", "04-observation-miction.png", "L’échantillon est produit sous observation directe."],
-  ["minimum-volume", "90 ml d’urine minimum", "05-volume-urine.png", "Un volume d’au moins 90 ml est nécessaire."],
-  ["sample-kit", "Choix d’un kit de prélèvement", "06-choix-kit.png", "Le sportif choisit un kit sécurisé avec les flacons A et B."],
-  ["sample-distribution", "Répartition de l’échantillon", "07-repartition-echantillon.png", "L’échantillon est réparti dans les flacons A et B."],
-  ["urine-density", "Mesure de la densité urinaire", "08-densite-urinaire.png", "La densité est contrôlée pour vérifier la qualité de l’échantillon."],
-  ["form", "Observations sur le formulaire et signature", "09-formulaire-signature.png", "Le sportif relit, déclare les produits utilisés et peut ajouter une remarque."]
-];
-let order = STEPS.map((step, correctIndex) => ({ step, correctIndex }))
-  .sort(() => Math.random() - 0.5);
-if (order.every((entry, index) => entry.correctIndex === index)) order.reverse();
+import { CONTROL_STEPS, analyzeRanking } from "../../mission-controle/content.js";
+
 const rankingScreen = document.querySelector("#ranking-screen");
 const correctionScreen = document.querySelector("#ranking-correction-screen");
 const closedScreen = document.querySelector("#closed-screen");
-const list = document.querySelector("#control-steps-list");
-const imageRoot = "../../../assets/images/mission-controle/";
+const board = document.querySelector("#mission-timeline");
+const bank = document.querySelector("#mission-choices");
+const bankPanel = document.querySelector(".control-bank-panel");
+const progress = document.querySelector("#mission-progress");
+const progressLabel = document.querySelector("#mission-progress-label");
+const prompt = document.querySelector("#mission-question-title");
+const undoButton = document.querySelector("#undo-mission-button");
+const validateButton = document.querySelector("#validate-ranking-button");
+let positions = Array(CONTROL_STEPS.length).fill(null);
+let history = [];
+let drag = null;
+const bankOrder = [...CONTROL_STEPS].sort(() => Math.random() - .5);
 
 function showOnly(screen) {
   [rankingScreen, correctionScreen, closedScreen]
     .forEach((item) => item.hidden = item !== screen);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-function renderRanking() {
-  list.replaceChildren();
-  order.forEach((entry, index) => {
-    const item = document.createElement("li");
-    item.className = "control-step";
-    item.innerHTML = `
-      <img class="control-step-image" src="${imageRoot}${entry.step[2]}" alt="">
-      <strong class="control-step-label">${entry.step[1]}</strong>
-      <div class="control-step-controls"></div>`;
-    const controls = item.querySelector(".control-step-controls");
-    [["Monter", -1], ["Descendre", 1]].forEach(([label, delta]) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = label;
-      button.disabled = index + delta < 0 || index + delta >= order.length;
-      button.addEventListener("click", () => {
-        [order[index], order[index + delta]] = [order[index + delta], order[index]];
-        renderRanking();
-      });
-      controls.append(button);
-    });
-    list.append(item);
-  });
+
+function nextEmpty() {
+  return positions.findIndex((value) => value === null);
 }
-function renderCorrection() {
-  const score = order.filter((entry, index) => entry.correctIndex === index).length;
-  document.querySelector("#personal-result-summary").textContent =
-    `${score} étape${score > 1 ? "s" : ""} sur 9 bien placée${score > 1 ? "s" : ""}.`;
-  const personal = document.querySelector("#personal-ranking-list");
-  const correct = document.querySelector("#correct-procedure-list");
-  personal.replaceChildren();
-  correct.replaceChildren();
-  order.forEach((entry, index) => {
+
+function renderBoard() {
+  const placed = positions.filter(Boolean).length;
+  const active = nextEmpty();
+  board.replaceChildren();
+  positions.forEach((stepId, index) => {
+    const step = CONTROL_STEPS.find((item) => item.id === stepId);
     const item = document.createElement("li");
-    item.className = `comparison-item ${entry.correctIndex === index ? "is-correct" : "is-misplaced"}`;
-    item.innerHTML = `<img src="${imageRoot}${entry.step[2]}" alt=""><strong>${entry.step[1]}</strong><span>${entry.correctIndex === index ? "Bien placée" : `Position attendue : ${entry.correctIndex + 1}`}</span>`;
-    personal.append(item);
+    const slot = document.createElement("div");
+    slot.className = "control-slot";
+    slot.dataset.slotIndex = index;
+    slot.classList.toggle("filled", Boolean(step));
+    slot.classList.toggle("active", index === active);
+    if (step) slot.dataset.dragStep = step.id;
+    slot.innerHTML = step
+      ? `<span class="control-slot-number">${index + 1}</span><img src="${step.image}" alt=""><strong>${step.label}</strong><small>Faire glisser</small>`
+      : `<span class="control-slot-number">${index + 1}</span><strong>${index === active ? "Dépose une étape ici" : "Emplacement libre"}</strong>`;
+    item.append(slot);
+    board.append(item);
   });
-  STEPS.forEach((step, index) => {
+
+  bank.replaceChildren();
+  bankOrder.filter((step) => !positions.includes(step.id)).forEach((step) => {
+    const card = document.createElement("div");
+    card.className = "control-card";
+    card.dataset.dragStep = step.id;
+    card.innerHTML = `<img src="${step.image}" alt=""><strong>${step.label}</strong>`;
+    bank.append(card);
+  });
+  progress.value = placed;
+  progressLabel.textContent = `${placed} / ${CONTROL_STEPS.length}`;
+  prompt.textContent = active < 0
+    ? "Ton ordre est complet. Tu peux encore échanger les cartes."
+    : "Fais glisser chaque carte vers la place de ton choix.";
+  undoButton.disabled = history.length === 0;
+  validateButton.disabled = placed !== CONTROL_STEPS.length;
+}
+
+function clearTarget() {
+  document.querySelectorAll(".control-drop-target").forEach((item) =>
+    item.classList.remove("control-drop-target"));
+}
+
+function movePreview(x, y) {
+  if (!drag) return;
+  drag.preview.style.transform = `translate3d(${x - drag.offsetX}px, ${y - drag.offsetY}px, 0)`;
+}
+
+function autoScroll() {
+  if (!drag) return;
+  if (drag.moved && drag.clientY < 85) window.scrollBy(0, -10);
+  if (drag.moved && drag.clientY > innerHeight - 85) window.scrollBy(0, 10);
+  drag.frame = requestAnimationFrame(autoScroll);
+}
+
+rankingScreen.addEventListener("pointerdown", (event) => {
+  const source = event.target.closest("[data-drag-step]");
+  if (!source || event.button > 0) return;
+  const step = CONTROL_STEPS.find((item) => item.id === source.dataset.dragStep);
+  const box = source.getBoundingClientRect();
+  const preview = document.createElement("div");
+  preview.className = "control-drag-preview";
+  preview.innerHTML = `<img src="${step.image}" alt=""><strong>${step.label}</strong>`;
+  preview.style.width = `${Math.min(box.width, 240)}px`;
+  document.body.append(preview);
+  drag = {
+    pointerId: event.pointerId,
+    stepId: step.id,
+    sourceSlot: source.dataset.slotIndex === undefined ? null : Number(source.dataset.slotIndex),
+    source, preview, clientY: event.clientY, moved: false,
+    offsetX: Math.min(event.clientX - box.left, 90),
+    offsetY: Math.min(event.clientY - box.top, 32)
+  };
+  source.classList.add("control-drag-source");
+  source.setPointerCapture(event.pointerId);
+  movePreview(event.clientX, event.clientY);
+  drag.frame = requestAnimationFrame(autoScroll);
+  event.preventDefault();
+});
+
+rankingScreen.addEventListener("pointermove", (event) => {
+  if (!drag || event.pointerId !== drag.pointerId) return;
+  drag.clientY = event.clientY;
+  drag.moved = true;
+  movePreview(event.clientX, event.clientY);
+  clearTarget();
+  document.elementFromPoint(event.clientX, event.clientY)
+    ?.closest(".control-slot, .control-bank-panel")
+    ?.classList.add("control-drop-target");
+  event.preventDefault();
+});
+
+function finishDrag(event, cancelled = false) {
+  if (!drag || event.pointerId !== drag.pointerId) return;
+  const current = drag;
+  const target = document.elementFromPoint(event.clientX, event.clientY);
+  const slot = target?.closest(".control-slot");
+  const returnToBank = target?.closest(".control-bank-panel");
+  cancelAnimationFrame(current.frame);
+  current.source.classList.remove("control-drag-source");
+  current.preview.remove();
+  clearTarget();
+  drag = null;
+  if (cancelled) return;
+  if (slot) {
+    const targetIndex = Number(slot.dataset.slotIndex);
+    if (targetIndex === current.sourceSlot) return;
+    history.push([...positions]);
+    if (current.sourceSlot === null) positions[targetIndex] = current.stepId;
+    else [positions[targetIndex], positions[current.sourceSlot]] =
+      [positions[current.sourceSlot], positions[targetIndex]];
+  } else if (returnToBank && current.sourceSlot !== null) {
+    history.push([...positions]);
+    positions[current.sourceSlot] = null;
+  } else return;
+  renderBoard();
+}
+
+rankingScreen.addEventListener("pointerup", (event) => finishDrag(event));
+rankingScreen.addEventListener("pointercancel", (event) => finishDrag(event, true));
+undoButton.addEventListener("click", () => {
+  const previous = history.pop();
+  if (!previous) return;
+  positions = previous;
+  renderBoard();
+});
+
+function renderCorrection() {
+  const analysis = analyzeRanking(positions);
+  document.querySelector("#personal-result-summary").textContent = analysis.errorCount
+    ? `${analysis.score} étapes sur 9 sont déjà dans la bonne séquence · ${analysis.errorCount} carte${analysis.errorCount > 1 ? "s" : ""} à repositionner.`
+    : "9 étapes sur 9 dans la bonne séquence · aucune erreur de placement.";
+  const placementFeedback = document.querySelector("#placement-feedback");
+  placementFeedback.replaceChildren();
+  placementFeedback.classList.toggle("perfect", analysis.errorCount === 0);
+  const title = document.createElement("h3");
+  title.textContent = analysis.errorCount ? "Tes erreurs de placement" : "Ordre entièrement correct";
+  placementFeedback.append(title);
+  if (!analysis.errorCount) {
+    const message = document.createElement("p");
+    message.textContent = "Toutes les cartes suivent la chronologie attendue.";
+    placementFeedback.append(message);
+  } else {
+    const list = document.createElement("ul");
+    analysis.errors.forEach((error) => {
+      const item = document.createElement("li");
+      item.innerHTML = `<img src="${error.image}" alt=""><div><strong>${error.label}</strong><span>Placée en ${error.actualPosition}, attendue en ${error.expectedPosition}</span></div>`;
+      list.append(item);
+    });
+    placementFeedback.append(list);
+  }
+  const procedure = document.querySelector("#correct-procedure-list");
+  procedure.replaceChildren();
+  CONTROL_STEPS.forEach((step, index) => {
     const item = document.createElement("li");
     item.className = "procedure-step";
-    item.innerHTML = `<img src="${imageRoot}${step[2]}" alt=""><div><h3>${index + 1}. ${step[1]}</h3><p>${step[3]}</p></div>`;
-    correct.append(item);
+    item.innerHTML = `<img src="${step.image}" alt=""><div><h3>${index + 1}. ${step.label}</h3>
+      <p>${step.explanation}</p><div class="procedure-reflex"><strong>Ton réflexe :</strong> ${step.reflex}</div></div>`;
+    procedure.append(item);
   });
+  localStorage.setItem("procyclean-solo-control-ranking", JSON.stringify(positions));
   showOnly(correctionScreen);
 }
-document.querySelector("#validate-ranking-button").addEventListener("click", renderCorrection);
+
+validateButton.addEventListener("click", renderCorrection);
 document.querySelector("#finish-mission").addEventListener("click", () => showOnly(closedScreen));
-renderRanking();
+renderBoard();
 document.documentElement.dataset.individualMissionReady = "true";

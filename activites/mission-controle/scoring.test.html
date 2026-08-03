@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Tests scoring Mission contrôle</title></head>
+<body><pre id="results">Tests en cours…</pre><script type="module">
+import { CONTROL_STEPS, analyzeRanking } from "./content.js";
+const ids = CONTROL_STEPS.map((step) => step.id);
+const results = [];
+const test = (name, condition) => {
+  if (!condition) throw new Error(name);
+  results.push(`✓ ${name}`);
+};
+
+const perfect = analyzeRanking(ids);
+test("ordre correct sans erreur", perfect.errorCount === 0 && perfect.score === 9);
+
+const firstMovedToEnd = analyzeRanking([...ids.slice(1), ids[0]]);
+test("une carte déplacée ne compte qu’une erreur", firstMovedToEnd.errorCount === 1);
+test("carte réellement déplacée identifiée", firstMovedToEnd.errors[0].id === ids[0]);
+
+const adjacentSwap = analyzeRanking([ids[1], ids[0], ...ids.slice(2)]);
+test("échange adjacent corrigible en un déplacement", adjacentSwap.errorCount === 1);
+
+const twoMoves = analyzeRanking([
+  ids[2], ids[0], ids[1], ids[3], ids[6], ids[4], ids[5], ids[7], ids[8]
+]);
+test("deux déplacements indépendants comptent deux erreurs", twoMoves.errorCount === 2);
+test("les deux cartes concernées sont signalées", twoMoves.errors.map((error) => error.id).join() === [ids[2], ids[6]].join());
+
+const reversed = analyzeRanking([...ids].reverse());
+test("ordre inversé nécessite huit repositionnements", reversed.errorCount === 8);
+
+document.querySelector("#results").textContent = `${results.join("\n")}\n\n${results.length} tests réussis`;
+document.body.dataset.tests = "passed";
+</script></body>
+</html>

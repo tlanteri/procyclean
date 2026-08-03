@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>La mission contrôle — Mode individuel</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="../../mission-controle/participant/style.css?v=6">
+  <link rel="stylesheet" href="../../mission-controle/participant/style.css?v=11">
   <link rel="stylesheet" href="../../../assets/navigation.css?v=7">
 </head>
 <body>
@@ -27,15 +27,32 @@
     </header>
     <section id="ranking-screen" class="screen">
       <p class="step-label">Phase individuelle</p>
-      <h2>Remets les étapes dans l’ordre</h2>
+      <h2>Construis la procédure</h2>
       <p class="instruction">
-        Observe les neuf cartes et place-les dans l’ordre qui te paraît
-        correct avec les boutons « Monter » et « Descendre ».
+        Fais glisser les neuf cartes de la banque vers les emplacements,
+        dans l’ordre qui te paraît correct.
       </p>
-      <ol id="control-steps-list" class="control-steps-list"
-        aria-label="Étapes du contrôle à classer"></ol>
+      <div class="mission-progress-card">
+        <div><span id="chapter-range">Classement</span>
+          <strong id="chapter-title">Les étapes du contrôle</strong></div>
+        <span id="mission-progress-label">0 / 9</span>
+      </div>
+      <progress id="mission-progress" value="0" max="9"></progress>
+      <section class="mission-timeline-panel">
+        <h3>Ton plateau</h3>
+        <ol id="mission-timeline" class="control-board"></ol>
+      </section>
+      <section class="control-bank-panel">
+        <p class="question-kicker">Banque des étapes</p>
+        <h3 id="mission-question-title">Fais glisser chaque carte vers la place de ton choix.</h3>
+        <div id="mission-choices" class="control-bank"></div>
+        <div id="mission-feedback" class="mission-feedback"
+          role="status" aria-live="polite"></div>
+      </section>
+      <button id="undo-mission-button" class="secondary-button"
+        type="button" disabled>↶ Annuler le dernier déplacement</button>
       <button id="validate-ranking-button"
-        class="primary-button validate-ranking-button" type="button">
+        class="primary-button validate-ranking-button" type="button" disabled>
         Valider mon ordre
       </button>
     </section>
@@ -43,9 +60,8 @@
       <p class="step-label">Correction</p>
       <h2>Découvre la procédure correcte</h2>
       <p id="personal-result-summary" class="correction-score"></p>
-      <h3>Ta proposition</h3>
-      <ol id="personal-ranking-list" class="comparison-list"></ol>
-      <h3 class="correct-order-title">L’ordre correct</h3>
+      <div id="placement-feedback" class="placement-feedback"></div>
+      <h3 class="correct-order-title">La procédure complète</h3>
       <ol id="correct-procedure-list" class="correct-procedure-list"></ol>
       <button id="finish-mission" class="primary-button" type="button">
         Terminer l’activité
@@ -64,11 +80,21 @@
           fais inscrire toute remarque avant de signer.
         </p>
       </div>
+      <figure class="procedure-overview">
+        <figcaption>La procédure de contrôle en 9 étapes</figcaption>
+        <a href="../../../assets/images/procedure-controle-dopage.png"
+          target="_blank" rel="noopener"
+          aria-label="Ouvrir la procédure de contrôle en grand">
+          <img src="../../../assets/images/procedure-controle-dopage.png"
+            alt="Infographie présentant les neuf étapes de la procédure de contrôle antidopage">
+        </a>
+        <p>Touche l’image pour l’ouvrir en grand.</p>
+      </figure>
       <a class="primary-button" href="../index.html">Choisir une autre activité</a>
     </section>
   </main>
   <script src="../../../assets/navigation.js?v=7"
     data-root="../../../" data-section="activities"></script>
-  <script src="script.js?v=1"></script>
+  <script type="module" src="script.js?v=4"></script>
 </body>
 </html>

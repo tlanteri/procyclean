@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Tests Mission contrôle</title></head>
+<body>
+  <pre id="results">Tests en cours…</pre>
+  <iframe id="activity" hidden></iframe>
+  <script>
+    const output = document.querySelector("#results");
+    const frame = document.querySelector("#activity");
+    const passed = [];
+    const assert = (name, condition) => {
+      if (!condition) throw new Error(name);
+      passed.push(`✓ ${name}`);
+    };
+    const wait = (delay = 80) => new Promise((resolve) => setTimeout(resolve, delay));
+
+    localStorage.removeItem("procyclean-solo-mission-progress-v2");
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        await wait(250);
+        assert("neuf emplacements affichés", page.querySelectorAll(".control-slot").length === 9);
+        assert("neuf cartes dans la banque", page.querySelectorAll(".control-card").length === 9);
+        assert("premier emplacement mis en évidence", page.querySelector('.control-slot.active[data-slot-index="0"]'));
+        assert("cartes déplaçables", [...page.querySelectorAll(".control-card")].every((card) => card.dataset.dragStep));
+        assert("validation bloquée tant que le plateau est incomplet", page.querySelector("#validate-ranking-button").disabled);
+        const board = page.querySelector("#mission-timeline");
+        const bank = page.querySelector("#mission-choices");
+        assert("banque placée sous le plateau", Boolean(board.compareDocumentPosition(bank) & Node.DOCUMENT_POSITION_FOLLOWING));
+        output.textContent = `${passed.join("\n")}\n\n${passed.length} tests réussis`;
+        document.body.dataset.tests = "passed";
+      } catch (error) {
+        output.textContent = `ÉCHEC : ${error.message}`;
+        document.body.dataset.tests = "failed";
+      } finally {
+        localStorage.removeItem("procyclean-solo-mission-progress-v2");
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>
