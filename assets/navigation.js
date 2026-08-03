@@ -2,6 +2,36 @@
   const script = document.currentScript;
   const root = script?.dataset.root || "./";
   const currentSection = script?.dataset.section || "";
+  const currentPath = window.location.pathname.replace(/\/+/g, "/");
+  const isActivitiesCatalog =
+    /\/activites\/(?:individuel\/)?(?:index\.html)?$/.test(currentPath);
+  const isActivityPage =
+    currentPath.includes("/activites/") && !isActivitiesCatalog;
+
+  if (isActivityPage) {
+    const main = document.querySelector("main");
+    if (main && !main.querySelector(":scope > .activity-return-link")) {
+      const individualActivity =
+        currentPath.includes("/activites/individuel/");
+      const returnLink = document.createElement("a");
+      returnLink.className = "activity-return-link";
+      returnLink.href = individualActivity
+        ? `${root}activites/individuel/index.html`
+        : `${root}activites/index.html`;
+      returnLink.textContent = "← Revenir aux activités";
+      main.prepend(returnLink);
+
+      main.querySelectorAll("a").forEach((link) => {
+        if (
+          link !== returnLink &&
+          !link.closest(".global-navigation") &&
+          /^←?\s*retour\b/i.test(link.textContent.trim())
+        ) {
+          link.remove();
+        }
+      });
+    }
+  }
 
   const menuButton = document.createElement("button");
   menuButton.className = "global-menu-button";

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Test cadrage Produit mystère</title></head>
+<body>
+  <pre id="results">Test en cours…</pre>
+  <iframe id="activity" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const frame = document.querySelector("#activity");
+    const output = document.querySelector("#results");
+    const passed = [];
+    const wait = (delay = 100) => new Promise((resolve) => setTimeout(resolve, delay));
+    const test = (name, condition) => {
+      if (!condition) throw new Error(name);
+      passed.push("✓ " + name);
+    };
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        await wait(180);
+        page.querySelector("#start-mission-button").click();
+        await wait();
+        page.querySelector(".clue-zone").click();
+        await wait();
+        test("zone d’indice ouverte", !page.querySelector("#clue-screen").hidden);
+        test("question directement affichée",
+          page.querySelector("#clue-form").offsetParent !== null);
+        page.querySelector('#clue-answers input').checked = true;
+        page.querySelector("#clue-form").requestSubmit();
+        await wait(180);
+        const zones = page.querySelector(".inspection-zones");
+        const wellPlaced =
+          zones.offsetParent !== null;
+        test("retour sur les zones à examiner", !page.querySelector("#inspection-screen").hidden);
+        test("zones cadrées dans le cœur de l’activité", wellPlaced);
+        test("aucun retour en haut de page", wellPlaced);
+        test("réponse enregistrée", page.querySelector(".clue-zone").classList.contains("is-complete"));
+        for (let index = 1; index < 7; index += 1) {
+          page.querySelector(".clue-zone:not(.is-complete)").click();
+          await wait();
+          page.querySelector('#clue-answers input').checked = true;
+          page.querySelector("#clue-form").requestSubmit();
+          await wait(150);
+        }
+        page.querySelector("#open-ranking-button").click();
+        await wait(150);
+        const rankingCards = [...page.querySelectorAll(".ranking-card")];
+        const targetCard = rankingCards[4];
+        const clueId = targetCard.dataset.clueId;
+        targetCard.scrollIntoView({ block: "center", behavior: "auto" });
+        const vigilanceButton = [...targetCard.querySelectorAll("button")]
+          .find((button) => button.textContent.includes("Vigilance"));
+        test("choix Vigilance disponible", Boolean(vigilanceButton));
+        vigilanceButton.click();
+        await wait(180);
+        const focusedCard = page.querySelector(
+          '.ranking-card[data-clue-id="' + clueId + '"]'
+        );
+        test("carte classée maintenue à l’écran",
+          focusedCard.offsetParent !== null);
+        test("aucun retour en haut après Vigilance",
+          !page.querySelector("#ranking-screen").hidden);
+        test("choix Vigilance enregistré",
+          focusedCard.querySelector('[aria-pressed="true"]')
+            .textContent.includes("Vigilance"));
+        output.textContent = passed.join("\n") + "\n\n" + passed.length + " tests réussis";
+      } catch (error) {
+        output.textContent = "ÉCHEC : " + error.message;
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>

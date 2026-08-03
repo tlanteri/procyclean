@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Test ouverture question Produit mystère</title></head>
+<body>
+  <pre id="results">Test en cours…</pre>
+  <iframe id="activity" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const frame = document.querySelector("#activity");
+    const output = document.querySelector("#results");
+    const wait = (delay = 100) => new Promise((resolve) => setTimeout(resolve, delay));
+    frame.addEventListener("load", async () => {
+      try {
+        const page = frame.contentDocument;
+        await wait(180);
+        page.querySelector("#start-mission-button").click();
+        await wait();
+        page.querySelector(".clue-zone").click();
+        await wait(180);
+        const form = page.querySelector("#clue-form");
+        if (page.querySelector("#clue-screen").hidden || form.offsetParent === null) {
+          throw new Error("question non affichée");
+        }
+        output.textContent = "✓ zone ouverte\n✓ question et réponses affichées\n\n2 tests réussis";
+      } catch (error) {
+        output.textContent = "ÉCHEC : " + error.message;
+      }
+    });
+    frame.src = "index.html";
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Audit retour aux activités</title></head>
+<body>
+  <pre id="results">Audit en cours…</pre>
+  <iframe id="page" style="width:500px;height:700px;border:0"></iframe>
+  <script>
+    const activityPages = [
+      "individuel/mission-controle/index.html",
+      "individuel/onde-choc/index.html",
+      "individuel/podium-valeurs/index.html",
+      "individuel/produit-mystere/index.html",
+      "individuel/responsabilite-objective/index.html",
+      "individuel/traitement-controle/index.html",
+      "individuel/vrai-faux-express/index.html",
+      "mission-controle/participant/index.html",
+      "podium-valeurs/participant/index.html",
+      "produit-mystere/participant/index.html",
+      "responsabilite-objective/participant/index.html",
+      "traitement-controle/participant/index.html",
+      "vrai-faux-express/participant/index.html",
+      "mission-controle/educateur/index.html",
+      "podium-valeurs/educateur/index.html",
+      "produit-mystere/educateur/index.html",
+      "responsabilite-objective/educateur/index.html",
+      "traitement-controle/educateur/index.html",
+      "vrai-faux-express/educateur/index.html"
+    ];
+    const frame = document.querySelector("#page");
+    const output = document.querySelector("#results");
+    const waitForLoad = (path) => new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => reject(new Error("chargement : " + path)), 4000);
+      frame.onload = () => {
+        clearTimeout(timeout);
+        setTimeout(resolve, 80);
+      };
+      frame.src = path;
+    });
+    (async () => {
+      try {
+        let referenceStyle = "";
+        for (const path of activityPages) {
+          await waitForLoad(path);
+          const page = frame.contentDocument;
+          const main = page.querySelector("main");
+          const links = page.querySelectorAll(".activity-return-link");
+          if (links.length !== 1) throw new Error("nombre de boutons : " + path);
+          const link = links[0];
+          if (main.firstElementChild !== link) throw new Error("position : " + path);
+          if (link.textContent !== "← Revenir aux activités") {
+            throw new Error("libellé : " + path);
+          }
+          const expected = path.startsWith("individuel/")
+            ? "/activites/individuel/index.html"
+            : "/activites/index.html";
+          if (!link.pathname.endsWith(expected)) throw new Error("destination : " + path);
+          const legacyLinks = [...main.querySelectorAll("a")]
+            .filter((item) => /^←?\s*retour\b/i.test(item.textContent.trim()));
+          if (legacyLinks.length) throw new Error("ancien bouton visible : " + path);
+          const style = frame.contentWindow.getComputedStyle(link);
+          const signature = [
+            style.display,
+            style.minHeight,
+            style.padding,
+            style.borderRadius,
+            style.borderWidth
+          ].join("|");
+          referenceStyle ||= signature;
+          if (signature !== referenceStyle) throw new Error("style : " + path);
+        }
+        output.textContent =
+          "✓ 19 pages contrôlées\n" +
+          "✓ un seul bouton par activité\n" +
+          "✓ position identique\n" +
+          "✓ libellé identique\n" +
+          "✓ destination adaptée au format\n" +
+          "✓ style identique\n" +
+          "✓ aucun ancien bouton en doublon\n\n7 contrôles réussis";
+      } catch (error) {
+        output.textContent = "ÉCHEC : " + error.message;
+      }
+    })();
+  </script>
+</body>
+</html>

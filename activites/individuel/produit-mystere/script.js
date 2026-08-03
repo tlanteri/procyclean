@@ -136,6 +136,9 @@ const finalDecisionOptions = document.querySelector("#final-decision-options");
 const prospectusViewer = document.querySelector("#prospectus-viewer");
 const prospectusImage = document.querySelector("#prospectus-image");
 const magnifierLens = document.querySelector("#magnifier-lens");
+const inspectionZones = document.querySelector(
+  "#inspection-screen .inspection-zones"
+);
 
 let state = createInitialState();
 let activeClueId = "";
@@ -152,11 +155,30 @@ function createInitialState() {
   };
 }
 
-function showOnly(screenId) {
+function focusActivityElement(element) {
+  const focus = () => {
+    const bounds = element.getBoundingClientRect();
+    const visibleHeight = Math.min(bounds.height, window.innerHeight - 32);
+    const targetTop = Math.max(
+      0,
+      window.scrollY + bounds.top -
+        (window.innerHeight - visibleHeight) / 2
+    );
+    window.scrollTo({ top: targetTop, behavior: "auto" });
+  };
+  requestAnimationFrame(() => {
+    focus();
+    requestAnimationFrame(focus);
+  });
+}
+
+function showOnly(screenId, { scrollTop = true } = {}) {
   screens.forEach((screen) => {
     screen.hidden = screen.id !== screenId;
   });
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (scrollTop) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
 function answerLabel(clue, answerId) {
@@ -167,7 +189,7 @@ function categoryLabel(categoryId) {
   return CATEGORIES.find(([id]) => id === categoryId)?.[2] || "Non classé";
 }
 
-function renderInspection() {
+function renderInspection({ focusZones = false } = {}) {
   const answeredCount = Object.values(state.inspectedClues)
     .filter((clue) => clue.answerId).length;
   document.querySelector("#inspection-progress").textContent =
@@ -193,7 +215,8 @@ function renderInspection() {
     answeredCount === CLUES.length
       ? "Les sept réponses sont enregistrées. Tu peux passer au classement."
       : `Réponses enregistrées : ${answeredCount} sur ${CLUES.length}.`;
-  showOnly("inspection-screen");
+  showOnly("inspection-screen", { scrollTop: !focusZones });
+  if (focusZones) focusActivityElement(inspectionZones);
   requestAnimationFrame(updateMagnifier);
 }
 
@@ -218,16 +241,18 @@ function renderClue(clueId) {
     clueAnswers.append(label);
   });
   document.querySelector("#clue-message").textContent = "";
-  showOnly("clue-screen");
+  showOnly("clue-screen", { scrollTop: false });
+  focusActivityElement(document.querySelector("#clue-form"));
 }
 
-function renderRanking() {
+function renderRanking({ focusClueId = "" } = {}) {
   const rankedCount = Object.keys(state.clueClassifications).length;
   rankingList.replaceChildren();
   CLUES.forEach((clue) => {
     const selected = state.clueClassifications[clue.id];
     const card = document.createElement("article");
     card.className = "ranking-card";
+    card.dataset.clueId = clue.id;
     card.innerHTML = `
       <h3>${clue.shortLabel}</h3>
       <div class="category-buttons" role="group"
@@ -250,7 +275,13 @@ function renderRanking() {
       : `${rankedCount} indice${rankedCount > 1 ? "s" : ""} classé${rankedCount > 1 ? "s" : ""} sur 7`;
   document.querySelector("#submit-investigation-button").disabled =
     rankedCount !== CLUES.length;
-  showOnly("ranking-screen");
+  showOnly("ranking-screen", { scrollTop: !focusClueId });
+  if (focusClueId) {
+    const focusedCard = rankingList.querySelector(
+      `.ranking-card[data-clue-id="${focusClueId}"]`
+    );
+    if (focusedCard) focusActivityElement(focusedCard);
+  }
 }
 
 function appendCorrectionLine(card, label, value, coherent) {
@@ -395,7 +426,7 @@ document.querySelector("#clue-form").addEventListener("submit", (event) => {
     return;
   }
   state.inspectedClues[activeClueId] = { answerId: String(answer) };
-  renderInspection();
+  renderInspection({ focusZones: true });
 });
 document.querySelector("#open-ranking-button").addEventListener("click", renderRanking);
 document.querySelector("#back-to-inspection-button").addEventListener("click", renderInspection);
@@ -403,7 +434,7 @@ rankingList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-category-id]");
   if (!button) return;
   state.clueClassifications[button.dataset.clueId] = button.dataset.categoryId;
-  renderRanking();
+  renderRanking({ focusClueId: button.dataset.clueId });
 });
 document.querySelector("#submit-investigation-button").addEventListener("click", renderCorrection);
 document.querySelector("#continue-to-decision").addEventListener("click", renderFinalDecision);

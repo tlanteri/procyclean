@@ -357,6 +357,9 @@ const backToInspectionButton = document.querySelector(
 );
 const rankingMessage = document.querySelector("#ranking-message");
 const submittedTitle = document.querySelector("#submitted-title");
+const inspectionZones = document.querySelector(
+  "#inspection-screen .inspection-zones"
+);
 
 let currentUser = null;
 let sessionCode = "";
@@ -375,6 +378,26 @@ let prospectusViewIndex = 0;
 let magnifierEnabled = false;
 let magnification = 2;
 let lensPosition = { x: 0.5, y: 0.5 };
+let focusInspectionZonesOnRender = false;
+let focusRankingClueOnRender = "";
+let focusClueQuestionOnRender = false;
+
+function focusActivityElement(element) {
+  const focus = () => {
+    const bounds = element.getBoundingClientRect();
+    const visibleHeight = Math.min(bounds.height, window.innerHeight - 32);
+    const targetTop = Math.max(
+      0,
+      window.scrollY + bounds.top -
+        (window.innerHeight - visibleHeight) / 2
+    );
+    window.scrollTo({ top: targetTop, behavior: "auto" });
+  };
+  requestAnimationFrame(() => {
+    focus();
+    requestAnimationFrame(focus);
+  });
+}
 
 function showOnly(screen) {
   [
@@ -733,6 +756,10 @@ function renderInspection(work) {
     ? "Les sept réponses sont enregistrées. Tu peux passer au classement."
     : `Réponses enregistrées : ${answeredCount} sur ${CLUES.length}.`;
   showOnly(inspectionScreen);
+  if (focusInspectionZonesOnRender) {
+    focusInspectionZonesOnRender = false;
+    focusActivityElement(inspectionZones);
+  }
   requestAnimationFrame(updateMagnifier);
 }
 
@@ -773,6 +800,10 @@ function renderClue(work, clueId) {
 
   clueMessage.textContent = "";
   showOnly(clueScreen);
+  if (focusClueQuestionOnRender) {
+    focusClueQuestionOnRender = false;
+    focusActivityElement(clueForm);
+  }
 }
 
 function renderRanking(work) {
@@ -786,6 +817,7 @@ function renderRanking(work) {
     const selectedCategoryId = classifications[clue.id];
     const card = document.createElement("article");
     card.className = "ranking-card";
+    card.dataset.clueId = clue.id;
     card.innerHTML = `
       <h3>${clue.shortLabel}</h3>
       <div class="category-buttons" role="group"
@@ -823,6 +855,13 @@ function renderRanking(work) {
     ? "Validation en cours…"
     : "Valider mon enquête";
   showOnly(rankingScreen);
+  if (focusRankingClueOnRender) {
+    const focusedCard = rankingList.querySelector(
+      `.ranking-card[data-clue-id="${focusRankingClueOnRender}"]`
+    );
+    focusRankingClueOnRender = "";
+    if (focusedCard) focusActivityElement(focusedCard);
+  }
 }
 
 function renderSubmitted(collective) {
@@ -1309,6 +1348,7 @@ async function openClue(clueId) {
 
   activeClueId = clueId;
   currentView = "clue";
+  focusClueQuestionOnRender = true;
   renderClue(context.work, clueId);
 
   const savedClue = context.work.inspectedClues?.[clueId];
@@ -1365,6 +1405,7 @@ async function saveClueAnswer(event) {
   clueMessage.textContent = "Enregistrement…";
 
   try {
+    focusInspectionZonesOnRender = true;
     await update(ref(database, context.path), {
       [`inspectedClues/${activeClueId}/answerId`]:
         selectedAnswer.value,
@@ -1376,6 +1417,7 @@ async function saveClueAnswer(event) {
     currentView = "inspection";
     activeClueId = null;
   } catch (error) {
+    focusInspectionZonesOnRender = false;
     console.error("Réponse non enregistrée :", error);
     clueMessage.textContent =
       "La réponse n’a pas pu être enregistrée. Réessaie.";
@@ -1431,6 +1473,7 @@ async function chooseCategory(button) {
 
   rankingMessage.textContent = "Enregistrement du classement…";
   try {
+    focusRankingClueOnRender = clueId;
     await set(
       ref(
         database,
@@ -1440,6 +1483,7 @@ async function chooseCategory(button) {
     );
     rankingMessage.textContent = "";
   } catch (error) {
+    focusRankingClueOnRender = "";
     console.error("Classement non enregistré :", error);
     rankingMessage.textContent =
       "Ce choix n’a pas pu être enregistré. Réessaie.";
