@@ -89,6 +89,73 @@ function waitForAuthentication() {
     }, reject);
   });
 }
+
+async function registerParticipant(session) {
+  const existingParticipant = session.participants?.[currentUser.uid];
+  if (existingParticipant?.participantNumber) {
+    return existingParticipant;
+  }
+
+  const canJoinBeforeLaunch =
+    session.status === "waiting" ||
+    session.status === "active" ||
+    session.status === "groups-formed" ||
+    session.status === "grouping" ||
+    session.status === "group-device-selection";
+  if (!canJoinBeforeLaunch || (session.modeLocked && session.participationMode !== "group")) {
+    throw new Error("Cette activité n’accepte plus de nouvelle entrée.");
+  }
+
+  const result = await runTransaction(
+    ref(database, `sessions/${readSessionCode()}`),
+    (currentSession) => {
+      if (!currentSession) return currentSession;
+      const participant = currentSession.participants?.[currentUser.uid];
+      if (participant?.participantNumber && participant.groupId) {
+        return currentSession;
+      }
+
+      const participants = currentSession.participants || {};
+      const participantIds = Object.keys(participants);
+      if (!participant && participantIds.length >= 30) return;
+
+      const nextNumber = (Number(currentSession.nextParticipantNumber) || 0) + 1;
+      if (nextNumber > 30) return;
+      currentSession.nextParticipantNumber = nextNumber;
+      currentSession.participants ||= {};
+      currentSession.participants[currentUser.uid] = {
+        ...participant,
+        participantNumber: participant?.participantNumber || nextNumber,
+        joinedAt: participant?.joinedAt || Date.now(),
+        status: participant?.status || "connected"
+      };
+
+      if (currentSession.groupsLocked && !participant?.groupId) {
+        const groups = Object.values(currentSession.groups || {}).sort(
+          (first, second) =>
+            Object.keys(first.members || {}).length -
+              Object.keys(second.members || {}).length ||
+            first.number - second.number
+        );
+        const target = groups.find(
+          (group) => Object.keys(group.members || {}).length < 3
+        );
+        if (!target) return;
+        currentSession.groups[target.id].members ||= {};
+        currentSession.groups[target.id].members[currentUser.uid] = true;
+        currentSession.participants[currentUser.uid].groupId = target.id;
+        currentSession.participants[currentUser.uid].groupNumber = target.number;
+        currentSession.participants[currentUser.uid].status = "group-assigned";
+      }
+      return currentSession;
+    }
+  );
+
+  if (!result.committed) {
+    throw new Error("Impossible de rejoindre la session.");
+  }
+  return result.snapshot.val().participants[currentUser.uid];
+}
 function unitReference(context) {
   return ref(database, `sessions/${readSessionCode()}/${context.path}`);
 }
@@ -318,6 +385,7 @@ async function loadActivity() {
     if (!snapshot.exists() || snapshot.val().activity !== ACTIVITY_ID) {
       showError("Cette session n’existe pas ou correspond à une autre activité."); return;
     }
+    await registerParticipant(snapshot.val());
     stopSessionListener = onValue(
       ref(database, `sessions/${sessionCode}`),
       (value) => value.exists()

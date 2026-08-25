@@ -474,10 +474,12 @@ async function registerParticipant(session) {
     return existingParticipant;
   }
 
-  if (
-    session.status !== "waiting" &&
-    session.status !== "grouping"
-  ) {
+  const canJoinBeforeLaunch =
+    session.status === "waiting" ||
+    session.status === "grouping" ||
+    session.status === "group-device-selection";
+
+  if (!canJoinBeforeLaunch) {
     throw new Error(
       "Cette activité a déjà commencé et n’accepte plus de nouvelle entrée."
     );
@@ -523,6 +525,42 @@ async function registerParticipant(session) {
   );
 
   return participant;
+}
+
+async function assignLateParticipant() {
+  const result = await runTransaction(
+    ref(database, `sessions/${sessionCode}`),
+    (currentSession) => {
+      if (!currentSession?.groupsLocked || !currentUser) {
+        return currentSession;
+      }
+
+      const participant = currentSession.participants?.[currentUser.uid];
+      if (!participant || participant.groupId) return currentSession;
+
+      const groups = Object.values(currentSession.groups || {}).sort(
+        (first, second) =>
+          Object.keys(first.members || {}).length -
+            Object.keys(second.members || {}).length ||
+          first.number - second.number
+      );
+      const target = groups.find(
+        (group) => Object.keys(group.members || {}).length < 3
+      );
+      if (!target) return currentSession;
+
+      currentSession.groups[target.id].members ||= {};
+      currentSession.groups[target.id].members[currentUser.uid] = true;
+      currentSession.participants[currentUser.uid].groupId = target.id;
+      currentSession.participants[currentUser.uid].groupNumber = target.number;
+      currentSession.participants[currentUser.uid].status = "group-assigned";
+      return currentSession;
+    }
+  );
+
+  if (!result.committed) {
+    throw new Error("Impossible de rejoindre un groupe disponible.");
+  }
 }
 
 function renderParticipant(participant) {
@@ -1745,6 +1783,9 @@ async function loadActivity() {
     }
 
     const participant = await registerParticipant(session);
+    if (session.groupsLocked && !participant.groupId) {
+      await assignLateParticipant();
+    }
     renderParticipant(participant);
     setupPresence();
     listenToSession();

@@ -711,15 +711,15 @@ async function joinSession(event) {
 
     const existingParticipant =
       session.participants?.[auth.currentUser.uid];
-    const productMysteryIsLocked =
-      session.activity === "produit-mystere" &&
-      session.modeLocked;
-    const treatmentControlIsLocked =
-      session.activity === "traitement-controle" &&
-      session.modeLocked;
+    const groupLateJoinIsAllowed =
+      session.modeLocked &&
+      session.status === "group-device-selection" &&
+      (session.activity === "produit-mystere" ||
+        session.activity === "traitement-controle");
 
     if (
-      (productMysteryIsLocked || treatmentControlIsLocked) &&
+      session.modeLocked &&
+      !groupLateJoinIsAllowed &&
       !existingParticipant
     ) {
       showParticipantError(
@@ -751,10 +751,7 @@ async function joinSession(event) {
       }
     }
 
-    if (
-      session.activity === "traitement-controle" &&
-      existingParticipant
-    ) {
+    if (session.activity === "traitement-controle") {
       accessibleStatuses.push(
         "participation-ready",
         "group-device-selection",
