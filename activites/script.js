@@ -89,6 +89,18 @@ const activityRoutes = {
       "responsabilite-objective/participant/index.html",
     facilitator:
       "responsabilite-objective/educateur/index.html"
+  },
+  "droits-controle": {
+    participant:
+      "droits-controle/participant/index.html",
+    facilitator:
+      "droits-controle/educateur/index.html"
+  },
+  "labo-interdictions": {
+    participant:
+      "labo-interdictions/participant/index.html",
+    facilitator:
+      "labo-interdictions/educateur/index.html"
   }
 };
 
@@ -761,6 +773,20 @@ async function joinSession(event) {
 
     if (
       session.activity === "responsabilite-objective" &&
+      existingParticipant
+    ) {
+      accessibleStatuses.push("activity", "review", "final");
+    }
+
+    if (
+      session.activity === "droits-controle" &&
+      existingParticipant
+    ) {
+      accessibleStatuses.push("activity", "review", "final");
+    }
+
+    if (
+      session.activity === "labo-interdictions" &&
       existingParticipant
     ) {
       accessibleStatuses.push("activity", "review", "final");

@@ -1,0 +1,6 @@
+.afld-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.afld-embed{margin:20px 0;padding:12px;background:#fff;border:2px solid #0066b3;border-radius:14px;box-shadow:0 14px 30px rgba(0,31,91,.16)}
+.afld-embed-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 12px;color:#001f5b}
+.afld-embed iframe{width:100%;height:min(720px,72vh);display:block;background:#fff;border:1px solid #cbdde3;border-radius:9px}
+.afld-embed>p{margin:10px 4px 2px;color:#607681!important;font-size:.86rem}
+@media(max-width:700px){.afld-actions{display:grid}.afld-embed{padding:7px}.afld-embed-head{align-items:stretch;flex-direction:column}.afld-embed iframe{height:68vh}}

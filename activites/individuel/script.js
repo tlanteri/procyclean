@@ -430,6 +430,8 @@ document.querySelectorAll(".activity-card").forEach((card) => {
       produit: "produit-mystere/index.html",
       traitement: "traitement-controle/index.html",
       responsabilite: "responsabilite-objective/index.html",
+      "droits-controle": "droits-controle/index.html",
+      "labo-interdictions": "labo-interdictions/index.html",
       "onde-choc": "onde-choc/index.html"
     };
     if (dedicatedRoutes[card.dataset.activity]) {

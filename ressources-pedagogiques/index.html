@@ -6,7 +6,7 @@
   <title>Ressources pédagogiques — PRO-CYCLEAN</title>
   <link rel="icon" type="image/png" href="../assets/images/logo-procyclean.png">
   <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=5">
   <link rel="stylesheet" href="../assets/navigation.css?v=7">
 </head>
 <body>
@@ -44,10 +44,12 @@
         <p class="card-label">Cyclistes</p>
         <h2>Ton espace ressources</h2>
         <p>
-          Des contenus pour prolonger les activités et retenir
-          l’essentiel seront bientôt disponibles ici.
+          Consulte le livret Santé & Performance directement en ligne
+          ou télécharge-le pour le retrouver plus tard.
         </p>
-        <span class="coming-soon">Prochainement</span>
+        <button id="open-cyclist-library" class="portal-button" type="button">
+          Consulter le livret
+        </button>
       </section>
 
       <section class="audience-card educator-card">
@@ -63,6 +65,46 @@
         </button>
       </section>
     </div>
+
+    <section id="cyclist-library" class="educator-panel library-panel" hidden>
+      <button id="close-cyclist-library" class="panel-close" type="button"
+        aria-label="Fermer le livret">×</button>
+      <p class="card-label">Espace cyclistes</p>
+      <h2>Livret Santé &amp; Performance</h2>
+      <p>
+        Parcours le livret dans la visionneuse ou ouvre-le en plein écran
+        pour bénéficier d’un meilleur confort de lecture.
+      </p>
+      <div class="document-actions">
+        <button id="toggle-cyclist-preview" class="preview-button" type="button">
+          Feuilleter le livret
+        </button>
+        <a class="download-button"
+          href="documents/Livret Santé Performance.pdf"
+          target="_blank" rel="noopener">
+          Ouvrir en plein écran
+        </a>
+        <a class="download-button secondary-download"
+          href="documents/Livret Santé Performance.pdf" download>
+          Télécharger le PDF
+        </a>
+      </div>
+      <div id="cyclist-preview-container" class="preview-container" hidden>
+        <div class="preview-header">
+          <strong>Livret Santé &amp; Performance</strong>
+          <span>Fais défiler les pages pour poursuivre la lecture</span>
+        </div>
+        <iframe id="cyclist-resource-preview"
+          title="Livret Santé et Performance"
+          allowfullscreen
+          data-src="lecteur-livret/index.html"></iframe>
+        <p class="preview-fallback">
+          Si la visionneuse ne s’affiche pas,
+          <a href="documents/Livret Santé Performance.pdf"
+            target="_blank" rel="noopener">ouvre le PDF dans un nouvel onglet</a>.
+        </p>
+      </div>
+    </section>
 
     <section id="educator-login-panel" class="educator-panel" hidden>
       <button id="close-educator-login" class="panel-close" type="button"
@@ -158,6 +200,6 @@
     data-root="../"
     data-section="resources"
   ></script>
-  <script type="module" src="script.js?v=2"></script>
+  <script type="module" src="script.js?v=5"></script>
 </body>
 </html>

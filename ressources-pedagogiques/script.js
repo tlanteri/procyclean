@@ -39,6 +39,47 @@ const togglePreviewButton = document.querySelector(
 );
 const previewContainer = document.querySelector("#preview-container");
 const resourcePreview = document.querySelector("#resource-preview");
+const openCyclistLibraryButton = document.querySelector("#open-cyclist-library");
+const closeCyclistLibraryButton = document.querySelector("#close-cyclist-library");
+const cyclistLibrary = document.querySelector("#cyclist-library");
+const toggleCyclistPreviewButton = document.querySelector("#toggle-cyclist-preview");
+const cyclistPreviewContainer = document.querySelector("#cyclist-preview-container");
+const cyclistResourcePreview = document.querySelector("#cyclist-resource-preview");
+let requestedLibrary = "educator";
+
+openCyclistLibraryButton.addEventListener("click", () => {
+  requestedLibrary = "cyclist";
+  if (userIsEducator(auth.currentUser)) {
+    showCyclistLibrary();
+  } else {
+    showLogin();
+  }
+});
+
+closeCyclistLibraryButton.addEventListener("click", () => {
+  cyclistLibrary.hidden = true;
+  cyclistPreviewContainer.hidden = true;
+  cyclistResourcePreview.removeAttribute("src");
+  toggleCyclistPreviewButton.textContent = "Feuilleter le livret";
+  openCyclistLibraryButton.focus();
+});
+
+toggleCyclistPreviewButton.addEventListener("click", () => {
+  const willOpen = cyclistPreviewContainer.hidden;
+  cyclistPreviewContainer.hidden = !willOpen;
+  toggleCyclistPreviewButton.textContent = willOpen
+    ? "Masquer le livret"
+    : "Feuilleter le livret";
+  if (willOpen) {
+    if (!cyclistResourcePreview.src) {
+      cyclistResourcePreview.src = cyclistResourcePreview.dataset.src;
+    }
+    cyclistPreviewContainer.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+});
 
 function userIsEducator(user) {
   return Boolean(
@@ -50,6 +91,7 @@ function userIsEducator(user) {
 
 function showLibrary() {
   loginPanel.hidden = true;
+  cyclistLibrary.hidden = true;
   library.hidden = false;
   if (!resourcePreview.src) {
     resourcePreview.src = resourcePreview.dataset.src;
@@ -57,8 +99,24 @@ function showLibrary() {
   library.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+function showCyclistLibrary() {
+  loginPanel.hidden = true;
+  library.hidden = true;
+  cyclistLibrary.hidden = false;
+  cyclistLibrary.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function showRequestedLibrary() {
+  if (requestedLibrary === "cyclist") {
+    showCyclistLibrary();
+  } else {
+    showLibrary();
+  }
+}
+
 function showLogin() {
   library.hidden = true;
+  cyclistLibrary.hidden = true;
   loginPanel.hidden = false;
   loginMessage.textContent = "";
   passwordInput.focus();
@@ -66,6 +124,7 @@ function showLogin() {
 }
 
 openLoginButton.addEventListener("click", () => {
+  requestedLibrary = "educator";
   if (userIsEducator(auth.currentUser)) {
     showLibrary();
   } else {
@@ -77,7 +136,9 @@ closeLoginButton.addEventListener("click", () => {
   loginPanel.hidden = true;
   loginForm.reset();
   loginMessage.textContent = "";
-  openLoginButton.focus();
+  (requestedLibrary === "cyclist"
+    ? openCyclistLibraryButton
+    : openLoginButton).focus();
 });
 
 loginForm.addEventListener("submit", async (event) => {
@@ -94,7 +155,7 @@ loginForm.addEventListener("submit", async (event) => {
       confidentialCode
     );
     loginForm.reset();
-    showLibrary();
+    showRequestedLibrary();
   } catch (error) {
     console.error("Connexion éducateur refusée :", error);
     loginMessage.textContent = "Le code confidentiel est incorrect.";
@@ -132,5 +193,8 @@ togglePreviewButton.addEventListener("click", () => {
 onAuthStateChanged(auth, (user) => {
   if (!userIsEducator(user)) {
     library.hidden = true;
+    cyclistLibrary.hidden = true;
+    cyclistPreviewContainer.hidden = true;
+    cyclistResourcePreview.removeAttribute("src");
   }
 });

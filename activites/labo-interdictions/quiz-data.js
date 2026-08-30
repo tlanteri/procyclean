@@ -1,0 +1,12 @@
+export const QUIZ_TITLE="Et toi, qu’en penses-tu ?";
+export const QUIZ_SUBTITLE="6 questions pour tester tes réflexes";
+export const QUESTIONS=[
+ {id:"substances-methodes",statement:"La Liste des interdictions concerne uniquement des produits ou des médicaments.",answers:[{id:"true",label:"Vrai"},{id:"false",label:"Faux"}],correct:"false",feedback:"La Liste concerne des substances, mais aussi certaines méthodes interdites."},
+ {id:"prescription",statement:"Un médicament prescrit par un médecin est forcément autorisé pour un sportif.",answers:[{id:"true",label:"Vrai"},{id:"false",label:"Faux"}],correct:"false",feedback:"Une prescription médicale ne suffit pas à garantir qu’un médicament est autorisé par les règles antidopage."},
+ {id:"sans-ordonnance",statement:"Un médicament acheté sans ordonnance peut-il contenir une substance interdite dans le sport ?",answers:[{id:"yes",label:"Oui"},{id:"no",label:"Non"}],correct:"yes",feedback:"Même un médicament disponible sans ordonnance doit pouvoir être vérifié."},
+ {id:"toute-annee",statement:"Une substance interdite l’est forcément toute l’année.",answers:[{id:"true",label:"Vrai"},{id:"false",label:"Faux"}],correct:"false",feedback:"Certaines substances ou méthodes sont interdites en permanence, d’autres uniquement en compétition."},
+ {id:"coequipier",situation:"Ton coéquipier utilise le même médicament que toi et te dit : « Ne t’inquiète pas, il est autorisé. »",statement:"Est-ce suffisant pour être certain ?",answers:[{id:"yes",label:"Oui, il l’a déjà utilisé"},{id:"verify",label:"Non, il faut vérifier"}],correct:"verify",feedback:"L’avis d’une autre personne ne permet pas de connaître avec certitude le statut d’un médicament."},
+ {id:"bon-reflexe",situation:"On te donne le nom exact d’un médicament que tu ne connais pas.",statement:"Que fais-tu ?",answers:[{id:"box",label:"A. Je regarde la boîte et je décide moi-même."},{id:"teammate",label:"B. Je demande à un coéquipier."},{id:"verify",label:"C. Je vérifie avec un outil adapté."},{id:"take",label:"D. Je le prends puisque c’est un médicament."}],correct:"verify",feedback:"Le bon réflexe n’est pas de deviner : il faut vérifier."}
+];
+export function answerRecord(question,answerId){return{questionId:question.id,answer:answerId,correctAnswer:question.correct,correct:answerId===question.correct}}
+export function answerLabel(question,answerId){return question.answers.find(answer=>answer.id===answerId)?.label||answerId}

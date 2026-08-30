@@ -276,12 +276,19 @@
   font-size: 0.9rem;
 }
 
-#resource-preview {
+#resource-preview,
+#cyclist-resource-preview {
   width: 100%;
   height: min(720px, 75vh);
   display: block;
   background: #ffffff;
   border: 0;
+}
+
+.secondary-download {
+  color: #0066b3;
+  background: #ffffff;
+  border-color: #0066b3;
 }
 
 .preview-fallback {
@@ -333,7 +340,8 @@
     display: grid;
   }
 
-  #resource-preview {
+  #resource-preview,
+  #cyclist-resource-preview {
     height: 65vh;
   }
 }

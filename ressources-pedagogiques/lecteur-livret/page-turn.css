@@ -1,0 +1,72 @@
+.book {
+  perspective: 2200px;
+}
+
+.paper {
+  z-index: 1;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.paper::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 48%, rgba(0, 31, 91, 0.34));
+  opacity: 0;
+}
+
+.turn-next .paper,
+.turn-previous .paper {
+  animation: none;
+}
+
+.turn-next #page-right {
+  z-index: 3;
+  animation: book-turn-next 0.72s cubic-bezier(0.55, 0.05, 0.25, 1);
+}
+
+.turn-previous #page-left {
+  z-index: 3;
+  animation: book-turn-previous 0.72s cubic-bezier(0.55, 0.05, 0.25, 1);
+}
+
+.turn-next #page-right::after,
+.turn-previous #page-left::after {
+  animation: book-page-shadow 0.72s ease;
+}
+
+@keyframes book-turn-next {
+  0% { opacity: 1; transform: rotateY(0); }
+  48% { opacity: 0.9; transform: rotateY(-82deg); }
+  52% { opacity: 0.15; transform: rotateY(82deg); }
+  100% { opacity: 1; transform: rotateY(0); }
+}
+
+@keyframes book-turn-previous {
+  0% { opacity: 1; transform: rotateY(0); }
+  48% { opacity: 0.9; transform: rotateY(82deg); }
+  52% { opacity: 0.15; transform: rotateY(-82deg); }
+  100% { opacity: 1; transform: rotateY(0); }
+}
+
+@keyframes book-page-shadow {
+  0%, 100% { opacity: 0; }
+  44%, 56% { opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .turn-next #page-left {
+    z-index: 3;
+    animation: book-turn-next 0.72s cubic-bezier(0.55, 0.05, 0.25, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .turn-next #page-right,
+  .turn-next #page-left,
+  .turn-previous #page-left {
+    animation: none;
+  }
+}
