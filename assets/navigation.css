@@ -234,3 +234,294 @@ body.global-menu-open {
     transition: none;
   }
 }
+
+/* Trame visuelle FFC 2026 partagée par toute l'application */
+
+:root {
+  --ffc-navy: #24356e;
+  --ffc-blue: #004d80;
+  --ffc-blue-light: #004d80;
+  --ffc-purple: #78395d;
+  --ffc-violet: #78395d;
+  --ffc-red: #d83541;
+  --pro-cyan: #004d80;
+  --text-dark: #19213d;
+  --text-soft: #667087;
+  --surface-soft: #f4f6fa;
+  --border: #dfe3ec;
+}
+
+body {
+  color: var(--text-dark);
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  background-color: var(--ffc-navy);
+  background-image:
+    linear-gradient(180deg, rgba(16, 31, 77, 0.05), rgba(16, 31, 77, 0.18)),
+    url("images/fond-ffc.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.institutional-header,
+.brand-logos {
+  width: min(1040px, calc(100% - 96px));
+  min-height: 92px;
+  margin: 0 auto 20px;
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  color: #ffffff;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.institutional-header .partner-logos {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+}
+
+.institutional-header .partner-logos a {
+  width: 150px;
+  max-width: 35%;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.institutional-header img,
+.brand-logos img {
+  display: block;
+  width: auto;
+  max-width: 30%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 12px rgba(10, 24, 66, 0.2));
+}
+
+.institutional-header .logo-ffc,
+.institutional-header > img:first-child,
+.brand-logos img:nth-child(1) {
+  width: 200px;
+  max-width: 36%;
+  max-height: none;
+  transform: none;
+}
+
+.institutional-header .logo-procyclean,
+.institutional-header .partner-logos > img:first-child,
+.brand-logos img:nth-child(2) {
+  width: 150px;
+  max-width: 35%;
+  max-height: none;
+}
+
+.institutional-header .partner-logos a .logo-procyclean {
+  width: 100%;
+  max-width: none;
+}
+
+.institutional-header .logo-lamhess,
+.institutional-header .partner-logos > img:last-child,
+.brand-logos img:nth-child(3) {
+  width: auto;
+  max-height: 62px;
+}
+
+main.home,
+main.app,
+main.dashboard,
+main.share-page,
+main.portal,
+main.solo-app {
+  border-top: 10px solid transparent;
+  border-image: linear-gradient(
+    90deg,
+    var(--ffc-navy) 0 33.333%,
+    var(--ffc-blue) 33.333% 66.666%,
+    var(--ffc-violet) 66.666% 100%
+  ) 1;
+  border-radius: 4px;
+  box-shadow: 0 22px 60px rgba(22, 35, 78, 0.16);
+}
+
+main.home::before,
+main.portal::before,
+main.solo-app::before,
+main.app::before {
+  content: none;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+}
+
+.eyebrow,
+.project-name,
+.card-label {
+  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.global-menu-button {
+  background: var(--ffc-blue);
+  border-radius: 4px;
+}
+
+.global-navigation {
+  border-right: 7px solid var(--ffc-violet);
+}
+
+.global-navigation a,
+.global-menu-close,
+.activity-return-link {
+  border-radius: 3px;
+}
+
+.global-navigation a:hover,
+.global-navigation a[aria-current="page"] {
+  background: var(--ffc-navy);
+}
+
+.activity-return-link {
+  color: var(--ffc-blue);
+  border-color: var(--ffc-blue);
+}
+
+.activity-return-link:hover,
+.activity-return-link:focus-visible {
+  background: var(--ffc-blue);
+}
+
+/* Signature commune des actions principales */
+.primary-button,
+.primary,
+.primary-link,
+.primary-action,
+.primary-action-button,
+.action-button {
+  min-height: 48px;
+  padding: 13px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #ffffff;
+  background: var(--ffc-navy);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 6px 6px 0 var(--ffc-red);
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-weight: 800;
+  line-height: 1.25;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.primary-button:hover,
+.primary:hover,
+.primary-link:hover,
+.primary-action:hover,
+.primary-action-button:hover,
+.action-button:hover {
+  color: #ffffff;
+  background: var(--ffc-navy);
+  transform: translate(-2px, -2px);
+  box-shadow: 9px 9px 0 var(--ffc-red);
+}
+
+.primary-button:active,
+.primary:active,
+.primary-link:active,
+.primary-action:active,
+.primary-action-button:active,
+.action-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--ffc-red);
+}
+
+.primary-button:focus-visible,
+.primary:focus-visible,
+.primary-link:focus-visible,
+.primary-action:focus-visible,
+.primary-action-button:focus-visible,
+.action-button:focus-visible {
+  outline: 3px solid rgba(216, 53, 65, 0.34);
+  outline-offset: 4px;
+}
+
+.primary-button:disabled,
+.primary:disabled,
+.primary-action:disabled,
+.primary-action-button:disabled,
+.action-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 0 rgba(216, 53, 65, 0.55);
+}
+
+.global-site-footer {
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 5px rgba(10, 24, 66, 0.45);
+}
+
+@media (max-width: 700px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  body .institutional-header,
+  body .brand-logos {
+    width: calc(100% - 48px);
+    min-height: 64px;
+    margin: 0 0 12px 48px;
+    padding: 6px 0;
+    display: flex;
+    grid-template-columns: none;
+    gap: 10px;
+  }
+
+  body .institutional-header .partner-logos {
+    display: flex;
+    gap: 10px;
+  }
+
+  body .institutional-header .partner-logos a {
+    width: 96px;
+    max-width: 35%;
+  }
+
+  .institutional-header .logo-ffc,
+  .institutional-header > img:first-child,
+  .brand-logos img:nth-child(1) {
+    width: 120px;
+    max-width: 36%;
+    max-height: none;
+  }
+
+  .institutional-header .logo-procyclean,
+  .institutional-header .partner-logos > img:first-child,
+  .brand-logos img:nth-child(2) {
+    width: 96px;
+    max-width: 35%;
+    max-height: none;
+  }
+
+  .institutional-header .logo-lamhess,
+  .institutional-header .partner-logos > img:last-child,
+  .brand-logos img:nth-child(3) {
+    width: auto;
+    max-height: 42px;
+  }
+}

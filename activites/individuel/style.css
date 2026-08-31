@@ -251,3 +251,125 @@ h3 { margin: 0; }
   .ranking-item { grid-template-columns: 34px 1fr; }
   .ranking-controls { grid-column: 2; }
 }
+
+/* Catalogue harmonisé avec le menu principal des activités */
+.solo-app {
+  width: min(1040px, 100%);
+  min-height: 0;
+  padding: 58px clamp(28px, 6vw, 72px) 66px;
+  border-radius: 4px;
+  box-shadow: 0 22px 60px rgba(22, 35, 78, 0.16);
+}
+
+.selection-back-button {
+  padding: 9px 0;
+  color: #004d80;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid currentColor;
+  border-radius: 0;
+}
+
+.selection-back-button:hover {
+  color: #d83541;
+  background: transparent;
+  transform: translateX(-3px);
+}
+
+.selection-screen > .eyebrow {
+  margin-bottom: 13px;
+  color: #d83541;
+}
+
+.selection-screen > h1 {
+  margin-bottom: 16px;
+  color: #24356e;
+  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(3rem, 7vw, 5.2rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.selection-screen > h1::after {
+  width: 64px;
+  height: 7px;
+  margin-top: 20px;
+  display: block;
+  content: "";
+  background: #d83541;
+}
+
+.intro {
+  max-width: 720px;
+  color: #667087;
+}
+
+.activity-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.activity-card {
+  position: relative;
+  min-height: 190px;
+  padding: 24px;
+  justify-content: center;
+  gap: 11px;
+  overflow: hidden;
+  color: #19213d;
+  background: #ffffff;
+  border: 1px solid #dfe3ec;
+  border-radius: 3px;
+  box-shadow: 0 7px 18px rgba(22, 35, 78, 0.06);
+}
+
+.activity-card::after {
+  position: absolute;
+  right: -28px;
+  bottom: -42px;
+  width: 86px;
+  height: 120px;
+  content: "";
+  background: #d83541;
+  opacity: 0;
+  transform: rotate(28deg);
+  transition: opacity 0.18s ease;
+}
+
+.activity-card:nth-child(4n + 2)::after { background: #004d80; }
+.activity-card:nth-child(4n + 3)::after { background: #78395d; }
+.activity-card:nth-child(4n + 4)::after { background: #24356e; }
+.activity-card:hover { border-color: rgba(36, 53, 110, 0.3); }
+.activity-card:hover::after { opacity: 1; }
+
+.activity-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  color: #004d80;
+  background: #edf3f7;
+  border-radius: 50%;
+  font-size: 1.65rem;
+}
+
+.activity-card strong {
+  color: #24356e;
+  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.25;
+}
+
+.activity-card > span:last-child {
+  color: #667087;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 700px) {
+  .solo-app { padding: 42px 20px 34px; }
+  .selection-screen > h1 { font-size: clamp(2.7rem, 14vw, 4rem); }
+  .activity-grid { grid-template-columns: 1fr; gap: 13px; }
+  .activity-card { min-height: 165px; padding: 21px; }
+}

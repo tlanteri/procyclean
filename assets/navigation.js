@@ -8,6 +8,21 @@
   const isActivityPage =
     currentPath.includes("/activites/") && !isActivitiesCatalog;
 
+  if (!document.querySelector(".institutional-header, .brand-logos")) {
+    const brandLogos = document.createElement("header");
+    brandLogos.className = "brand-logos";
+    brandLogos.setAttribute("aria-label", "Partenaires du projet");
+    brandLogos.innerHTML = `
+      <img src="${root}assets/images/logo-ffc.png"
+        alt="Fédération Française de Cyclisme">
+      <img src="${root}assets/images/logo-procyclean.png"
+        alt="PRO-CYCLEAN">
+      <img src="${root}assets/images/logo-lamhess-blanc.png"
+        alt="Laboratoire LAMHESS">
+    `;
+    document.body.prepend(brandLogos);
+  }
+
   if (isActivityPage) {
     const main = document.querySelector("main");
     if (main && !main.querySelector(":scope > .activity-return-link")) {
@@ -87,7 +102,7 @@
   document.body.prepend(overlay, drawer, menuButton);
   const closeButton = drawer.querySelector(".global-menu-close");
 
-  if (!document.querySelector(".global-site-footer")) {
+  if (!document.querySelector("footer")) {
     const siteFooter = document.createElement("footer");
     siteFooter.className = "global-site-footer";
 
