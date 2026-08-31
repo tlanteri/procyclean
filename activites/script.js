@@ -101,6 +101,18 @@ const activityRoutes = {
       "labo-interdictions/participant/index.html",
     facilitator:
       "labo-interdictions/educateur/index.html"
+  },
+  "vrad-sanctions": {
+    participant:
+      "vrad-sanctions/participant/index.html",
+    facilitator:
+      "vrad-sanctions/educateur/index.html"
+  },
+  "aut-bon-parcours": {
+    participant:
+      "aut-bon-parcours/participant/index.html",
+    facilitator:
+      "aut-bon-parcours/educateur/index.html"
   }
 };
 
@@ -790,6 +802,20 @@ async function joinSession(event) {
       existingParticipant
     ) {
       accessibleStatuses.push("activity", "review", "final");
+    }
+
+    if (
+      session.activity === "vrad-sanctions" &&
+      existingParticipant
+    ) {
+      accessibleStatuses.push("activity", "final", "closed");
+    }
+
+    if (
+      session.activity === "aut-bon-parcours" &&
+      existingParticipant
+    ) {
+      accessibleStatuses.push("activity", "final", "closed");
     }
 
     if (!accessibleStatuses.includes(session.status)) {

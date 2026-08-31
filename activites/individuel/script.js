@@ -432,6 +432,8 @@ document.querySelectorAll(".activity-card").forEach((card) => {
       responsabilite: "responsabilite-objective/index.html",
       "droits-controle": "droits-controle/index.html",
       "labo-interdictions": "labo-interdictions/index.html",
+      "vrad-sanctions": "vrad-sanctions/index.html",
+      "aut-bon-parcours": "aut-bon-parcours/index.html",
       "onde-choc": "onde-choc/index.html"
     };
     if (dedicatedRoutes[card.dataset.activity]) {
