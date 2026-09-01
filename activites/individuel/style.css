@@ -327,6 +327,7 @@ h3 { margin: 0; }
 
 .activity-card::after {
   position: absolute;
+  z-index: 0;
   right: -28px;
   bottom: -42px;
   width: 86px;
@@ -336,6 +337,11 @@ h3 { margin: 0; }
   opacity: 0;
   transform: rotate(28deg);
   transition: opacity 0.18s ease;
+}
+
+.activity-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .activity-card:nth-child(4n + 2)::after { background: #004d80; }

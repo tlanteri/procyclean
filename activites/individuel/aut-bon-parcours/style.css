@@ -1,1 +1,37 @@
-.app{width:min(1050px,calc(100% - 28px))}.scenario{padding:20px;background:#fff;border-left:6px solid var(--ffc-purple);border-radius:13px;font-size:1.12rem;line-height:1.5}.crossroad-zones .drop-zone span{display:grid;gap:7px;margin-top:12px}.crossroad-zones .drag-card{width:100%;font-size:.85rem}.dossier-card.in-folder{background:#fffdf5}.info-note{font-size:.88rem;color:#607884}
+.app {
+  width: min(1050px, calc(100% - 28px));
+  padding: clamp(22px, 4vw, 48px);
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+}
+
+.scenario {
+  padding: 20px;
+  background: #fff;
+  border-left: 6px solid var(--ffc-purple);
+  border-radius: 13px;
+  font-size: 1.12rem;
+  line-height: 1.5;
+}
+
+.crossroad-zones .drop-zone span {
+  margin-top: 12px;
+  display: grid;
+  gap: 7px;
+}
+
+.crossroad-zones .drag-card {
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.dossier-card.in-folder { background: #fffdf5; }
+.info-note { color: #607884; font-size: 0.88rem; }
+
+@media (max-width: 720px) {
+  .app {
+    width: calc(100% - 20px);
+    padding: 20px 12px 28px;
+  }
+}
