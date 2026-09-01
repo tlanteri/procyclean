@@ -1,7 +1,7 @@
 :root {
   --ffc-navy:#24356e;--ffc-blue:#004d80;--ffc-violet:#78395d;--ffc-red:#d83541;
   --ink:#19213d;--muted:#667087;--paper:#fff;--wash:#f4f6fa;--line:#dfe3ec;
-  --display:"Barlow","Arial Narrow",Arial,sans-serif;--body:"Montserrat",Arial,sans-serif;
+  --display:"Bison","Barlow","Arial Narrow",Arial,sans-serif;--body:"Montserrat",Arial,sans-serif;
   --shadow:0 22px 60px rgba(22,35,78,.14)
 }
 *{box-sizing:border-box}html{min-height:100%}[hidden]{display:none!important}

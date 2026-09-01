@@ -284,7 +284,7 @@ h3 { margin: 0; }
 .selection-screen > h1 {
   margin-bottom: 16px;
   color: #24356e;
-  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
   font-size: clamp(3rem, 7vw, 5.2rem);
   font-weight: 800;
   line-height: 0.95;
@@ -357,7 +357,7 @@ h3 { margin: 0; }
 
 .activity-card strong {
   color: #24356e;
-  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
   font-size: 1.1rem;
   line-height: 1.25;
 }

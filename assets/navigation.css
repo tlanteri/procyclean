@@ -1,3 +1,5 @@
+@import url("./fonts/fonts.css");
+
 .global-menu-button {
   position: fixed;
   top: 18px;
@@ -330,8 +332,9 @@ body {
 .institutional-header .logo-lamhess,
 .institutional-header .partner-logos > img:last-child,
 .brand-logos img:nth-child(3) {
-  width: auto;
-  max-height: 62px;
+  width: 432px;
+  max-width: 45%;
+  height: auto;
 }
 
 main.home,
@@ -361,13 +364,13 @@ main.app::before {
 h1,
 h2,
 h3 {
-  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
 }
 
 .eyebrow,
 .project-name,
 .card-label {
-  font-family: "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
@@ -521,7 +524,8 @@ h3 {
   .institutional-header .logo-lamhess,
   .institutional-header .partner-logos > img:last-child,
   .brand-logos img:nth-child(3) {
-    width: auto;
-    max-height: 42px;
+    width: 162px;
+    max-width: 45%;
+    height: auto;
   }
 }
