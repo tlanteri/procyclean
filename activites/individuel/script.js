@@ -435,7 +435,8 @@ document.querySelectorAll(".activity-card").forEach((card) => {
       "vrad-sanctions": "vrad-sanctions/index.html",
       "aut-bon-parcours": "aut-bon-parcours/index.html",
       "onde-choc": "onde-choc/index.html",
-      "briser-silence": "briser-silence/index.html"
+      "briser-silence": "briser-silence/index.html",
+      "mission-localisation": "mission-localisation/index.html"
     };
     if (dedicatedRoutes[card.dataset.activity]) {
       window.location.href = dedicatedRoutes[card.dataset.activity];
