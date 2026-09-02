@@ -14,6 +14,10 @@
         await wait(180);
         page.querySelector("#start-mission-button").click();
         await wait();
+        page.querySelector('[name="need-answer"][value="need"]').checked = true;
+        page.querySelector("#need-form").requestSubmit();
+        page.querySelector("#continue-to-inspection").click();
+        await wait();
         page.querySelector(".clue-zone").click();
         await wait(180);
         const form = page.querySelector("#clue-form");

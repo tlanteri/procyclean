@@ -48,6 +48,106 @@
     }
   }
 
+  if (currentPath.includes("/activites/individuel/") && isActivityPage) {
+    document.body.classList.add("individual-activity-page");
+    const main = document.querySelector("main");
+    if (main && !main.querySelector(":scope > .activity-overall-progress")) {
+      const progress = document.createElement("div");
+      progress.className = "activity-overall-progress";
+      progress.setAttribute("role", "progressbar");
+      progress.setAttribute("aria-label", "Progression dans l’activité");
+      progress.setAttribute("aria-valuemin", "0");
+      progress.setAttribute("aria-valuemax", "100");
+      progress.innerHTML = '<span class="activity-overall-progress-bar"></span>';
+
+      const activityHeader = main.querySelector(":scope > .activity-header");
+      if (activityHeader) activityHeader.after(progress);
+      else {
+        const returnLink = main.querySelector(":scope > .activity-return-link");
+        if (returnLink) returnLink.after(progress);
+        else main.prepend(progress);
+      }
+
+      let lastValue = 4;
+      let externallyManaged = false;
+      let updateQueued = false;
+      const isVisible = (element) => {
+        if (!element || element.closest("[hidden]")) return false;
+        const style = window.getComputedStyle(element);
+        return style.display !== "none" && style.visibility !== "hidden";
+      };
+      const setProgress = (value) => {
+        const safeValue = Math.max(4, Math.min(100, Math.round(value)));
+        lastValue = Math.max(lastValue, safeValue);
+        progress.setAttribute("aria-valuenow", String(lastValue));
+        progress.querySelector(".activity-overall-progress-bar").style.width =
+          `${lastValue}%`;
+        progress.classList.toggle("complete", lastValue === 100);
+      };
+      const readProgress = () => {
+        if (externallyManaged) return setProgress(lastValue);
+        const completed = [
+          "#final", "#activity-final", "#completed", "#completed-screen",
+          "#conclusion", "#closed-screen", "#end-screen", "#final-guidance-screen"
+        ].some((selector) => isVisible(document.querySelector(selector)));
+        if (completed) return setProgress(100);
+
+        const bars = [...document.querySelectorAll(
+          "#progress-bar, #medication-progress, .progress-track > span, .progress > span, .quiz-progress > span"
+        )].filter((bar) => !bar.closest(".activity-overall-progress") && isVisible(bar));
+        for (const bar of bars) {
+          const value = Number.parseFloat(bar.style.width);
+          if (Number.isFinite(value) && value > 0) return setProgress(value);
+        }
+
+        const visibleSections = [...main.querySelectorAll("section[id]")].filter(isVisible);
+        const visibleText = visibleSections.map((section) => section.textContent).join(" ");
+        const fractions = [...visibleText.matchAll(/(\d+)\s*(?:\/|sur)\s*(\d+)/gi)]
+          .map((match) => [Number(match[1]), Number(match[2])])
+          .filter(([, total]) => total > 1);
+        if (fractions.length) {
+          const [current, total] = fractions[0];
+          return setProgress((current / total) * 92);
+        }
+
+        const allSections = [...main.querySelectorAll(":scope > section[id]")];
+        const activeIndex = allSections.findIndex(isVisible);
+        if (activeIndex >= 0 && allSections.length > 1) {
+          return setProgress(5 + (activeIndex / (allSections.length - 1)) * 90);
+        }
+        setProgress(lastValue);
+      };
+      const queueUpdate = () => {
+        if (updateQueued) return;
+        updateQueued = true;
+        window.requestAnimationFrame(() => {
+          updateQueued = false;
+          readProgress();
+        });
+      };
+      new MutationObserver(queueUpdate).observe(main, {
+        subtree: true, childList: true, attributes: true,
+        attributeFilter: ["hidden", "style", "class"]
+      });
+      window.addEventListener("procyclean:activity-progress", (event) => {
+        const value = Number(event.detail?.value);
+        if (!Number.isFinite(value)) return;
+        externallyManaged = true;
+        setProgress(value);
+      });
+      main.addEventListener("click", (event) => {
+        if (event.target.closest("#restart, [id^='restart-'], [data-action='restart']")) {
+          lastValue = 4;
+          externallyManaged = false;
+          progress.querySelector(".activity-overall-progress-bar").style.width = "4%";
+          window.setTimeout(queueUpdate, 0);
+        }
+      });
+      window.addEventListener("load", queueUpdate);
+      queueUpdate();
+    }
+  }
+
   const menuButton = document.createElement("button");
   menuButton.className = "global-menu-button";
   menuButton.type = "button";

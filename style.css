@@ -137,7 +137,7 @@ h1 span {
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  background: var(--surface-soft);
+  background: #ffffff;
   border: 1px solid var(--line);
   border-radius: 21px;
 }
@@ -207,34 +207,33 @@ h2 {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 24px;
-  color: #ffffff;
-  background: linear-gradient(125deg, var(--ffc-navy), #163d77 58%, var(--ffc-purple));
+  color: var(--ink);
+  background: #ffffff;
+  border: 1px solid var(--line);
   border-radius: 21px;
 }
 
 .facilitator-icon {
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--ffc-purple);
+  background: #f5eef6;
+  border: 1px solid rgba(102, 19, 111, 0.16);
 }
 
 .facilitator-space .card-label {
-  color: #7fe1e7;
+  color: var(--ffc-red);
 }
 
 .facilitator-space h2 {
-  color: #ffffff;
+  color: var(--ffc-navy);
 }
 
 .facilitator-copy > p:last-child {
   max-width: 620px;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--muted);
 }
 
 .facilitator-button {
   flex-shrink: 0;
-  background: #ffffff;
-  color: var(--ffc-navy);
-  box-shadow: none;
 }
 
 .central-message {

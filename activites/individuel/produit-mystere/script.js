@@ -12,7 +12,7 @@ const CLUES = [
     ],
     expectedAnswerId: "promise-is-not-proof",
     expectedCategoryId: "warning",
-    explanation: "Une promesse publicitaire n’est pas une preuve scientifique. Les résultats rapides ou extraordinaires doivent inciter à la vigilance."
+    explanation: "Une promesse publicitaire n’est pas une preuve scientifique. Une promesse de résultat rapide ou exceptionnel constitue un signal d’alerte."
   },
   {
     id: "incomplete-composition",
@@ -42,7 +42,7 @@ const CLUES = [
     ],
     expectedAnswerId: "seller-traceability-insufficient",
     expectedCategoryId: "warning",
-    explanation: "La recommandation d’un sportif ne garantit ni la qualité ni la conformité. Il faut vérifier le fabricant et le circuit de distribution."
+    explanation: "La recommandation d’un sportif ne garantit ni la qualité ni la conformité. Un vendeur ou un fabricant peu identifiable et un site peu traçable constituent des signaux d’alerte. À l’inverse, l’achat en pharmacie peut améliorer la traçabilité et permettre de demander conseil, mais il ne rend pas automatiquement le complément nécessaire ou sans risque."
   },
   {
     id: "natural-claim",
@@ -57,7 +57,7 @@ const CLUES = [
     ],
     expectedAnswerId: "natural-not-always-safe",
     expectedCategoryId: "vigilance",
-    explanation: "Une substance naturelle peut être interdite, dangereuse ou mal indiquée. Le mot « naturel » ne garantit pas l’absence de risque."
+    explanation: "Le mot « naturel » ne garantit ni l’efficacité, ni la sécurité, ni l’absence de substance interdite."
   },
   {
     id: "laboratory-claim",
@@ -72,7 +72,7 @@ const CLUES = [
     ],
     expectedAnswerId: "lab-claim-insufficient",
     expectedCategoryId: "vigilance",
-    explanation: "Une mention générale ne précise ni les substances recherchées ni la méthode utilisée. Elle ne constitue pas une garantie suffisante."
+    explanation: "Cette affirmation ne suffit pas. Il faut savoir quel laboratoire a réalisé l’analyse, ce qui a été recherché et si le résultat concerne précisément ce lot."
   },
   {
     id: "certification-standard",
@@ -87,7 +87,7 @@ const CLUES = [
     ],
     expectedAnswerId: "risk-control-insufficiently-documented",
     expectedCategoryId: "vigilance",
-    explanation: "L’absence de démarche reconnue apporte moins d’éléments pour réduire le risque. Une norme contribue à le limiter sans garantir un risque nul."
+    explanation: "Une norme reconnue comme la NF EN 17444 contribue à réduire le risque de présence de substances interdites, mais elle ne garantit pas un risque zéro."
   },
   {
     id: "batch-traceability",
@@ -102,30 +102,30 @@ const CLUES = [
     ],
     expectedAnswerId: "batch-identifies-product",
     expectedCategoryId: "reassuring",
-    explanation: "Le numéro de lot facilite la traçabilité. C’est plutôt rassurant, mais cela ne garantit pas à lui seul la sécurité du produit."
+    explanation: "Le numéro de lot facilite la traçabilité et constitue une information utile pour évaluer le produit, sans garantir à lui seul sa sécurité."
   }
 ];
 
 const CATEGORIES = [
-  ["reassuring", "✓", "Plutôt rassurant"],
-  ["vigilance", "⚠", "Vigilance"],
+  ["reassuring", "✓", "Information utile pour évaluer le produit"],
+  ["vigilance", "⚠", "Information à vérifier"],
   ["warning", "!", "Signal d’alerte"]
 ];
 
 const FINAL_DECISIONS = [
-  ["follow-teammate", "Je le prends puisque mon coéquipier l’utilise sans problème."],
-  ["test-small-amount", "Je le teste d’abord en petite quantité."],
-  ["assess-need-and-guarantees", "Je vérifie si j’en ai réellement besoin avec un professionnel compétent et je recherche une solution présentant davantage de garanties."],
-  ["use-outside-competition", "Je le prends uniquement pendant les périodes sans compétition."]
+  ["follow-teammate", "Prendre le produit parce qu’un coéquipier l’utilise déjà."],
+  ["reassuring-information", "Prendre le produit parce que plusieurs informations semblent rassurantes."],
+  ["never-supplement", "Ne jamais utiliser de complément alimentaire, quelle que soit la situation."],
+  ["assess-need-and-guarantees", "Ne pas le consommer pour le moment, demander à un professionnel d’évaluer son besoin et, si une utilisation est envisagée, choisir un produit présentant le plus de garanties possible."]
 ];
 
 const REFLEXES = [
-  ["Évaluer le besoin", "Je vérifie si le complément est réellement nécessaire."],
-  ["Demander conseil", "J’en parle à un médecin, un pharmacien ou un professionnel compétent en nutrition du sport."],
-  ["Vérifier la composition", "Je consulte la liste complète des ingrédients et je me méfie des formulations imprécises."],
-  ["Choisir un circuit fiable", "J’évite les vendeurs difficiles à identifier et les achats fondés uniquement sur une recommandation en ligne."],
-  ["Rechercher une réduction des risques", "Je privilégie une démarche reconnue, comme la norme AFNOR NF EN 17444, sans considérer qu’elle garantit un risque nul."],
-  ["Conserver une trace", "Je photographie l’étiquette et le numéro de lot, puis je conserve le contenant et la fin du produit."]
+  ["Questionner mon intention", "Je me demande pourquoi je souhaite prendre un complément."],
+  ["Faire évaluer mon besoin", "Je fais évaluer mon besoin par un professionnel compétent."],
+  ["Privilégier l’alimentation", "Je privilégie une alimentation adaptée lorsque cela peut répondre au besoin."],
+  ["Vérifier le produit", "Si un complément est envisagé, je vérifie sa composition, son origine et sa traçabilité."],
+  ["Rechercher une norme", "Je privilégie un produit répondant à une norme reconnue."],
+  ["Conserver les preuves", "Je conserve l’emballage, le numéro de lot, la facture et les informations concernant son utilisation."]
 ];
 
 const screens = [...document.querySelectorAll(".screen")];
@@ -147,6 +147,12 @@ let prospectusViewIndex = 0;
 let magnifierEnabled = false;
 let magnification = 2;
 let lensPosition = { x: 0.5, y: 0.5 };
+
+function updateOverallProgress(value) {
+  window.dispatchEvent(new CustomEvent("procyclean:activity-progress", {
+    detail: { value }
+  }));
+}
 
 function createInitialState() {
   return {
@@ -179,6 +185,17 @@ function showOnly(screenId, { scrollTop = true } = {}) {
   if (scrollTop) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+  const screenProgress = {
+    "mission-screen": 5,
+    "need-screen": 10,
+    "inspection-screen": 15,
+    "clue-screen": 15,
+    "ranking-screen": 58,
+    "investigation-correction-screen": 75,
+    "final-decision-screen": 85,
+    "final-guidance-screen": 100
+  };
+  updateOverallProgress(screenProgress[screenId] || 5);
 }
 
 function answerLabel(clue, answerId) {
@@ -216,6 +233,7 @@ function renderInspection({ focusZones = false } = {}) {
       ? "Les sept réponses sont enregistrées. Tu peux passer au classement."
       : `Réponses enregistrées : ${answeredCount} sur ${CLUES.length}.`;
   showOnly("inspection-screen", { scrollTop: !focusZones });
+  updateOverallProgress(15 + (answeredCount / CLUES.length) * 40);
   if (focusZones) focusActivityElement(inspectionZones);
   requestAnimationFrame(updateMagnifier);
 }
@@ -276,6 +294,7 @@ function renderRanking({ focusClueId = "" } = {}) {
   document.querySelector("#submit-investigation-button").disabled =
     rankedCount !== CLUES.length;
   showOnly("ranking-screen", { scrollTop: !focusClueId });
+  updateOverallProgress(58 + (rankedCount / CLUES.length) * 12);
   if (focusClueId) {
     const focusedCard = rankingList.querySelector(
       `.ranking-card[data-clue-id="${focusClueId}"]`
@@ -342,11 +361,11 @@ function renderGuidance() {
   const choiceIsExpected =
     selectedFinalDecisionId === "assess-need-and-guarantees";
   document.querySelector("#final-guidance-main").textContent =
-    `${choiceIsExpected ? "Ta décision correspond à la conduite attendue. " : "Ta décision mérite d’être reconsidérée. "}La meilleure conduite est de vérifier d’abord si ce complément est réellement nécessaire avec un professionnel compétent, puis de rechercher un produit offrant davantage d’informations et de garanties.`;
+    `${choiceIsExpected ? "Ta décision correspond à la conduite recommandée. " : "Ta décision mérite d’être reconsidérée. "}La bonne décision ne dépend pas uniquement de l’emballage. Elle commence par l’évaluation du besoin, puis par une discussion avec un professionnel. Si un complément est envisagé, il faut réduire les risques au maximum.`;
   document.querySelector("#final-guidance-responsibility").textContent =
     "Aucun complément alimentaire et aucune certification ne garantissent un risque zéro. Le sportif reste responsable des substances retrouvées dans son organisme.";
   document.querySelector("#final-take-home-message").textContent =
-    "Un complément alimentaire n’est jamais un produit anodin. Avant d’en consommer, je vérifie s’il est nécessaire, je demande conseil et je cherche à réduire les risques au maximum.";
+    "Avec les compléments alimentaires, le risque zéro n’existe pas. Le meilleur moyen de réduire ce risque est d’évaluer d’abord son besoin, de demander conseil et de vérifier précisément le produit.";
   document.querySelector("#final-highlight-message").textContent =
     "Naturel ne veut pas dire sans risque.";
   const grid = document.querySelector("#participant-reflexes-grid");
@@ -411,7 +430,29 @@ function moveLens(event) {
   updateMagnifier();
 }
 
-document.querySelector("#start-mission-button").addEventListener("click", renderInspection);
+document.querySelector("#start-mission-button").addEventListener("click", () => showOnly("need-screen"));
+document.querySelector("#need-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const answer = new FormData(event.currentTarget).get("need-answer");
+  if (!answer) {
+    document.querySelector("#need-message").textContent =
+      "Choisis une réponse avant de continuer.";
+    return;
+  }
+  document.querySelector("#need-message").textContent = "";
+  document.querySelector("#need-feedback-title").textContent = answer === "need"
+    ? "Bonne réponse : commencer par évaluer le besoin"
+    : "Le premier réflexe : commencer par évaluer le besoin";
+  document.querySelectorAll('[name="need-answer"]').forEach((input) => {
+    input.disabled = true;
+    input.closest("label").classList.toggle("is-correct", input.value === "need");
+    input.closest("label").classList.toggle("is-wrong", input.checked && input.value !== "need");
+  });
+  document.querySelector("#validate-need-button").hidden = true;
+  document.querySelector("#need-feedback").hidden = false;
+  updateOverallProgress(14);
+});
+document.querySelector("#continue-to-inspection").addEventListener("click", renderInspection);
 clueButtons.addEventListener("click", (event) => {
   const button = event.target.closest("[data-clue-id]");
   if (button) renderClue(button.dataset.clueId);
@@ -451,6 +492,13 @@ document.querySelector("#restart-activity").addEventListener("click", () => {
   selectedFinalDecisionId = "";
   setMagnifierEnabled(false);
   setProspectusView(0);
+  document.querySelector("#need-form").reset();
+  document.querySelectorAll('[name="need-answer"]').forEach((input) => {
+    input.disabled = false;
+    input.closest("label").classList.remove("is-correct", "is-wrong");
+  });
+  document.querySelector("#validate-need-button").hidden = false;
+  document.querySelector("#need-feedback").hidden = true;
   showOnly("mission-screen");
 });
 document.querySelector("#show-front-view").addEventListener("click", () => setProspectusView(0));

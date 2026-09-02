@@ -408,7 +408,7 @@ function renderProduct() {
 const renderers = {
   podium: renderPodium,
   "vrai-faux": () => renderQuiz({
-    title: "Vrai/Faux express",
+    title: "Les bases du sport propre – Vrai/Faux express",
     questions: TRUE_FALSE_QUESTIONS,
     finalMessage: "Tu as parcouru les huit affirmations essentielles du sport propre."
   }),

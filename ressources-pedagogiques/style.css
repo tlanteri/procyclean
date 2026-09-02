@@ -345,3 +345,144 @@
     height: 65vh;
   }
 }
+
+/* Harmonisation avec la charte générale PRO-CYCLEAN */
+body {
+  color: #19213d;
+  font-family: "Montserrat", Arial, sans-serif;
+  background: #24356e url("../assets/images/fond-ffc.jpg") center/cover fixed no-repeat;
+}
+
+.portal {
+  width: min(1040px, 100%);
+  padding: 58px clamp(28px, 6vw, 72px) 66px;
+  border-radius: 4px;
+  box-shadow: 0 22px 60px rgba(22, 35, 78, 0.14);
+}
+
+.portal::before { content: none; }
+
+.portal > .eyebrow {
+  margin-bottom: 13px;
+  color: #d83541;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.15em;
+}
+
+.portal > h1 {
+  margin-bottom: 16px;
+  color: #24356e;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-size: clamp(3.1rem, 8vw, 5.8rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.portal > h1::after {
+  width: 64px;
+  height: 7px;
+  margin-top: 22px;
+  display: block;
+  background: #d83541;
+  content: "";
+}
+
+.portal .intro {
+  color: #667087;
+  font-size: clamp(1rem, 2vw, 1.12rem);
+}
+
+.resource-audiences { gap: 18px; }
+
+.audience-card {
+  position: relative;
+  padding: 28px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dfe3ec;
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(22, 35, 78, 0.07);
+}
+
+.audience-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: #004d80;
+  content: "";
+}
+
+.educator-card::before { background: #78395d; }
+
+.audience-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  color: #004d80;
+  background: #edf3f7;
+  border-radius: 50%;
+  font-size: 1.85rem;
+}
+
+.educator-card .audience-icon {
+  color: #78395d;
+  background: #f5eef2;
+}
+
+.card-label {
+  color: #d83541 !important;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+.audience-card h2,
+.educator-panel h2,
+.resource-document h3 {
+  color: #24356e;
+  font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
+  font-weight: 800;
+}
+
+.audience-card p:not(.card-label),
+.educator-panel p { color: #667087; }
+
+.educator-panel {
+  background: #fff;
+  border: 1px solid #dfe3ec;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.resource-document {
+  background: #fff;
+  border-color: #dfe3ec;
+  border-radius: 3px;
+}
+
+.document-icon {
+  background: #d83541;
+  border-radius: 3px;
+}
+
+.educator-form input {
+  border-color: #dfe3ec;
+  border-radius: 2px;
+}
+
+.preview-container { border-radius: 3px; }
+
+.panel-close {
+  color: #24356e;
+  background: #fff;
+  border: 1px solid #dfe3ec;
+  border-radius: 2px;
+}
+
+@media (max-width: 720px) {
+  body { background-attachment: scroll; }
+  .portal { padding: 42px 20px 34px; border-radius: 4px; }
+  .portal > h1 { font-size: clamp(2.7rem, 14vw, 4rem); }
+}

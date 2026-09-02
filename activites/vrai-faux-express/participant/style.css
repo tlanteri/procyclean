@@ -423,6 +423,40 @@ h2 {
   outline: 3px solid rgba(0, 183, 195, 0.15);
 }
 
+.source-question {
+  display: grid;
+  gap: 9px;
+  margin: 14px 0;
+  padding: 18px;
+  border: 2px solid rgba(0, 102, 179, 0.16);
+  border-radius: 14px;
+}
+
+.source-question legend {
+  padding: 0 6px;
+  color: var(--ffc-blue-dark);
+  font-weight: 800;
+}
+
+.source-question label {
+  padding: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff;
+  border: 2px solid rgba(0, 102, 179, 0.14);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.source-question label:has(input:checked) {
+  background: #e5f8f8;
+  border-color: var(--pro-cyan);
+}
+
+.source-question input { margin-top: 4px; accent-color: var(--ffc-blue); }
+.form-message { min-height: 24px; color: #a43a26; font-weight: 800; }
+
 #definition-character-count {
   justify-self: end;
   color: var(--text-soft);

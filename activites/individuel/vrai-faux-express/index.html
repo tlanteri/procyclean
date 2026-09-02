@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vrai/Faux express — Mode individuel</title>
+  <title>Les bases du sport propre – Vrai/Faux express</title>
   <link rel="icon" type="image/png" href="../../../assets/images/logo-procyclean.png">
-  <link rel="stylesheet" href="../../vrai-faux-express/participant/style.css?v=20260724-5">
-  <link rel="stylesheet" href="../../../assets/navigation.css?v=8">
+  <link rel="stylesheet" href="../../vrai-faux-express/participant/style.css?v=20260902-1">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=11">
 </head>
 <body>
   <header class="institutional-header">
@@ -22,8 +22,8 @@
   <main class="app">
     <header class="activity-header">
       <p class="eyebrow">PRO-CYCLEAN · MODE INDIVIDUEL</p>
-      <h1>Vrai/Faux express</h1>
-      <p>Teste tes connaissances sur le sport propre et découvre immédiatement chaque correction.</p>
+      <h1>Les bases du sport propre – Vrai/Faux express</h1>
+      <p>Découvre ce qu’est le sport propre, qui le protège et où trouver une information fiable.</p>
     </header>
 
     <section id="question-screen" class="screen centered-screen">
@@ -53,14 +53,32 @@
       </button>
     </section>
 
+    <section id="round-summary-screen" class="screen centered-screen" hidden>
+      <p class="step-label">MANCHE 1 TERMINÉE · 4 / 8</p>
+      <div class="screen-icon" aria-hidden="true">🤝</div>
+      <h2>Qu’est-ce que le sport propre ?</h2>
+      <div class="explanation-card">
+        <p><strong>Le sport propre dépend des règles, mais aussi des décisions et des comportements de chacun.</strong></p>
+      </div>
+      <button id="start-round-two-button" class="primary-button" type="button">Commencer la manche 2</button>
+    </section>
+
     <section id="final-definition-screen" class="screen" hidden>
       <p class="step-label">Pour terminer</p>
       <h2>Avec tes propres mots, qu’est-ce que le sport propre ?</h2>
-      <form id="definition-form">
+      <form id="definition-form" class="definition-form">
         <label for="sport-definition">Ta définition</label>
         <textarea id="sport-definition" rows="6" required
           placeholder="Pour moi, le sport propre, c’est…"></textarea>
-        <button class="primary-button" type="submit">Valider ma définition</button>
+        <fieldset class="source-question">
+          <legend>Vers quelle source te tournerais-tu pour vérifier une information antidopage ?</legend>
+          <label><input type="radio" name="reliable-source" value="social"> Une publication anonyme sur les réseaux sociaux.</label>
+          <label><input type="radio" name="reliable-source" value="locker-room"> Un conseil entendu dans les vestiaires.</label>
+          <label><input type="radio" name="reliable-source" value="afld"> Le site ou un outil officiel de l’AFLD.</label>
+          <label><input type="radio" name="reliable-source" value="advertisement"> Une publicité pour un produit.</label>
+        </fieldset>
+        <p id="definition-message" class="form-message" role="alert"></p>
+        <button class="primary-button" type="submit">Valider mes réponses</button>
       </form>
     </section>
 
@@ -68,15 +86,17 @@
       <div class="screen-icon finish-icon" aria-hidden="true">🏁</div>
       <h2>Merci pour ta participation !</h2>
       <p id="score-message"></p>
+      <div id="source-feedback" class="explanation-card"></div>
       <div class="final-message">
         <strong>Le sport propre</strong>
-        <p>Respecter sa santé, les règles, les autres et les valeurs du sport, même lorsque personne ne regarde.</p>
+        <p>Le sport propre, c’est protéger sa santé, respecter les règles et les autres, agir selon ses valeurs et rechercher des informations fiables.</p>
+        <p>En France, l’AFLD protège le sport propre. Au niveau mondial, l’AMA établit un cadre commun pour l’antidopage. Le sportif est lui aussi acteur du sport propre par ses décisions et ses comportements.</p>
       </div>
       <a class="primary-button" href="../index.html">Choisir une autre activité</a>
     </section>
   </main>
-  <script src="../../../assets/navigation.js?v=8"
+  <script src="../../../assets/navigation.js?v=11"
     data-root="../../../" data-section="activities"></script>
-  <script src="script.js?v=1"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

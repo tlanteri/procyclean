@@ -7,8 +7,8 @@
   <link rel="icon" type="image/png"
     href="../../../assets/images/logo-procyclean.png">
   <link rel="stylesheet"
-    href="../../produit-mystere/participant/style.css?v=8">
-  <link rel="stylesheet" href="../../../assets/navigation.css?v=8">
+    href="../../produit-mystere/participant/style.css?v=9">
+  <link rel="stylesheet" href="../../../assets/navigation.css?v=11">
 </head>
 <body>
   <header class="institutional-header">
@@ -33,6 +33,10 @@
       </p>
     </header>
 
+    <aside class="risk-zero-reminder">
+      <strong>À garder en tête :</strong> un indice favorable peut réduire l’incertitude, mais il ne garantit jamais l’absence totale de risque.
+    </aside>
+
     <section id="mission-screen" class="screen centered-screen">
       <div class="investigation-icon" aria-hidden="true">🔍</div>
       <p class="step-label">Ta mission</p>
@@ -49,6 +53,33 @@
       </p>
       <button id="start-mission-button" class="primary-action-button"
         type="button">Commencer l’enquête</button>
+    </section>
+
+    <section id="need-screen" class="screen" hidden>
+      <p class="step-label">Avant d’inspecter le produit</p>
+      <h2>Commençons par le besoin de Sami</h2>
+      <div class="clue-information">
+        <p>Sami se sent fatigué après plusieurs entraînements. Un coéquipier lui recommande « POWER MAX RECOVERY ».</p>
+      </div>
+      <form id="need-form">
+        <fieldset>
+          <legend>Quelle est la première question que Sami devrait se poser ?</legend>
+          <div class="answer-list">
+            <label class="answer-option"><input type="radio" name="need-answer" value="buy"><span>Où puis-je acheter ce produit ?</span></label>
+            <label class="answer-option"><input type="radio" name="need-answer" value="taste"><span>Quel goût a-t-il ?</span></label>
+            <label class="answer-option"><input type="radio" name="need-answer" value="need"><span>Pourquoi voudrais-je prendre ce complément et en ai-je réellement besoin ?</span></label>
+            <label class="answer-option"><input type="radio" name="need-answer" value="team"><span>Combien de coéquipiers l’utilisent ?</span></label>
+          </div>
+        </fieldset>
+        <button id="validate-need-button" class="primary-action-button" type="submit">Valider ma réponse</button>
+      </form>
+      <div id="need-feedback" class="guidance-card" hidden>
+        <h3 id="need-feedback-title"></h3>
+        <p>Avant d’évaluer un produit, il faut d’abord évaluer le besoin. Une fatigue peut avoir différentes causes : entraînement, récupération, sommeil, alimentation ou problème de santé.</p>
+        <p>Sami ne réalise pas lui-même un diagnostic : un professionnel compétent peut l’aider à évaluer la situation.</p>
+        <button id="continue-to-inspection" class="primary-action-button" type="button">Inspecter le produit</button>
+      </div>
+      <p id="need-message" class="claim-device-message" role="alert"></p>
     </section>
 
     <section id="inspection-screen" class="screen" hidden>
@@ -139,8 +170,8 @@
         adaptée. Tu peux modifier tes choix avant la validation.
       </p>
       <div class="category-legend" aria-label="Catégories">
-        <span>✓ Plutôt rassurant</span>
-        <span>⚠ Vigilance</span>
+        <span>✓ Information utile pour évaluer le produit</span>
+        <span>⚠ Information à vérifier</span>
         <span>! Signal d’alerte</span>
       </div>
       <div id="ranking-list" class="ranking-list"></div>
@@ -169,7 +200,7 @@
 
     <section id="final-decision-screen" class="screen" hidden>
       <p class="step-label">Décision finale</p>
-      <h2>Après ton enquête, que fais-tu avec POWER MAX RECOVERY ?</h2>
+      <h2>Après son enquête, que devrait faire Sami ?</h2>
       <p>Choisis la conduite qui te paraît la plus adaptée.</p>
       <div id="final-decision-options"
         class="final-decision-options"></div>
@@ -204,8 +235,8 @@
     </section>
   </main>
 
-  <script src="../../../assets/navigation.js?v=8"
+  <script src="../../../assets/navigation.js?v=11"
     data-root="../../../" data-section="activities"></script>
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

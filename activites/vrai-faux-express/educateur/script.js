@@ -36,42 +36,42 @@ const QUESTIONS = [
   {
     text: "Le sport propre, c’est seulement ne pas se doper.",
     correctAnswer: false,
-    explanation: "Le sport propre ne consiste pas seulement à éviter le dopage. Il repose aussi sur le respect des règles, de sa santé, des autres et des valeurs du sport."
+    explanation: "Le sport propre repose aussi sur la santé, le respect des règles, l’équité, l’intégrité et les valeurs du sport."
   },
   {
-    text: "Un sportif peut être sanctionné même s’il n’avait pas l’intention de se doper.",
-    correctAnswer: true,
-    explanation: "Le sportif est responsable des substances retrouvées dans son organisme. Une violation peut donc être constatée même sans intention de tricher."
-  },
-  {
-    text: "Un complément alimentaire « naturel » est forcément sans danger au regard des règles antidopage.",
+    text: "Respecter les règles uniquement lorsqu’un arbitre ou un entraîneur regarde suffit pour pratiquer un sport propre.",
     correctAnswer: false,
-    explanation: "Un produit présenté comme naturel peut contenir une substance interdite ou être contaminé. Il faut toujours demander conseil avant d’en consommer."
+    explanation: "Un comportement fondé sur les valeurs doit être adopté même lorsque personne ne regarde."
   },
   {
-    text: "Avant de prendre un médicament, un sportif doit vérifier s’il est autorisé.",
+    text: "L’antidopage permet notamment de protéger la santé des sportifs et l’équité des compétitions.",
     correctAnswer: true,
-    explanation: "Certains médicaments peuvent contenir une substance interdite. Le sportif doit demander conseil et vérifier le médicament avant de le prendre."
+    explanation: "L’antidopage cherche à protéger les sportifs, les compétitions et les valeurs associées au sport propre."
   },
   {
-    text: "Toutes les substances interdites le sont tout le temps et dans tous les sports.",
+    text: "Les sportifs ont eux aussi un rôle à jouer dans la protection du sport propre.",
+    correctAnswer: true,
+    explanation: "Ils doivent notamment respecter les règles, vérifier ce qu’ils consomment, poser des questions et parler des situations préoccupantes."
+  },
+  {
+    text: "L’AFLD est l’organisation nationale chargée de l’antidopage en France.",
+    correctAnswer: true,
+    explanation: "L’Agence française de lutte contre le dopage agit notamment dans les domaines de l’éducation, de la prévention, des contrôles, des enquêtes et de l’application des règles antidopage."
+  },
+  {
+    text: "L’AFLD réalise uniquement des contrôles antidopage.",
     correctAnswer: false,
-    explanation: "Certaines substances sont interdites en permanence, d’autres uniquement en compétition ou dans certains sports."
+    explanation: "Les contrôles constituent une partie de son activité. L’AFLD informe, éduque, prévient, contrôle, recueille des signalements et participe à l’application des règles."
   },
   {
-    text: "Un sportif peut être contrôlé en compétition et hors compétition, sans être prévenu à l’avance.",
+    text: "L’AMA contribue à établir les règles antidopage communes au niveau mondial.",
     correctAnswer: true,
-    explanation: "Un contrôle antidopage peut être organisé en compétition ou hors compétition et peut avoir lieu sans avertissement préalable."
+    explanation: "L’Agence mondiale antidopage élabore notamment le Code mondial antidopage et la Liste des substances et méthodes interdites."
   },
   {
-    text: "Refuser un contrôle antidopage n’est pas une violation si on n’a rien pris.",
+    text: "Une information publiée sur les réseaux sociaux est aussi fiable qu’une information provenant d’une source officielle.",
     correctAnswer: false,
-    explanation: "Refuser un contrôle, ne pas s’y présenter ou tenter de l’éviter peut constituer une violation des règles antidopage."
-  },
-  {
-    text: "Pendant un contrôle, le sportif peut demander des renseignements sur la procédure et être accompagné.",
-    correctAnswer: true,
-    explanation: "Le sportif a des droits pendant le contrôle. Il peut notamment poser des questions sur la procédure et, selon les règles applicables, être accompagné."
+    explanation: "Pour connaître une règle ou vérifier un produit, il faut utiliser les outils officiels de l’AFLD, de l’AMA ou de l’organisation compétente."
   }
 ];
 
