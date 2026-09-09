@@ -648,14 +648,14 @@ body header:is(.institutional-header, .brand-logos) img[src$="logo-lamhess-blanc
 
 @media (max-width: 700px) {
   body header:is(.institutional-header, .brand-logos) {
-    width: calc(100vw - 84px);
-    min-height: 76px;
+    width: calc(100vw - 48px);
+    min-height: 84px;
     margin: 0 auto 12px;
     padding: 6px 0;
   }
 
   body header:is(.institutional-header, .brand-logos) img[src] {
-    height: 64px;
+    height: 72px;
   }
 }
 

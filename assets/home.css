@@ -107,7 +107,7 @@ h1, h2, h3 { line-height: 1.02; font-weight: 800; }
 
 .path-scroll-hint { display: none; }
 @media (max-width: 760px) {
-  .path-scroll-hint { display: block; margin: 0 0 12px; color: #586176; font-size: 11px; }
+  .path-scroll-hint { display: block; margin: 12px 0 0; color: #24356e; font-size: 12px; font-weight: 600; text-align: center; }
   .path-grid {
     grid-template-columns: none;
     grid-auto-flow: column;

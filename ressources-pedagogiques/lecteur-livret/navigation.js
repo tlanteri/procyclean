@@ -2,7 +2,7 @@
 if (window.self === window.top) {
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = "../../assets/navigation.css?v=26";
+  stylesheet.href = "../../assets/navigation.css?v=27";
   document.head.append(stylesheet);
 
   const navigation = document.createElement("script");
