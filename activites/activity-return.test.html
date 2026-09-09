@@ -47,7 +47,7 @@
           if (links.length !== 1) throw new Error("nombre de boutons : " + path);
           const link = links[0];
           if (main.firstElementChild !== link) throw new Error("position : " + path);
-          if (link.textContent !== "← Revenir aux activités") {
+          if (link.textContent !== "← Retour") {
             throw new Error("libellé : " + path);
           }
           const expected = path.startsWith("individuel/")

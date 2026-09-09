@@ -15,6 +15,8 @@
     brandLogos.innerHTML = `
       <img src="${root}assets/images/logo-ffc.png"
         alt="Fédération Française de Cyclisme">
+      <img src="${root}assets/images/Logo_UCA.png"
+        alt="Université Côte d’Azur">
       <img src="${root}assets/images/logo-procyclean.png"
         alt="PRO-CYCLEAN">
       <img src="${root}assets/images/logo-lamhess-blanc.png"
@@ -24,6 +26,7 @@
   }
 
   if (isActivityPage) {
+    document.body.classList.add("activity-page");
     const main = document.querySelector("main");
     if (main && !main.querySelector(":scope > .activity-return-link")) {
       const individualActivity =
@@ -33,7 +36,7 @@
       returnLink.href = individualActivity
         ? `${root}activites/individuel/index.html`
         : `${root}activites/index.html`;
-      returnLink.textContent = "← Revenir aux activités";
+      returnLink.textContent = "← Retour";
       main.prepend(returnLink);
 
       main.querySelectorAll("a").forEach((link) => {
@@ -148,60 +151,75 @@
     }
   }
 
-  const menuButton = document.createElement("button");
-  menuButton.className = "global-menu-button";
-  menuButton.type = "button";
-  menuButton.setAttribute("aria-label", "Ouvrir le menu principal");
-  menuButton.setAttribute("aria-expanded", "false");
-  menuButton.textContent = "☰";
-
-  const overlay = document.createElement("div");
-  overlay.className = "global-menu-overlay";
-
-  const drawer = document.createElement("aside");
-  drawer.className = "global-navigation";
-  drawer.setAttribute("aria-label", "Navigation principale");
-  drawer.setAttribute("aria-hidden", "true");
+  const passivePanelSelector = [
+    ".destination-card", ".audience-card", ".resource-document",
+    ".screen", ".panel", ".journey-panel", ".game-panel", ".quiz-shell",
+    ".scenario-card", ".case", ".notice", ".explanation-card",
+    ".guidance-card", ".take-home-card", ".reflex-card", ".criterion",
+    ".match-card", ".feedback", ".summary-list article", ".final-points p",
+    ".final-grid section", ".summary p", ".result-summary > div",
+    ".session-summary article", ".category-results article",
+    ".comparison article", ".lock-feedback article", ".source-feedback",
+    ".definition-result", ".nuance", ".warning", ".final-message",
+    ".take-home", ".discovery", ".resource-document"
+  ].join(",");
+  let decorationQueued = false;
+  function decoratePassivePanels() {
+    decorationQueued = false;
+    document.querySelectorAll(passivePanelSelector).forEach((panel, index) => {
+      const containsAction = Boolean(panel.querySelector(
+        "button, a, input, select, textarea, [role='button']"
+      ));
+      panel.classList.toggle("passive-color-shapes", !containsAction);
+      panel.dataset.shapeColor = String((index % 4) + 1);
+    });
+  }
+  function queuePanelDecoration() {
+    if (decorationQueued) return;
+    decorationQueued = true;
+    window.requestAnimationFrame(decoratePassivePanels);
+  }
+  new MutationObserver(queuePanelDecoration).observe(document.body, {
+    subtree: true,
+    childList: true
+  });
+  queuePanelDecoration();
 
   const links = [
-    ["home", "🏠", "Accueil", `${root}index.html`],
-    ["activities", "⚡", "Activités", `${root}activites/index.html`],
-    [
-      "resources",
-      "📖",
-      "Ressources pédagogiques",
-      `${root}ressources-pedagogiques/index.html`
-    ],
-    [
-      "share",
-      "📤",
-      "Partager l’application",
-      `${root}partager/index.html`
-    ]
+    ["home", "Accueil", `${root}index.html`],
+    ["activities", "Activités", `${root}activites/index.html`],
+    ["resources", "Ressources pédagogiques", `${root}ressources-pedagogiques/index.html`],
+    ["share", "Partager l’application", `${root}partager/index.html`]
   ];
-
-  drawer.innerHTML = `
-    <div class="global-menu-header">
-      <span class="global-menu-brand">
-        <img src="${root}assets/images/logo-procyclean.png" alt="">
-        <span>PRO-CYCLEAN</span>
-      </span>
-      <button class="global-menu-close" type="button"
-        aria-label="Fermer le menu">×</button>
-    </div>
-    <nav>
-      ${links.map(([id, icon, label, href]) => `
-        <a href="${href}" ${currentSection === id ? 'aria-current="page"' : ""}>
-          <span class="menu-icon" aria-hidden="true">${icon}</span>
-          <span>${label}</span>
-        </a>
-      `).join("")}
-    </nav>
-  `;
-
-  document.body.prepend(overlay, drawer, menuButton);
-  const closeButton = drawer.querySelector(".global-menu-close");
-
+  const linkMarkup = links.map(([id, label, href]) =>
+    `<a href="${href}" ${currentSection === id ? 'aria-current="page"' : ""}>${label}</a>`
+  ).join("");
+  const topbar = document.createElement("div");
+  topbar.className = "topbar global-topbar";
+  topbar.innerHTML = `
+    <a class="wordmark" href="${root}index.html" aria-label="PRO-CYCLEAN, accueil">
+      <img src="${root}assets/images/logo-procyclean.png" alt="">
+      <span class="wordmark-copy">PRO-CYCLEAN<span>Le cyclisme, avec les bons réflexes.</span></span>
+    </a>
+    <nav class="desktop-nav" aria-label="Navigation principale">${linkMarkup}</nav>
+    <details class="mobile-menu"><summary>Menu <span aria-hidden="true">☰</span></summary>
+      <nav aria-label="Navigation mobile">${linkMarkup}</nav>
+    </details>`;
+  document.body.prepend(topbar);
+  document.body.classList.add("has-topbar");
+  const menu = topbar.querySelector(".mobile-menu");
+  menu.addEventListener("click", (event) => {
+    if (event.target.closest("a")) menu.open = false;
+  });
+  document.addEventListener("click", (event) => {
+    if (!menu.contains(event.target)) menu.open = false;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menu.open) {
+      menu.open = false;
+      menu.querySelector("summary").focus();
+    }
+  });
   if (!document.querySelector("footer")) {
     const siteFooter = document.createElement("footer");
     siteFooter.className = "global-site-footer";
@@ -214,31 +232,4 @@
     document.body.append(siteFooter);
   }
 
-  function openMenu() {
-    drawer.classList.add("open");
-    overlay.classList.add("open");
-    drawer.setAttribute("aria-hidden", "false");
-    menuButton.setAttribute("aria-expanded", "true");
-    document.body.classList.add("global-menu-open");
-    closeButton.focus();
-  }
-
-  function closeMenu() {
-    drawer.classList.remove("open");
-    overlay.classList.remove("open");
-    drawer.setAttribute("aria-hidden", "true");
-    menuButton.setAttribute("aria-expanded", "false");
-    document.body.classList.remove("global-menu-open");
-    menuButton.focus();
-  }
-
-  menuButton.addEventListener("click", openMenu);
-  closeButton.addEventListener("click", closeMenu);
-  overlay.addEventListener("click", closeMenu);
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && drawer.classList.contains("open")) {
-      closeMenu();
-    }
-  });
 })();

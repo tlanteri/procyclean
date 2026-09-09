@@ -30,3 +30,91 @@ button,input{font:inherit}button{-webkit-tap-highlight-color:transparent}.mode-b
 @media(prefers-reduced-motion:reduce){.mode-card,.activity-card,.activity-card::after,.primary-button,.back-button,.code-input{transition:none}}
 .brand-logos img:nth-child(2){width:150px;max-width:35%;max-height:none}
 @media(max-width:700px){.brand-logos img:nth-child(2){width:96px;max-width:35%;max-height:none}}
+
+/* Formes colorées visibles sur les cartes du menu des activités */
+.mode-card::after,
+.activity-card::after {
+  position: absolute;
+  right: -28px;
+  bottom: -42px;
+  z-index: 0;
+  width: 92px;
+  height: 132px;
+  background: var(--ffc-red);
+  opacity: 0;
+  transform: rotate(28deg);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;
+  content: "";
+}
+
+.mode-card:nth-child(2)::after { background: var(--ffc-violet); }
+.activity-card:nth-child(4n + 2)::after { background: var(--ffc-blue); }
+.activity-card:nth-child(4n + 3)::after { background: var(--ffc-violet); }
+.activity-card:nth-child(4n + 4)::after { background: var(--ffc-navy); }
+
+.mode-card > *,
+.activity-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.mode-card:hover::after,
+.activity-card:hover::after,
+.mode-card:focus-visible::after,
+.activity-card:focus-visible::after {
+  opacity: 1;
+  transform: rotate(28deg) translate(-4px, -4px);
+}
+
+/* Position commune du bouton retour dans les parcours des menus */
+.session-panel:has(> .back-button) {
+  position: static;
+  padding-top: clamp(24px, 5vw, 42px);
+}
+
+.app:has(.session-panel:not([hidden]) > .back-button) {
+  padding-top: 106px;
+}
+
+.session-panel > .back-button {
+  position: absolute;
+  top: 28px;
+  left: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  margin: 0;
+}
+
+.session-panel > .back-button + h2 {
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .session-panel:has(> .back-button) {
+    padding-top: 22px;
+  }
+
+  .app:has(.session-panel:not([hidden]) > .back-button) {
+    padding-top: 82px;
+  }
+
+  .session-panel > .back-button {
+    top: 20px;
+    left: 18px;
+  }
+}
+
+/* Sous-menus intégrés directement au grand panneau blanc */
+.session-panel,
+.session-panel:has(> .back-button) {
+  max-width: none;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.session-panel > h2 {
+  margin-top: 0;
+}
