@@ -650,7 +650,7 @@ body header:is(.institutional-header, .brand-logos) img[src$="logo-lamhess-blanc
   body header:is(.institutional-header, .brand-logos) {
     width: calc(100vw - 84px);
     min-height: 76px;
-    margin: 0 0 12px auto;
+    margin: 0 auto 12px;
     padding: 6px 0;
   }
 
@@ -660,7 +660,7 @@ body header:is(.institutional-header, .brand-logos) img[src$="logo-lamhess-blanc
 }
 
 /* Navigation fixe commune à toute la plateforme. */
-html { scroll-padding-top: 110px; }
+html { scroll-padding-top: 110px; scrollbar-gutter: stable; }
 body.has-topbar { padding-top: 108px; }
 body .global-topbar {
   box-sizing: border-box; position: fixed; inset: 0 0 auto; z-index: 1100;
