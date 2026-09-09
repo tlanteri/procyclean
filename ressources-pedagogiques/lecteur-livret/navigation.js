@@ -2,11 +2,11 @@
 if (window.self === window.top) {
   const stylesheet = document.createElement("link");
   stylesheet.rel = "stylesheet";
-  stylesheet.href = "../../assets/navigation.css?v=25";
+  stylesheet.href = "../../assets/navigation.css?v=26";
   document.head.append(stylesheet);
 
   const navigation = document.createElement("script");
-  navigation.src = "../../assets/navigation.js?v=24";
+  navigation.src = "../../assets/navigation.js?v=26";
   navigation.dataset.root = "../../";
   navigation.dataset.section = "resources";
   document.body.append(navigation);

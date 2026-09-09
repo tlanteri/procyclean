@@ -2,6 +2,10 @@
   const script = document.currentScript;
   const root = script?.dataset.root || "./";
   const currentSection = script?.dataset.section || "";
+  const mobileBackground = document.createElement("div");
+  mobileBackground.className = "site-mobile-background";
+  mobileBackground.setAttribute("aria-hidden", "true");
+  document.body.prepend(mobileBackground);
   const currentPath = window.location.pathname.replace(/\/+/g, "/");
   const isActivitiesCatalog =
     /\/activites\/(?:individuel\/)?(?:index\.html)?$/.test(currentPath);

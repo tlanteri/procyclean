@@ -1,4 +1,4 @@
-@import url("./fonts/fonts.css");
+@import url("../../assets/fonts/fonts.css");
 
 .global-menu-button {
   position: fixed;
@@ -249,7 +249,7 @@ body {
   background-color: var(--ffc-navy);
   background-image:
     linear-gradient(180deg, rgba(16, 31, 77, 0.05), rgba(16, 31, 77, 0.18)),
-    url("images/fond-ffc.jpg");
+    url("../../assets/images/fond-ffc.jpg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
@@ -656,19 +656,6 @@ body header:is(.institutional-header, .brand-logos) img[src$="logo-lamhess-blanc
 
   body header:is(.institutional-header, .brand-logos) img[src] {
     height: 64px;
-  }
-}
-
-.site-mobile-background { display: none; }
-@media (max-width: 760px) {
-  body.has-topbar { isolation: isolate; background-image: none; }
-  .site-mobile-background {
-    display: block;
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: #24356e url("images/fond-ffc.jpg") center / 100% 100% no-repeat;
   }
 }
 
