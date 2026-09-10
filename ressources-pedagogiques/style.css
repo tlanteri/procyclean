@@ -374,9 +374,9 @@ body {
   margin-bottom: 16px;
   color: #24356e;
   font-family: "Bison", "Barlow", "Arial Narrow", Arial, sans-serif;
-  font-size: clamp(3.1rem, 8vw, 5.8rem);
+  font-size: clamp(2.6rem, 5vw, 4rem);
   font-weight: 800;
-  line-height: 0.9;
+  line-height: 0.96;
   letter-spacing: -0.045em;
   text-transform: uppercase;
 }

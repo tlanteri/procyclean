@@ -101,10 +101,10 @@ button { font: inherit; }
 }
 
 h1, h2, h3 { color: var(--navy); }
-h1 { margin: 0 0 16px; font-size: clamp(2.2rem, 5vw, 3.8rem); }
-h2 { margin: 0 0 14px; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+h1 { margin: 0 0 16px; font-size: clamp(2.4rem, 4vw, 3.5rem); }
+h2 { margin: 0 0 14px; font-size: clamp(1.75rem, 2.8vw, 2.2rem); }
 h3 { margin: 0; }
-.intro { max-width: 780px; margin: 0 0 34px; color: var(--muted); line-height: 1.65; }
+.intro { max-width: 780px; margin: 0 0 34px; color: var(--muted); font-size: 1rem; line-height: 1.65; }
 
 .activity-grid {
   min-width: 0;
@@ -133,8 +133,8 @@ h3 { margin: 0; }
 }
 .activity-card:hover { transform: translateY(-4px); border-color: var(--cyan); box-shadow: 0 14px 28px rgba(0,31,91,.13); }
 .activity-card:focus-visible, button:focus-visible { outline: 4px solid rgba(0,183,195,.3); outline-offset: 3px; }
-.activity-card strong { color: var(--blue); font-size: 1.15rem; }
-.activity-card > span:last-child { color: var(--muted); line-height: 1.5; }
+.activity-card strong { color: var(--blue); font-size: 1.2rem; }
+.activity-card > span:last-child { color: var(--muted); font-size: 0.94rem; line-height: 1.5; }
 .activity-icon { font-size: 2.5rem; }
 
 .runner-toolbar {
