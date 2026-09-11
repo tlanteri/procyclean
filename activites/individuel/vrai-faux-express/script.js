@@ -41,6 +41,7 @@ function answer(value) {
   const correct = value === expected;
   updateOverallProgress((index + 1) * 10);
   if (correct) score += 1;
+  window.ProcycleanGroup?.record("quiz-" + index, QUESTIONS[index][0], value ? "Vrai" : "Faux", expected ? "Vrai" : "Faux", explanation, correct);
   document.querySelector("#correction-progress").textContent =
     `Manche ${index < 4 ? 1 : 2} · Correction ${(index % 4) + 1} sur 4`;
   document.querySelector("#correct-answer-badge").textContent =
@@ -79,14 +80,29 @@ document.querySelector("#definition-form").addEventListener("submit", (event) =>
     return;
   }
   message.textContent = "";
-  localStorage.setItem("procyclean-solo-sport-definition", definition);
+  (window.procycleanActivityStorage || localStorage).setItem("procyclean-solo-sport-definition", definition);
   document.querySelector("#score-message").textContent =
     `Tu as obtenu ${score} bonne${score > 1 ? "s" : ""} réponse${score > 1 ? "s" : ""} sur ${QUESTIONS.length}.`;
   document.querySelector("#source-feedback").innerHTML = source.value === "afld"
     ? "<strong>Bonne source !</strong><p>Le site et les outils officiels de l’AFLD permettent de vérifier une information antidopage fiable en France.</p>"
     : "<strong>La source fiable à privilégier</strong><p>Pour vérifier une information antidopage en France, consulte le site ou un outil officiel de l’AFLD. Une rumeur, une publicité ou un conseil informel doit toujours être vérifié.</p>";
+  window.ProcycleanGroup?.record("synthese", "Votre définition du sport propre et votre source fiable", definition + " · Source : " + source.closest("label").textContent.trim(), "Privilégier les sources officielles de l’AFLD.", "Le sport propre repose sur la santé, l’équité et le respect des règles.");
   updateOverallProgress(100);
   showOnly(closedScreen);
 });
 renderQuestion();
 document.documentElement.dataset.individualTrueFalseReady = "true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot: () => ({state:{index,score,selectedAnswer,definition:document.querySelector("#sport-definition").value,source:document.querySelector('[name="reliable-source"]:checked')?.value||"",screen:[questionScreen,correctionScreen,roundSummaryScreen,definitionScreen,closedScreen].find(x=>!x.hidden)?.id},progress:closedScreen.hidden?Math.min(90,index*10+(correctionScreen.hidden?0:10)):100,complete:!closedScreen.hidden}),
+ restore: saved => {index=saved.index;score=saved.score;selectedAnswer=saved.selectedAnswer;
+   if(saved.screen==="correction-screen"){if(selectedAnswer===QUESTIONS[index][1])score--;answer(selectedAnswer);}
+   else if(index<QUESTIONS.length){renderQuestion();if(saved.screen==="round-summary-screen")showOnly(roundSummaryScreen);}
+   else showOnly(definitionScreen);
+   document.querySelector("#sport-definition").value=saved.definition||"";
+   document.querySelectorAll('[name="reliable-source"]').forEach(input=>input.checked=input.value===saved.source);
+   if(saved.screen==="closed-screen")document.querySelector("#definition-form").requestSubmit();
+ }
+});

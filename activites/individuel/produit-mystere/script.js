@@ -315,6 +315,7 @@ function appendCorrectionLine(card, label, value, coherent) {
 }
 
 function renderCorrection() {
+  CLUES.forEach((clue,i)=>window.ProcycleanGroup?.record("3-classement-"+i, clue.shortLabel+" : comment classer cet indice ?", categoryLabel(state.clueClassifications[clue.id]), categoryLabel(clue.expectedCategoryId), clue.explanation, state.clueClassifications[clue.id]===clue.expectedCategoryId));
   const list = document.querySelector("#investigation-correction-list");
   list.replaceChildren();
   CLUES.forEach((clue) => {
@@ -358,6 +359,7 @@ function renderFinalDecision() {
 }
 
 function renderGuidance() {
+  if(selectedFinalDecisionId)window.ProcycleanGroup?.record("4-decision", "Quelle décision prenez-vous pour ce produit ?", FINAL_DECISIONS.find(x=>x[0]===selectedFinalDecisionId)?.[1], FINAL_DECISIONS.find(x=>x[0]==="assess-need-and-guarantees")?.[1], "Demandez conseil et vérifiez le besoin avant toute consommation.", selectedFinalDecisionId==="assess-need-and-guarantees");
   const choiceIsExpected =
     selectedFinalDecisionId === "assess-need-and-guarantees";
   document.querySelector("#final-guidance-main").textContent =
@@ -440,6 +442,7 @@ document.querySelector("#need-form").addEventListener("submit", (event) => {
     return;
   }
   document.querySelector("#need-message").textContent = "";
+  window.ProcycleanGroup?.record("1-besoin", "Quel est le premier réflexe avant d’utiliser un complément ?", window.ProcycleanGroup.formAnswers(event.currentTarget), "Commencer par évaluer le besoin avec un professionnel de santé.", "", answer==="need");
   document.querySelector("#need-feedback-title").textContent = answer === "need"
     ? "Bonne réponse : commencer par évaluer le besoin"
     : "Le premier réflexe : commencer par évaluer le besoin";
@@ -467,6 +470,8 @@ document.querySelector("#clue-form").addEventListener("submit", (event) => {
     return;
   }
   state.inspectedClues[activeClueId] = { answerId: String(answer) };
+  const clue = CLUES.find(x=>x.id===activeClueId);
+  window.ProcycleanGroup?.record("2-indice-"+CLUES.indexOf(clue), clue.question, answerLabel(clue,answer), answerLabel(clue,clue.expectedAnswerId), clue.explanation, answer===clue.expectedAnswerId);
   renderInspection({ focusZones: true });
 });
 document.querySelector("#open-ranking-button").addEventListener("click", renderRanking);
@@ -518,3 +523,12 @@ prospectusViewer.addEventListener("pointermove", moveLens);
 prospectusImage.addEventListener("load", updateMagnifier);
 window.addEventListener("resize", updateMagnifier);
 document.documentElement.dataset.individualProductReady = "true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot:()=>({state:{data:state,activeClueId,selectedFinalDecisionId,screen:screens.find(x=>!x.hidden)?.id},progress:!document.querySelector("#final-guidance-screen").hidden?100:Object.keys(state.inspectedClues).length/CLUES.length*50+Object.keys(state.clueClassifications).length/CLUES.length*35,complete:!document.querySelector("#final-guidance-screen").hidden}),
+ restore:s=>{state=s.data;activeClueId=s.activeClueId;selectedFinalDecisionId=s.selectedFinalDecisionId;
+ const renderers={"inspection-screen":renderInspection,"clue-screen":()=>renderClue(activeClueId),"ranking-screen":renderRanking,"investigation-correction-screen":renderCorrection,"final-decision-screen":renderFinalDecision,"final-guidance-screen":renderGuidance};
+ if(renderers[s.screen])renderers[s.screen]();else showOnly(s.screen||"mission-screen");}
+});

@@ -10,7 +10,7 @@ function focusActivityScreen(screen){const focus=()=>{const bounds=screen.getBou
 function showOnly(screen){const screenChanged=visibleScreen!==screen;if(screenChanged)activityFocusSpacer.style.height=`${window.innerHeight}px`;screens.forEach(item=>item.hidden=item!==screen);visibleScreen=screen;if(screenChanged)focusActivityScreen(screen)}
 function options(container,name,values){container.replaceChildren();Object.entries(values).forEach(([value,text])=>{const label=document.createElement("label"),input=document.createElement("input");input.type="radio";input.name=name;input.value=value;label.append(input,document.createTextNode(text));container.append(label)})}
 function renderSituation(){const item=SITUATIONS[index];$("#progress-label").textContent=`Situation ${index+1} sur ${SITUATIONS.length}`;$("#progress-bar").style.width=`${(index+1)/SITUATIONS.length*100}%`;$("#icon").textContent=item.icon;$("#title").textContent=item.title;$("#text").textContent=item.text;$("#follow-up-question").textContent=item.followUp;options($("#vigilance-options"),"vigilance",VIGILANCE_CHOICES);options($("#follow-up-options"),"followUp",Object.fromEntries(item.followUpChoices.map((text,i)=>[i,text])));$("#message").textContent="";$("#submit-button").disabled=false;showOnly($("#situation"))}
-$("#form").addEventListener("submit",event=>{event.preventDefault();const data=new FormData(event.currentTarget),vigilance=data.get("vigilance"),followUp=data.get("followUp");if(!vigilance||followUp===null){$("#message").textContent="Réponds aux deux questions.";return}$("#submit-button").disabled=true;const item=SITUATIONS[index];if(answers[item.id])return;answers[item.id]={vigilance,followUp:Number(followUp)};showOnly($("#transition"));setTimeout(()=>{index+=1;index===SITUATIONS.length?showOnly($("#completed")):renderSituation()},600)});
+$("#form").addEventListener("submit",event=>{event.preventDefault();const data=new FormData(event.currentTarget),vigilance=data.get("vigilance"),followUp=data.get("followUp");if(!vigilance||followUp===null){$("#message").textContent="Réponds aux deux questions.";return}$("#submit-button").disabled=true;const item=SITUATIONS[index];if(answers[item.id])return;answers[item.id]={vigilance,followUp:Number(followUp)};window.ProcycleanGroup?.record("situation-"+index,item.title,VIGILANCE_CHOICES[vigilance]+" · "+item.followUpChoices[Number(followUp)],VIGILANCE_CHOICES[item.recommended]+(Number.isInteger(item.correctFollowUp)?" · "+item.followUpChoices[item.correctFollowUp]:""),item.explanation+" "+item.objectiveLink);showOnly($("#transition"));setTimeout(()=>{index+=1;index===SITUATIONS.length?showOnly($("#completed")):renderSituation()},600)});
 function vigilanceFeedback(choice,recommended){
   if(choice===recommended){
     return {className:"recommended",text:"Bon réflexe : ta décision correspond au niveau de prudence attendu dans cette situation."};
@@ -27,3 +27,10 @@ function renderResults(){const list=$("#result-list");list.replaceChildren();SIT
 function restart(){index=0;answers={};showOnly($("#intro"))}
 $("#start-button").onclick=renderSituation;$("#results-button").onclick=renderResults;$("#conclusion-button").onclick=()=>showOnly($("#conclusion"));$("#restart-button").onclick=restart;
 document.documentElement.dataset.individualResponsibilityReady="true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot:()=>({state:{answers,index},progress:Object.keys(answers).length/SITUATIONS.length*100,complete:Object.keys(answers).length===SITUATIONS.length}),
+ restore:s=>{answers=s.answers||{};index=Object.keys(answers).length;if(index===SITUATIONS.length)renderResults();else if(index)renderSituation();}
+});

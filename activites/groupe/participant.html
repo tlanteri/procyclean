@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Séance en groupe — PRO-CYCLEAN</title>
+  <link rel="icon" href="../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-role="participant">
+  <header class="session-header"><a href="../index.html"><img src="../../assets/images/logo-procyclean.png" alt="PRO-CYCLEAN"></a><div><p>ACTIVITÉ EN GROUPE · PARTICIPANT</p><h1 id="title">Votre séance</h1></div><a href="../index.html">Quitter la séance</a></header>
+  <main>
+    <p id="connection" role="status">Connexion à la séance…</p>
+    <p id="error" role="alert" hidden></p>
+    <section id="login" class="panel" hidden><h2>Accès éducateur</h2><form id="login-form"><label>Code confidentiel <input id="secret" type="password" autocomplete="current-password" required></label><button>Se connecter</button></form></section>
+    <section id="session" hidden>
+      <div class="session-meta"><span>Code de séance <strong id="code"></strong></span><span id="status"></span></div>
+      <section id="identity" class="panel" hidden><h2>Qui répond sur cet appareil ?</h2><p>Votre appareil est connecté. Vous pouvez répondre seul ou en petite équipe. Ajouter un nom est facultatif et ne bloque pas le lancement.</p><form id="identity-form"><label>Nom de l’équipe ou pseudonyme (facultatif) <input id="label" maxlength="40" autocomplete="off"></label><button>Enregistrer le nom</button></form></section>
+      <section id="coach" hidden>
+        <div class="panel"><h2>Animation de la séance</h2><p>Un appareil par personne ou petite équipe. Lancez les parcours, suivez les réponses, puis animez la mise en commun.</p><div class="actions"><button id="start">Lancer les parcours</button><button id="pause" hidden>Mettre en pause</button><button id="resume" hidden>Reprendre les parcours</button><button id="review" hidden>Passer à la mise en commun</button><button id="finish" hidden>Afficher le bilan</button><button id="close" class="secondary" hidden>Terminer la séance</button></div><p id="action-message" role="status"></p></div>
+        <section class="panel"><h2 id="counts">Participants</h2><p id="empty">Partagez le code pour accueillir les participants.</p><div id="participants" class="participants"></div></section>
+      </section>
+      <section id="waiting" class="panel" hidden><h2 id="waiting-title">La séance va commencer</h2><p id="waiting-message">L’éducateur lancera l’activité lorsque tout le monde sera prêt.</p></section>
+      <section id="exercise" hidden><p id="save-status" role="status"></p><iframe id="activity-frame" title="Parcours de l’activité" allow="clipboard-write" hidden></iframe></section>
+      <section id="discussion" class="panel" hidden><p id="review-count" class="eyebrow"></p><h2 id="review-prompt"></h2><div id="distribution"></div><div id="correction" class="correction" hidden><h3>À retenir</h3><p id="expected"></p><p id="explanation"></p></div><div id="review-controls" class="actions" hidden><button id="previous" class="secondary">Précédent</button><button id="reveal">Afficher la correction</button><button id="next">Suivant</button></div><p id="discussion-hint">Échangez sur vos choix : qu’est-ce qui vous a fait choisir cette réponse ?</p></section>
+      <section id="final" class="panel" hidden><h2 id="final-title">Le bilan de la séance</h2><p id="final-summary"></p><p>Chacun partage un réflexe qu’il souhaite retenir et appliquer dans sa pratique.</p><a href="../index.html">Retour aux activités</a></section>
+    </section>
+  </main>
+  <script type="module" src="session.js?v=2"></script>
+</body>
+</html>

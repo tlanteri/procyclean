@@ -185,6 +185,7 @@ undoRankingButton.addEventListener("click", () => {
 validateRankingButton.addEventListener("click", () => {
   if (rankingPositions.some((value) => !value)) return;
   selectedTop = rankingPositions.slice(0, 3);
+  window.ProcycleanGroup?.record("1-podium", "Quelles valeurs placez-vous en tête ?", selectedTop.join(" → "), "", "Il n’y a pas de podium unique. Discutez des raisons de vos priorités.");
   const options = document.querySelector("#collective-values");
   const podium = document.querySelector("#collective-top3");
   options.replaceChildren();
@@ -197,7 +198,7 @@ validateRankingButton.addEventListener("click", () => {
     item.textContent = value;
     podium.append(item);
   });
-  localStorage.setItem("procyclean-solo-values-ranking",
+  (window.procycleanActivityStorage || localStorage).setItem("procyclean-solo-values-ranking",
     JSON.stringify(rankingPositions));
   showOnly(podiumScreen);
 });
@@ -208,7 +209,8 @@ document.querySelector("#submit-collective-button").addEventListener("click", ()
       "Écris une règle concrète avant de valider.";
     return;
   }
-  localStorage.setItem("procyclean-solo-values-rule", rule);
+  (window.procycleanActivityStorage || localStorage).setItem("procyclean-solo-values-rule", rule);
+  window.ProcycleanGroup?.record("2-regle", "Quelle règle concrète proposez-vous ?", rule, "", "Choisissez ensemble une règle observable qui traduit vos valeurs dans la pratique.");
   const finalPodium = document.querySelector("#final-podium");
   finalPodium.replaceChildren();
   [1, 0, 2].forEach((valueIndex) => {
@@ -226,3 +228,10 @@ document.querySelector("#submit-collective-button").addEventListener("click", ()
 });
 renderRanking(shuffled(VALUES));
 document.documentElement.dataset.individualPodiumReady = "true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot:()=>({state:{rankingPositions,rule:document.querySelector("#collective-rule").value,screen:[rankingScreen,podiumScreen,endScreen].find(x=>!x.hidden)?.id},progress:!endScreen.hidden?100:!podiumScreen.hidden?80:rankingPositions.filter(Boolean).length*7,complete:!endScreen.hidden}),
+ restore:s=>{rankingPositions=s.rankingPositions;renderRanking();if(s.screen!=="ranking-screen"){validateRankingButton.click();document.querySelector("#collective-rule").value=s.rule||"";if(s.screen==="end-screen")document.querySelector("#submit-collective-button").click();}}
+});

@@ -1,0 +1,12 @@
+.group-exercise .institutional-header,
+.group-exercise .brand-logos,
+.group-exercise .global-site-footer,
+.group-exercise .global-navigation,
+.group-exercise .global-topbar,
+.group-exercise .activity-return-link,
+.group-exercise .activity-header .eyebrow,
+.group-exercise [id*="restart"],
+.group-exercise [data-action="change-story"],
+.group-exercise a[href="../index.html"] { display: none !important; }
+.group-exercise body { min-height: 0; }
+.group-exercise body.activity-page main { padding-top: 24px !important; }

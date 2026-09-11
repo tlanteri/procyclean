@@ -133,6 +133,8 @@ function submitAnswer(event) {
   const currentStep = scenario.steps[stepIndex];
   if (answers[currentStep.id]) return;
   answers[currentStep.id] = selected;
+  const [expected, explanation] = FACILITATOR_CONTENT[scenario.id][stepIndex];
+  window.ProcycleanGroup?.record(scenario.id+"-"+stepIndex, scenario.character+" — "+currentStep.title, currentStep.choices[selected], currentStep.choices[expected], explanation, selected===expected);
   $("#transition-message").textContent =
     `Ton choix est enregistré. ${scenario.character} poursuit son histoire…`;
   showOnly($("#transition-screen"));
@@ -177,3 +179,10 @@ document.querySelectorAll('[data-action="change-story"]').forEach((button) => {
 
 renderStorySelection();
 document.documentElement.dataset.individualTreatmentReady = "true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot:()=>({state:{scenarioId:scenario?.id,answers},progress:scenario?Object.keys(answers).length/scenario.steps.length*100:0,complete:!!scenario&&Object.keys(answers).length===scenario.steps.length}),
+ restore:s=>{const story=SCENARIOS.find(x=>x.id===s.scenarioId);if(!story)return;selectStory(story);answers=s.answers||{};stepIndex=Object.keys(answers).length;if(stepIndex>=story.steps.length)renderResults();else renderStep();}
+});

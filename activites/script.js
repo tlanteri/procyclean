@@ -1,3 +1,5 @@
+import { GROUP_VERSION, groupRoute, canJoin } from "./groupe/catalogue.js";
+
 import { initializeApp } from
   "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
@@ -614,6 +616,7 @@ async function createSession() {
 
     await set(sessionReference, {
       activity: selectedActivityId,
+      groupVersion: GROUP_VERSION,
       activityName: selectedActivityName,
       facilitatorId: currentUser.uid,
       status: "waiting",
@@ -694,6 +697,17 @@ async function joinSession(event) {
     }
 
     const session = sessionSnapshot.val();
+
+    if (session.groupVersion === GROUP_VERSION) {
+      if (!canJoin(session, auth.currentUser.uid)) {
+        showParticipantError("Cette séance est terminée, complète ou n’accepte plus de nouveaux participants.");
+        return;
+      }
+      const destination = new URL(groupRoute("participant", session.activity), window.location.href);
+      destination.searchParams.set("session", code);
+      window.location.href = destination.href;
+      return;
+    }
 
     const participantCount = Object.keys(
       session.participants || {}
@@ -993,7 +1007,7 @@ createSessionButton.addEventListener(
 
 openFacilitatorDashboardButton.addEventListener("click", () => {
   const code = sessionCode.textContent.trim();
-  const route = activityRoutes[selectedActivityId];
+  const route = { facilitator: groupRoute("educateur", selectedActivityId) };
 
   if (!code || !route?.facilitator) {
     showStatus("Le tableau de bord n’est pas disponible.");

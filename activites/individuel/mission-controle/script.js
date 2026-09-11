@@ -154,6 +154,7 @@ undoButton.addEventListener("click", () => {
 
 function renderCorrection() {
   const analysis = analyzeRanking(positions);
+  window.ProcycleanGroup?.record("procedure", "Dans quel ordre se déroule le contrôle ?", positions.map(id=>CONTROL_STEPS.find(x=>x.id===id)?.label||"").join(" → "), CONTROL_STEPS.map(x=>x.label).join(" → "), CONTROL_STEPS.map(x=>x.reflex).join(" "), analysis.errorCount===0);
   document.querySelector("#personal-result-summary").textContent = analysis.errorCount
     ? `${analysis.score} étapes sur 9 sont déjà dans la bonne séquence · ${analysis.errorCount} carte${analysis.errorCount > 1 ? "s" : ""} à repositionner.`
     : "9 étapes sur 9 dans la bonne séquence · aucune erreur de placement.";
@@ -185,7 +186,7 @@ function renderCorrection() {
       <p>${step.explanation}</p><div class="procedure-reflex"><strong>Ton réflexe :</strong> ${step.reflex}</div></div>`;
     procedure.append(item);
   });
-  localStorage.setItem("procyclean-solo-control-ranking", JSON.stringify(positions));
+  (window.procycleanActivityStorage || localStorage).setItem("procyclean-solo-control-ranking", JSON.stringify(positions));
   showOnly(correctionScreen);
 }
 
@@ -193,3 +194,10 @@ validateButton.addEventListener("click", renderCorrection);
 document.querySelector("#finish-mission").addEventListener("click", () => showOnly(closedScreen));
 renderBoard();
 document.documentElement.dataset.individualMissionReady = "true";
+
+
+// Synchronisation de ce même parcours lorsqu’il est ouvert dans une séance.
+window.ProcycleanGroup?.register({
+ snapshot:()=>({state:{positions,screen:[rankingScreen,correctionScreen,closedScreen].find(x=>!x.hidden)?.id},progress:!closedScreen.hidden?100:!correctionScreen.hidden?95:positions.filter(Boolean).length/CONTROL_STEPS.length*85,complete:!closedScreen.hidden}),
+ restore:s=>{positions=s.positions;renderBoard();if(s.screen!=="ranking-screen")renderCorrection();if(s.screen==="closed-screen")showOnly(closedScreen);}
+});
