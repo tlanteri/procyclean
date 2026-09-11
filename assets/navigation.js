@@ -174,7 +174,7 @@
       const containsAction = Boolean(panel.querySelector(
         "button, a, input, select, textarea, [role='button']"
       ));
-      panel.classList.toggle("passive-color-shapes", !containsAction);
+      panel.classList.toggle("passive-color-shapes", !containsAction && !isActivityPage);
       panel.dataset.shapeColor = String((index % 4) + 1);
     });
   }

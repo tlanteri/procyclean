@@ -46,6 +46,8 @@
   };
   addEventListener("message", event => {
     if (event.source !== parent || event.origin !== location.origin || event.data?.channel !== "procyclean-group") return;
+    if (event.data.type === "request-ready" && adapter) send("ready");
+    if (event.data.type === "init" && adapter && initialized) { send("initialized"); return; }
     if (event.data.type === "init" && adapter && !initialized) {
       try {
         const saved = event.data.snapshot ? JSON.parse(event.data.snapshot) : null;

@@ -1,0 +1,26 @@
+<!doctype html><html lang="fr"><meta charset="utf-8"><title>Vérification des pages de fin</title><body><pre id="results">Vérification…</pre><iframe id="gallery" src="index.html" style="width:1200px;height:900px"></iframe>
+<script type="module">
+const result=window.testResults={done:false,passed:[],errors:[]};
+const gallery=document.querySelector('#gallery');
+const wait=async predicate=>{for(let i=0;i<200;i++){if(predicate())return;await new Promise(r=>setTimeout(r,40));}throw Error('Délai de chargement dépassé');};
+try{
+  await wait(()=>gallery.contentDocument?.querySelector('#activity')?.options.length===13);
+  const page=gallery.contentDocument,select=page.querySelector('#activity');
+  const endings=['end-screen','closed-screen','closed-screen','final-guidance-screen','results-screen','conclusion','final','activity-final','final','final','correction','final','final'];
+  for(let i=0;i<select.options.length;i++){
+    select.selectedIndex=i;select.dispatchEvent(new Event('change'));
+    await wait(()=>page.querySelector('#status').textContent.startsWith(`${i+1} / 13`)&&!page.querySelector('#preview').hidden);
+    const frame=page.querySelector('#preview'),ending=frame.contentDocument.getElementById(endings[i]);
+    if(!ending||ending.hidden||ending.closest('[hidden]')||!ending.textContent.trim())throw Error('Fin non affichée : '+select.value);
+    if(frame.contentDocument.querySelector('script'))throw Error('Un aperçu dépend encore d’un script');
+    if(frame.sandbox.contains('allow-scripts'))throw Error('Les aperçus doivent fonctionner sans exécution de scripts');
+    if([...frame.contentDocument.images].some(image=>image.complete&&image.naturalWidth===0))throw Error('Image manquante : '+select.value);
+    result.passed.push(select.value+' : écran de fin affiché');
+  }
+  page.querySelector('#format').value='mobile';page.querySelector('#format').dispatchEvent(new Event('change'));
+  if(page.querySelector('#viewport').getBoundingClientRect().width>400)throw Error('Aperçu téléphone trop large');
+  result.passed.push('Affichage téléphone');
+  result.passed.push('13 pages autonomes affichées avec les scripts des cadres désactivés');
+}catch(error){result.errors.push(error.message);}
+result.done=true;document.querySelector('#results').textContent=JSON.stringify(result,null,2);
+</script></body></html>

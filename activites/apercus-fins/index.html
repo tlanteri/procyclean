@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Les pages de fin — PRO-CYCLEAN</title>
+  <link rel="icon" href="../../assets/images/logo-procyclean.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header><a href="../index.html">← Retour aux activités</a><h1>Les pages de fin</h1><p>Consultez les écrans de fin des 13 parcours utilisés en solo et dans le nouveau mode groupe.</p><p class="notice">Les réponses affichées sont des exemples fictifs. Les bilans peuvent varier selon les choix effectués. Cet aperçu ne crée aucune séance.</p></header>
+  <main>
+    <div class="controls">
+      <label for="activity">Activité <select id="activity">
+        <option value="podium-valeurs">Le podium des valeurs</option>
+        <option value="vrai-faux-express">Les bases du sport propre – Vrai/Faux express</option>
+        <option value="mission-controle">La mission contrôle</option>
+        <option value="produit-mystere">Le produit mystère</option>
+        <option value="traitement-controle">Médicament : les bons réflexes</option>
+        <option value="responsabilite-objective">À sa place, serais-tu vigilant ?</option>
+        <option value="droits-controle">Mes droits pendant un contrôle</option>
+        <option value="labo-interdictions">La liste des substances et méthodes interdites</option>
+        <option value="vrad-sanctions">Les violations des règles antidopage et les sanctions</option>
+        <option value="aut-bon-parcours">AUT : avant ou après ?</option>
+        <option value="onde-choc">Les conséquences du dopage</option>
+        <option value="briser-silence">Messages sous pression</option>
+        <option value="mission-localisation">Mission localisation</option>
+      </select></label>
+      <div class="buttons"><button id="previous" type="button">← Précédente</button><button id="next" type="button">Suivante →</button></div>
+      <label for="format">Affichage <select id="format"><option value="desktop">Ordinateur</option><option value="mobile">Téléphone</option></select></label>
+    </div>
+    <p id="status" role="status">Chargement des aperçus…</p>
+    <p><a id="open-page" href="pages/podium-valeurs.html" target="_blank" rel="noopener">Ouvrir cette page de fin dans un nouvel onglet</a></p>
+    <div id="viewport"><iframe id="preview" title="Écran de fin de l’activité" sandbox="allow-same-origin" hidden></iframe></div>
+  </main>
+  <script defer src="script.js?v=3"></script>
+</body>
+</html>

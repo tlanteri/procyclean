@@ -1,0 +1,1456 @@
+{
+  "podium-valeurs": {
+    "state": {
+      "rankingPositions": [
+        "Plaisir",
+        "Équité",
+        "Persévérance",
+        "Excellence",
+        "Courage",
+        "Respect",
+        "Santé",
+        "Solidarité",
+        "Responsabilité",
+        "Honnêteté"
+      ],
+      "rule": "Respecter les autres et demander conseil",
+      "screen": "end-screen"
+    },
+    "records": {
+      "1-podium": {
+        "id": "1-podium",
+        "prompt": "Quelles valeurs placez-vous en tête ?",
+        "answer": "Plaisir → Équité → Persévérance",
+        "expected": "",
+        "explanation": "Il n’y a pas de podium unique. Discutez des raisons de vos priorités.",
+        "correct": null
+      },
+      "2-regle": {
+        "id": "2-regle",
+        "prompt": "Quelle règle concrète proposez-vous ?",
+        "answer": "Respecter les autres et demander conseil",
+        "expected": "",
+        "explanation": "Choisissez ensemble une règle observable qui traduit vos valeurs dans la pratique.",
+        "correct": null
+      }
+    }
+  },
+  "vrai-faux-express": {
+    "state": {
+      "index": 8,
+      "score": 2,
+      "selectedAnswer": true,
+      "definition": "Respecter sa santé et les règles",
+      "source": "social",
+      "screen": "closed-screen"
+    },
+    "records": {
+      "quiz-0": {
+        "id": "quiz-0",
+        "prompt": "Le sport propre, c’est seulement ne pas se doper.",
+        "answer": "Faux",
+        "expected": "Faux",
+        "explanation": "Le sport propre repose aussi sur la santé, le respect des règles, l’équité, l’intégrité et les valeurs du sport.",
+        "correct": true
+      },
+      "quiz-1": {
+        "id": "quiz-1",
+        "prompt": "Respecter les règles uniquement lorsqu’un arbitre ou un entraîneur regarde suffit pour pratiquer un sport propre.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "Un comportement fondé sur les valeurs doit être adopté même lorsque personne ne regarde.",
+        "correct": false
+      },
+      "quiz-2": {
+        "id": "quiz-2",
+        "prompt": "L’antidopage permet notamment de protéger la santé des sportifs et l’équité des compétitions.",
+        "answer": "Faux",
+        "expected": "Vrai",
+        "explanation": "L’antidopage cherche à protéger les sportifs, les compétitions et les valeurs associées au sport propre.",
+        "correct": false
+      },
+      "quiz-3": {
+        "id": "quiz-3",
+        "prompt": "Les sportifs ont eux aussi un rôle à jouer dans la protection du sport propre.",
+        "answer": "Vrai",
+        "expected": "Vrai",
+        "explanation": "Ils doivent notamment respecter les règles, vérifier ce qu’ils consomment, poser des questions et parler des situations préoccupantes.",
+        "correct": true
+      },
+      "quiz-4": {
+        "id": "quiz-4",
+        "prompt": "L’AFLD est l’organisation nationale chargée de l’antidopage en France.",
+        "answer": "Faux",
+        "expected": "Vrai",
+        "explanation": "L’Agence française de lutte contre le dopage agit notamment dans les domaines de l’éducation, de la prévention, des contrôles, des enquêtes et de l’application des règles antidopage.",
+        "correct": false
+      },
+      "quiz-5": {
+        "id": "quiz-5",
+        "prompt": "L’AFLD réalise uniquement des contrôles antidopage.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "Les contrôles constituent une partie de son activité. L’AFLD informe, éduque, prévient, contrôle, recueille des signalements et participe à l’application des règles.",
+        "correct": false
+      },
+      "quiz-6": {
+        "id": "quiz-6",
+        "prompt": "L’AMA contribue à établir les règles antidopage communes au niveau mondial.",
+        "answer": "Faux",
+        "expected": "Vrai",
+        "explanation": "L’Agence mondiale antidopage élabore notamment le Code mondial antidopage et la Liste des substances et méthodes interdites.",
+        "correct": false
+      },
+      "quiz-7": {
+        "id": "quiz-7",
+        "prompt": "Une information publiée sur les réseaux sociaux est aussi fiable qu’une information provenant d’une source officielle.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "Pour connaître une règle ou vérifier un produit, il faut utiliser les outils officiels de l’AFLD, de l’AMA ou de l’organisation compétente.",
+        "correct": false
+      },
+      "synthese": {
+        "id": "synthese",
+        "prompt": "Votre définition du sport propre et votre source fiable",
+        "answer": "Respecter sa santé et les règles · Source : Une publication anonyme sur les réseaux sociaux.",
+        "expected": "Privilégier les sources officielles de l’AFLD.",
+        "explanation": "Le sport propre repose sur la santé, l’équité et le respect des règles.",
+        "correct": null
+      }
+    }
+  },
+  "mission-controle": {
+    "state": {
+      "positions": [
+        "urine-density",
+        "sample-kit",
+        "sample-distribution",
+        "control-station",
+        "form",
+        "collection-vessel",
+        "notification",
+        "observation",
+        "minimum-volume"
+      ],
+      "screen": "closed-screen"
+    },
+    "records": {
+      "procedure": {
+        "id": "procedure",
+        "prompt": "Dans quel ordre se déroule le contrôle ?",
+        "answer": "Mesure de la densité urinaire → Choix d’un kit de prélèvement → Répartition de l’échantillon → Accueil au poste de contrôle du dopage → Observations sur le formulaire et signature → Choix d’un gobelet de recueil → Notification au sportif → Observation de la miction par un ACD du même sexe → 90 ml d’urine minimum",
+        "expected": "Notification au sportif → Accueil au poste de contrôle du dopage → Choix d’un gobelet de recueil → Observation de la miction par un ACD du même sexe → 90 ml d’urine minimum → Choix d’un kit de prélèvement → Répartition de l’échantillon → Mesure de la densité urinaire → Observations sur le formulaire et signature",
+        "explanation": "Je reste avec l’agent et je demande des explications si nécessaire. Je présente les informations demandées et je signale toute question. Je vérifie que le matériel que je choisis est intact et scellé. Je respecte les consignes tout en demandant une explication si je ne comprends pas. Je vérifie avec l’agent que le volume nécessaire a été atteint. Je choisis un kit et je vérifie qu’il est intact. Je contrôle les numéros et la fermeture des flacons A et B. Je reste attentif aux résultats et aux explications données. Je déclare mes médicaments et compléments, j’ajoute mes remarques et je relis avant de signer.",
+        "correct": false
+      }
+    }
+  },
+  "produit-mystere": {
+    "state": {
+      "data": {
+        "inspectedClues": {
+          "advertising-promises": {
+            "answerId": "promise-proves-safety"
+          },
+          "incomplete-composition": {
+            "answerId": "composition-fully-known"
+          },
+          "purchase-channel": {
+            "answerId": "channel-trusted-because-athlete"
+          },
+          "natural-claim": {
+            "answerId": "natural-always-safe"
+          },
+          "laboratory-claim": {
+            "answerId": "lab-claim-sufficient"
+          },
+          "certification-standard": {
+            "answerId": "absence-means-automatically-banned"
+          },
+          "batch-traceability": {
+            "answerId": "batch-identifies-product"
+          }
+        },
+        "clueClassifications": {
+          "advertising-promises": "reassuring",
+          "incomplete-composition": "reassuring",
+          "purchase-channel": "reassuring",
+          "natural-claim": "reassuring",
+          "laboratory-claim": "reassuring",
+          "certification-standard": "reassuring",
+          "batch-traceability": "reassuring"
+        }
+      },
+      "activeClueId": "batch-traceability",
+      "selectedFinalDecisionId": "follow-teammate",
+      "screen": "final-guidance-screen"
+    },
+    "records": {
+      "1-besoin": {
+        "id": "1-besoin",
+        "prompt": "Quel est le premier réflexe avant d’utiliser un complément ?",
+        "answer": "Où puis-je acheter ce produit ?",
+        "expected": "Commencer par évaluer le besoin avec un professionnel de santé.",
+        "explanation": "",
+        "correct": false
+      },
+      "2-indice-0": {
+        "id": "2-indice-0",
+        "prompt": "Cette promesse suffit-elle à prouver l’efficacité et la sécurité du produit ?",
+        "answer": "Oui",
+        "expected": "Non",
+        "explanation": "Une promesse publicitaire n’est pas une preuve scientifique. Une promesse de résultat rapide ou exceptionnel constitue un signal d’alerte.",
+        "correct": false
+      },
+      "2-indice-1": {
+        "id": "2-indice-1",
+        "prompt": "Peut-on connaître précisément tout ce que contient le produit ?",
+        "answer": "Oui",
+        "expected": "Non",
+        "explanation": "Une composition incomplète empêche de vérifier précisément le contenu du produit. Cela constitue un signal d’alerte.",
+        "correct": false
+      },
+      "2-indice-2": {
+        "id": "2-indice-2",
+        "prompt": "Ce mode d’achat est-il suffisamment rassurant ?",
+        "answer": "Oui, parce que l’influenceur est sportif",
+        "expected": "Non, la traçabilité du vendeur est insuffisante",
+        "explanation": "La recommandation d’un sportif ne garantit ni la qualité ni la conformité. Un vendeur ou un fabricant peu identifiable et un site peu traçable constituent des signaux d’alerte. À l’inverse, l’achat en pharmacie peut améliorer la traçabilité et permettre de demander conseil, mais il ne rend pas automatiquement le complément nécessaire ou sans risque.",
+        "correct": false
+      },
+      "2-indice-3": {
+        "id": "2-indice-3",
+        "prompt": "Un produit naturel est-il forcément sans risque au regard de l’antidopage ?",
+        "answer": "Oui",
+        "expected": "Non",
+        "explanation": "Le mot « naturel » ne garantit ni l’efficacité, ni la sécurité, ni l’absence de substance interdite.",
+        "correct": false
+      },
+      "2-indice-4": {
+        "id": "2-indice-4",
+        "prompt": "Cette mention apporte-t-elle une garantie suffisante ?",
+        "answer": "Oui",
+        "expected": "Non",
+        "explanation": "Cette affirmation ne suffit pas. Il faut savoir quel laboratoire a réalisé l’analyse, ce qui a été recherché et si le résultat concerne précisément ce lot.",
+        "correct": false
+      },
+      "2-indice-5": {
+        "id": "2-indice-5",
+        "prompt": "Quelle conclusion raisonnable tirer de cette absence ?",
+        "answer": "Le produit est automatiquement interdit",
+        "expected": "Le niveau de maîtrise du risque est insuffisamment documenté",
+        "explanation": "Une norme reconnue comme la NF EN 17444 contribue à réduire le risque de présence de substances interdites, mais elle ne garantit pas un risque zéro.",
+        "correct": false
+      },
+      "2-indice-6": {
+        "id": "2-indice-6",
+        "prompt": "Pourquoi ces informations sont-elles importantes ?",
+        "answer": "Elles permettent d’identifier et de conserver la trace du produit",
+        "expected": "Elles permettent d’identifier et de conserver la trace du produit",
+        "explanation": "Le numéro de lot facilite la traçabilité et constitue une information utile pour évaluer le produit, sans garantir à lui seul sa sécurité.",
+        "correct": true
+      },
+      "3-classement-0": {
+        "id": "3-classement-0",
+        "prompt": "Promesse de résultat : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Signal d’alerte",
+        "explanation": "Une promesse publicitaire n’est pas une preuve scientifique. Une promesse de résultat rapide ou exceptionnel constitue un signal d’alerte.",
+        "correct": false
+      },
+      "3-classement-1": {
+        "id": "3-classement-1",
+        "prompt": "Liste de la composition : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Signal d’alerte",
+        "explanation": "Une composition incomplète empêche de vérifier précisément le contenu du produit. Cela constitue un signal d’alerte.",
+        "correct": false
+      },
+      "3-classement-2": {
+        "id": "3-classement-2",
+        "prompt": "Vente sur un réseau social : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Signal d’alerte",
+        "explanation": "La recommandation d’un sportif ne garantit ni la qualité ni la conformité. Un vendeur ou un fabricant peu identifiable et un site peu traçable constituent des signaux d’alerte. À l’inverse, l’achat en pharmacie peut améliorer la traçabilité et permettre de demander conseil, mais il ne rend pas automatiquement le complément nécessaire ou sans risque.",
+        "correct": false
+      },
+      "3-classement-3": {
+        "id": "3-classement-3",
+        "prompt": "Mention « 100 % naturel » : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Information à vérifier",
+        "explanation": "Le mot « naturel » ne garantit ni l’efficacité, ni la sécurité, ni l’absence de substance interdite.",
+        "correct": false
+      },
+      "3-classement-4": {
+        "id": "3-classement-4",
+        "prompt": "Testé en laboratoire : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Information à vérifier",
+        "explanation": "Cette affirmation ne suffit pas. Il faut savoir quel laboratoire a réalisé l’analyse, ce qui a été recherché et si le résultat concerne précisément ce lot.",
+        "correct": false
+      },
+      "3-classement-5": {
+        "id": "3-classement-5",
+        "prompt": "Norme de qualité : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Information à vérifier",
+        "explanation": "Une norme reconnue comme la NF EN 17444 contribue à réduire le risque de présence de substances interdites, mais elle ne garantit pas un risque zéro.",
+        "correct": false
+      },
+      "3-classement-6": {
+        "id": "3-classement-6",
+        "prompt": "Numéro de lot : comment classer cet indice ?",
+        "answer": "Information utile pour évaluer le produit",
+        "expected": "Information utile pour évaluer le produit",
+        "explanation": "Le numéro de lot facilite la traçabilité et constitue une information utile pour évaluer le produit, sans garantir à lui seul sa sécurité.",
+        "correct": true
+      },
+      "4-decision": {
+        "id": "4-decision",
+        "prompt": "Quelle décision prenez-vous pour ce produit ?",
+        "answer": "Prendre le produit parce qu’un coéquipier l’utilise déjà.",
+        "expected": "Ne pas le consommer pour le moment, demander à un professionnel d’évaluer son besoin et, si une utilisation est envisagée, choisir un produit présentant le plus de garanties possible.",
+        "explanation": "Demandez conseil et vérifiez le besoin avant toute consommation.",
+        "correct": false
+      }
+    }
+  },
+  "traitement-controle": {
+    "state": {
+      "scenarioId": "lea",
+      "answers": {
+        "lea-symptoms": "A",
+        "lea-doctor": "A",
+        "lea-prescription": "A",
+        "lea-result": "A",
+        "lea-aut": "A"
+      }
+    },
+    "records": {
+      "lea-0": {
+        "id": "lea-0",
+        "prompt": "Léa — Les premiers symptômes",
+        "answer": "Prendre un médicament disponible chez elle.",
+        "expected": "Parler de ses symptômes à ses parents et prendre rendez-vous avec un médecin.",
+        "explanation": "Ne pas pratiquer l’automédication et demander conseil.",
+        "correct": false
+      },
+      "lea-1": {
+        "id": "lea-1",
+        "prompt": "Léa — Chez le médecin",
+        "answer": "Qu’elle pratique le cyclisme et participe à des compétitions.",
+        "expected": "Qu’elle pratique le cyclisme et participe à des compétitions.",
+        "explanation": "Signaler au professionnel de santé que l’on est sportif et que l’on participe à des compétitions.",
+        "correct": true
+      },
+      "lea-2": {
+        "id": "lea-2",
+        "prompt": "Léa — La prescription",
+        "answer": "Prendre directement le médicament puisqu’il a été prescrit.",
+        "expected": "Vérifier le médicament exact sur l’outil officiel de l’AFLD avec un adulte ou un professionnel.",
+        "explanation": "Une ordonnance ne remplace pas la vérification antidopage.",
+        "correct": false
+      },
+      "lea-3": {
+        "id": "lea-3",
+        "prompt": "Léa — Le résultat de la recherche",
+        "answer": "Seulement le nom de la marque.",
+        "expected": "Le médicament exact, sa voie d’administration et son statut pendant la période concernée.",
+        "explanation": "Lire précisément toutes les conditions associées au résultat.",
+        "correct": false
+      },
+      "lea-4": {
+        "id": "lea-4",
+        "prompt": "Léa — Une AUT peut être nécessaire",
+        "answer": "Arrêter seule le traitement.",
+        "expected": "Demander conseil sur la procédure d’AUT et conserver ses documents médicaux.",
+        "explanation": "Ne jamais arrêter ou modifier seul un traitement médicalement nécessaire. Se renseigner sur l’AUT et conserver les justificatifs médicaux.",
+        "correct": false
+      }
+    }
+  },
+  "responsabilite-objective": {
+    "state": {
+      "answers": {
+        "parent-medicine": {
+          "vigilance": "continue",
+          "followUp": 0
+        },
+        "teammate-supplement": {
+          "vigilance": "continue",
+          "followUp": 0
+        },
+        "staff-drink": {
+          "vigilance": "continue",
+          "followUp": 0
+        },
+        "coach-advice": {
+          "vigilance": "continue",
+          "followUp": 0
+        },
+        "recovery-supplement": {
+          "vigilance": "continue",
+          "followUp": 0
+        },
+        "group-pressure": {
+          "vigilance": "continue",
+          "followUp": 0
+        }
+      },
+      "index": 5
+    },
+    "records": {
+      "situation-0": {
+        "id": "situation-0",
+        "prompt": "Un médicament donné par les parents d’une coéquipière",
+        "answer": "Je le prends · Les parents de ma coéquipière uniquement",
+        "expected": "Je ne prends rien et je demande conseil",
+        "explanation": "La confiance envers un parent ne remplace pas la vérification du médicament exact ni le conseil d’un professionnel. Le sportif reste responsable de la substance retrouvée dans son organisme, même si le médicament a été donné avec une bonne intention.",
+        "correct": null
+      },
+      "situation-1": {
+        "id": "situation-1",
+        "prompt": "Le complément d’un coéquipier",
+        "answer": "Je le prends · Le coéquipier",
+        "expected": "Je ne prends rien et je demande conseil",
+        "explanation": "Le témoignage d’un coéquipier ne garantit ni l’utilité ni l’absence de substance interdite. Accepter le conseil d’un autre ne transfère pas la responsabilité de ce qui est consommé.",
+        "correct": null
+      },
+      "situation-2": {
+        "id": "situation-2",
+        "prompt": "La boisson préparée par l’encadrement",
+        "answer": "Je le prends · Boire par confiance",
+        "expected": "Je dois être vigilant",
+        "explanation": "Il faut savoir précisément ce que l’on consomme, y compris lorsque le produit vient de l’encadrement. L’origine de la boisson n’efface pas la responsabilité personnelle du sportif.",
+        "correct": null
+      },
+      "situation-3": {
+        "id": "situation-3",
+        "prompt": "Le conseil de l’entraîneur",
+        "answer": "Je le prends · L’entraîneur",
+        "expected": "Je ne prends rien et je demande conseil",
+        "explanation": "L’autorité ou l’expérience d’un entraîneur ne dispense pas de demander un avis compétent et de vérifier le produit. Une consigne de l’entraîneur n’annule pas la responsabilité du sportif.",
+        "correct": null
+      },
+      "situation-4": {
+        "id": "situation-4",
+        "prompt": "Le complément alimentaire d’un coéquipier",
+        "answer": "Je le prends · Oui, puisqu’il l’utilise régulièrement.",
+        "expected": "Je ne prends rien et je demande conseil · Non, car sa composition, son origine et les risques peuvent être inconnus.",
+        "explanation": "L’utilisation par un coéquipier ne garantit ni la sécurité du complément alimentaire ni l’absence de substance interdite. Il faut demander conseil et vérifier avant toute consommation. Même lorsqu’un produit est conseillé par un coéquipier, le sportif reste responsable de ce qu’il consomme.",
+        "correct": null
+      },
+      "situation-5": {
+        "id": "situation-5",
+        "prompt": "La pression du groupe",
+        "answer": "Je le prends · Faire comme le groupe",
+        "expected": "Je ne prends rien et je demande conseil",
+        "explanation": "La pression du groupe peut influencer une décision, mais il est responsable de s’arrêter lorsque le produit n’est pas vérifié. Le fait que plusieurs personnes consomment un produit ne partage pas la responsabilité antidopage.",
+        "correct": null
+      }
+    }
+  },
+  "droits-controle": {
+    "state": {
+      "answers": [
+        {
+          "id": "notification",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "delay",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "supervision",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "information",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "representative",
+          "choice": 0,
+          "correct": true
+        },
+        {
+          "id": "sample",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "declaration",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "comment",
+          "choice": 0,
+          "correct": false
+        },
+        {
+          "id": "signature",
+          "choice": 0,
+          "correct": false
+        }
+      ],
+      "index": 9
+    },
+    "records": {
+      "moment-0": {
+        "id": "moment-0",
+        "prompt": "Peux-tu refuser le contrôle simplement parce que tu es fatigué ?",
+        "answer": "Oui, la fatigue suffit pour refuser",
+        "expected": "Non, je dois me présenter et suivre la procédure",
+        "explanation": "La notification t’engage dans la procédure. Tu dois te présenter immédiatement, sauf raison valable justifiant un retard.",
+        "correct": false
+      },
+      "moment-1": {
+        "id": "moment-1",
+        "prompt": "Quel est le bon réflexe ?",
+        "answer": "Disparaître quelques minutes et revenir ensuite",
+        "expected": "Demander à l’escorte un délai pour participer à la cérémonie",
+        "explanation": "Tu peux demander un délai pour une raison valable. Ce délai doit être accordé et tu restes sous surveillance.",
+        "correct": false
+      },
+      "moment-2": {
+        "id": "moment-2",
+        "prompt": "Peux-tu partir seul ?",
+        "answer": "Oui, si je reviens rapidement",
+        "expected": "Non, je reste en présence de l’escorte",
+        "explanation": "De la notification à la fin du prélèvement, tu dois demeurer en présence de l’escorte ou de la personne chargée du contrôle.",
+        "correct": false
+      },
+      "moment-3": {
+        "id": "moment-3",
+        "prompt": "Que peux-tu faire ?",
+        "answer": "Faire semblant d’avoir compris",
+        "expected": "Demander des renseignements et des explications",
+        "explanation": "Tu as le droit de demander des renseignements sur le processus de contrôle, à tout moment utile.",
+        "correct": false
+      },
+      "moment-4": {
+        "id": "moment-4",
+        "prompt": "Quelle demande peux-tu formuler ?",
+        "answer": "Demander la présence d’un représentant",
+        "expected": "Demander la présence d’un représentant",
+        "explanation": "Tu peux avoir un représentant et, si disponible, un interprète. Leur présence respecte les limites prévues par la procédure.",
+        "correct": true
+      },
+      "moment-5": {
+        "id": "moment-5",
+        "prompt": "Quel comportement adoptes-tu ?",
+        "answer": "J’interromps seul la procédure",
+        "expected": "Je suis les consignes et je demande une explication si nécessaire",
+        "explanation": "Tu dois te conformer à la procédure de prélèvement. Si tu ne comprends pas, exerce aussi ton droit de poser une question.",
+        "correct": false
+      },
+      "moment-6": {
+        "id": "moment-6",
+        "prompt": "Que déclares-tu ?",
+        "answer": "Le médicament seulement",
+        "expected": "Le médicament et le complément",
+        "explanation": "Déclare les médicaments, compléments et autres produits concernés sur le formulaire, qu’ils soient prescrits ou non.",
+        "correct": false
+      },
+      "moment-7": {
+        "id": "moment-7",
+        "prompt": "Dois-tu garder cette remarque pour toi afin de finir plus vite ?",
+        "answer": "Oui",
+        "expected": "Non, je pose la question et je demande à consigner ma remarque",
+        "explanation": "Tu peux poser une question et utiliser l’espace prévu pour faire inscrire une observation sur la procédure.",
+        "correct": false
+      },
+      "moment-8": {
+        "id": "moment-8",
+        "prompt": "Quel est ton dernier bon réflexe ?",
+        "answer": "Signer immédiatement sans relire",
+        "expected": "Vérifier les informations, signaler une erreur si besoin, puis signer",
+        "explanation": "Lis le formulaire et vérifie son exactitude avant de signer. Fais corriger ou consigner ce qui doit l’être.",
+        "correct": false
+      }
+    }
+  },
+  "labo-interdictions": {
+    "state": {
+      "data": {
+        "current": 5,
+        "answers": [
+          {
+            "questionId": "substances-methodes",
+            "answer": "true",
+            "correctAnswer": "false",
+            "correct": false
+          },
+          {
+            "questionId": "prescription",
+            "answer": "true",
+            "correctAnswer": "false",
+            "correct": false
+          },
+          {
+            "questionId": "sans-ordonnance",
+            "answer": "yes",
+            "correctAnswer": "yes",
+            "correct": true
+          },
+          {
+            "questionId": "toute-annee",
+            "answer": "true",
+            "correctAnswer": "false",
+            "correct": false
+          },
+          {
+            "questionId": "coequipier",
+            "answer": "yes",
+            "correctAnswer": "verify",
+            "correct": false
+          },
+          {
+            "questionId": "bon-reflexe",
+            "answer": "box",
+            "correctAnswer": "verify",
+            "correct": false
+          }
+        ],
+        "completed": true,
+        "medicationIndex": 1,
+        "medicationAnswers": [
+          {
+            "medicationId": "doliprane-500",
+            "answer": "allowed",
+            "expectedStatus": "allowed",
+            "correct": true
+          },
+          {
+            "medicationId": "rhinadvil-rhume",
+            "answer": "allowed",
+            "expectedStatus": "competition",
+            "correct": false
+          }
+        ],
+        "stage2Completed": true
+      },
+      "screen": "activity-final"
+    },
+    "records": {
+      "1-quiz-0": {
+        "id": "1-quiz-0",
+        "prompt": "La Liste des interdictions concerne uniquement des produits ou des médicaments.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "La Liste concerne des substances, mais aussi certaines méthodes interdites.",
+        "correct": false
+      },
+      "1-quiz-1": {
+        "id": "1-quiz-1",
+        "prompt": "Un médicament prescrit par un médecin est forcément autorisé pour un sportif.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "Une prescription médicale ne suffit pas à garantir qu’un médicament est autorisé par les règles antidopage.",
+        "correct": false
+      },
+      "1-quiz-2": {
+        "id": "1-quiz-2",
+        "prompt": "Un médicament acheté sans ordonnance peut-il contenir une substance interdite dans le sport ?",
+        "answer": "Oui",
+        "expected": "Oui",
+        "explanation": "Même un médicament disponible sans ordonnance doit pouvoir être vérifié.",
+        "correct": true
+      },
+      "1-quiz-3": {
+        "id": "1-quiz-3",
+        "prompt": "Une substance interdite l’est forcément toute l’année.",
+        "answer": "Vrai",
+        "expected": "Faux",
+        "explanation": "Certaines substances ou méthodes sont interdites en permanence, d’autres uniquement en compétition.",
+        "correct": false
+      },
+      "1-quiz-4": {
+        "id": "1-quiz-4",
+        "prompt": "Est-ce suffisant pour être certain ?",
+        "answer": "Oui, il l’a déjà utilisé",
+        "expected": "Non, il faut vérifier",
+        "explanation": "L’avis d’une autre personne ne permet pas de connaître avec certitude le statut d’un médicament.",
+        "correct": false
+      },
+      "1-quiz-5": {
+        "id": "1-quiz-5",
+        "prompt": "Que fais-tu ?",
+        "answer": "A. Je regarde la boîte et je décide moi-même.",
+        "expected": "C. Je vérifie avec un outil adapté.",
+        "explanation": "Le bon réflexe n’est pas de deviner : il faut vérifier.",
+        "correct": false
+      },
+      "2-medicament-0": {
+        "id": "2-medicament-0",
+        "prompt": "DOLIPRANE 500 mg, comprimé — Recherche exactement ce nom dans AFLD Médicaments, ouvre sa fiche puis repère la voie d’administration et le statut.",
+        "answer": "Autorisé",
+        "expected": "Autorisé",
+        "explanation": "Le résultat indique clairement « Médicament autorisé ». Tu as repéré le statut au bon endroit.",
+        "correct": true
+      },
+      "2-medicament-1": {
+        "id": "2-medicament-1",
+        "prompt": "RHINADVIL RHUME IBUPROFENE/PSEUDOEPHEDRINE, comprimé enrobé — Recherche ce deuxième médicament de manière autonome, ouvre sa fiche puis reviens sélectionner le statut affiché.",
+        "answer": "Autorisé",
+        "expected": "Interdit en compétition",
+        "explanation": "Le résultat indique que ce médicament contient une substance interdite en compétition.",
+        "correct": false
+      }
+    }
+  },
+  "vrad-sanctions": {
+    "state": {
+      "data": {
+        "discovery": 10,
+        "discovered": [
+          "presence",
+          "use",
+          "evasion",
+          "whereabouts",
+          "tampering",
+          "possession",
+          "trafficking",
+          "administration",
+          "complicity",
+          "association",
+          "retaliation"
+        ],
+        "classification": {
+          "presence": "athlete",
+          "use": "athlete",
+          "evasion": "athlete",
+          "whereabouts": "athlete",
+          "tampering": "athlete",
+          "possession": "athlete",
+          "trafficking": "athlete",
+          "administration": "athlete",
+          "complicity": "athlete",
+          "association": "athlete",
+          "retaliation": "athlete"
+        },
+        "classificationDone": true,
+        "links": {
+          "presence": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "use": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "evasion": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "whereabouts": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "tampering": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "possession": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "trafficking": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "administration": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "complicity": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "association": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+          "retaliation": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances."
+        },
+        "linksDone": true
+      },
+      "screen": "final"
+    },
+    "records": {
+      "1-identification-0": {
+        "id": "1-identification-0",
+        "prompt": "Après une course, l’analyse de l’échantillon d’un sportif révèle une substance interdite. Il affirme ne pas avoir voulu se doper.",
+        "answer": "Présence d’une substance interdite",
+        "expected": "Présence d’une substance interdite",
+        "explanation": "Présence d’une substance interdite, de ses métabolites ou de ses marqueurs dans un échantillon fourni par un sportif",
+        "correct": true
+      },
+      "1-identification-1": {
+        "id": "1-identification-1",
+        "prompt": "À l’entraînement, un sportif utilise une substance ou une méthode interdite. Aucun contrôle positif n’est nécessaire pour établir les faits.",
+        "answer": "Usage ou tentative d’usage d’une substance ou méthode interdite",
+        "expected": "Usage ou tentative d’usage d’une substance ou méthode interdite",
+        "explanation": "Usage ou tentative d’usage par un sportif d’une substance interdite ou d’une méthode interdite",
+        "correct": true
+      },
+      "1-identification-2": {
+        "id": "1-identification-2",
+        "prompt": "Un sportif est officiellement averti qu’il doit être contrôlé. Il quitte volontairement les lieux avant le prélèvement.",
+        "answer": "Trafic ou tentative de trafic",
+        "expected": "Refus ou soustraction au prélèvement",
+        "explanation": "Se soustraire au prélèvement d’un échantillon, refuser le prélèvement d’un échantillon ou ne pas se soumettre au prélèvement d’un échantillon de la part d’un sportif",
+        "correct": false
+      },
+      "1-identification-3": {
+        "id": "1-identification-3",
+        "prompt": "Un sportif du groupe cible cumule trois contrôles manqués ou défauts de transmission de ses informations en douze mois.",
+        "answer": "Trafic ou tentative de trafic",
+        "expected": "Manquements aux obligations de localisation",
+        "explanation": "Manquements aux obligations en matière de localisation de la part d’un sportif",
+        "correct": false
+      },
+      "1-identification-4": {
+        "id": "1-identification-4",
+        "prompt": "Une personne tente de remplacer ou de modifier un échantillon déjà recueilli pendant la procédure de contrôle.",
+        "answer": "Manquements aux obligations de localisation",
+        "expected": "Falsification ou tentative de falsification du contrôle",
+        "explanation": "Falsification ou tentative de falsification de tout élément du contrôle du dopage de la part d’un sportif ou d’une autre personne",
+        "correct": false
+      },
+      "1-identification-5": {
+        "id": "1-identification-5",
+        "prompt": "Un entraîneur conserve dans le matériel de l’équipe un produit interdit destiné à un sportif, sans justification médicale valable.",
+        "answer": "Manquements aux obligations de localisation",
+        "expected": "Possession d’une substance ou méthode interdite",
+        "explanation": "Possession d’une substance interdite ou d’une méthode interdite par un sportif ou un membre du personnel d’encadrement du sportif",
+        "correct": false
+      },
+      "1-identification-6": {
+        "id": "1-identification-6",
+        "prompt": "Une personne organise la vente et la distribution de produits interdits à plusieurs sportifs.",
+        "answer": "Présence d’une substance interdite",
+        "expected": "Trafic ou tentative de trafic",
+        "explanation": "Trafic ou tentative de trafic d’une substance interdite ou d’une méthode interdite par un sportif ou une autre personne",
+        "correct": false
+      },
+      "1-identification-7": {
+        "id": "1-identification-7",
+        "prompt": "Un membre de l’encadrement administre une substance interdite à un sportif, sans traitement médical justifié.",
+        "answer": "Usage ou tentative d’usage d’une substance ou méthode interdite",
+        "expected": "Administration ou tentative d’administration d’une substance ou méthode interdite",
+        "explanation": "Administration ou tentative d’administration par un sportif ou une autre personne à un sportif en compétition d’une substance interdite ou d’une méthode interdite, ou administration ou tentative d’administration à un sportif hors compétition d’une substance interdite ou d’une méthode interdite qui est interdite hors compétition",
+        "correct": false
+      },
+      "1-identification-8": {
+        "id": "1-identification-8",
+        "prompt": "Un entraîneur aide volontairement à préparer et à dissimuler une violation, sans administrer lui-même de produit.",
+        "answer": "Trafic ou tentative de trafic",
+        "expected": "Complicité",
+        "explanation": "Complicité ou tentative de complicité de la part d’un sportif ou d’une autre personne",
+        "correct": false
+      },
+      "1-identification-9": {
+        "id": "1-identification-9",
+        "prompt": "Après avoir été officiellement averti, un sportif continue de recevoir des conseils sportifs d’un entraîneur suspendu.",
+        "answer": "Refus ou soustraction au prélèvement",
+        "expected": "Association interdite avec une personne sanctionnée",
+        "explanation": "Association interdite de la part d’un sportif ou d’une autre personne",
+        "correct": false
+      },
+      "1-identification-10": {
+        "id": "1-identification-10",
+        "prompt": "Un responsable menace un membre de l’équipe qui veut signaler de bonne foi une possible violation des règles antidopage.",
+        "answer": "Manquements aux obligations de localisation",
+        "expected": "Découragement ou représailles à l’encontre d’une personne qui signale un fait",
+        "explanation": "Actes commis par un sportif ou une autre personne pour décourager les signalements aux autorités ou actes de représailles à l’encontre de tels signalements",
+        "correct": false
+      },
+      "2-classement-0": {
+        "id": "2-classement-0",
+        "prompt": "Qui peut commettre : Présence d’une substance interdite",
+        "answer": "Sportif",
+        "expected": "Sportif",
+        "explanation": "",
+        "correct": true
+      },
+      "2-classement-1": {
+        "id": "2-classement-1",
+        "prompt": "Qui peut commettre : Usage ou tentative d’usage d’une substance ou méthode interdite",
+        "answer": "Sportif",
+        "expected": "Sportif",
+        "explanation": "",
+        "correct": true
+      },
+      "2-classement-2": {
+        "id": "2-classement-2",
+        "prompt": "Qui peut commettre : Refus ou soustraction au prélèvement",
+        "answer": "Sportif",
+        "expected": "Sportif",
+        "explanation": "",
+        "correct": true
+      },
+      "2-classement-3": {
+        "id": "2-classement-3",
+        "prompt": "Qui peut commettre : Manquements aux obligations de localisation",
+        "answer": "Sportif",
+        "expected": "Sportif",
+        "explanation": "",
+        "correct": true
+      },
+      "2-classement-4": {
+        "id": "2-classement-4",
+        "prompt": "Qui peut commettre : Falsification ou tentative de falsification du contrôle",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-5": {
+        "id": "2-classement-5",
+        "prompt": "Qui peut commettre : Possession d’une substance ou méthode interdite",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-6": {
+        "id": "2-classement-6",
+        "prompt": "Qui peut commettre : Trafic ou tentative de trafic",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-7": {
+        "id": "2-classement-7",
+        "prompt": "Qui peut commettre : Administration ou tentative d’administration d’une substance ou méthode interdite",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-8": {
+        "id": "2-classement-8",
+        "prompt": "Qui peut commettre : Complicité",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-9": {
+        "id": "2-classement-9",
+        "prompt": "Qui peut commettre : Association interdite avec une personne sanctionnée",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "2-classement-10": {
+        "id": "2-classement-10",
+        "prompt": "Qui peut commettre : Découragement ou représailles à l’encontre d’une personne qui signale un fait",
+        "answer": "Sportif",
+        "expected": "Les deux",
+        "explanation": "",
+        "correct": false
+      },
+      "3-sanction-0": {
+        "id": "3-sanction-0",
+        "prompt": "Présence d’une substance interdite : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": true
+      },
+      "3-sanction-1": {
+        "id": "3-sanction-1",
+        "prompt": "Usage ou tentative d’usage d’une substance ou méthode interdite : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 2 ou 4 ans selon l’intention et les circonstances.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-2": {
+        "id": "3-sanction-2",
+        "prompt": "Refus ou soustraction au prélèvement : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 4 ans, avec des réductions possibles dans certaines situations.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-3": {
+        "id": "3-sanction-3",
+        "prompt": "Manquements aux obligations de localisation : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 2 ans, avec une réduction possible jusqu’à 1 an.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-4": {
+        "id": "3-sanction-4",
+        "prompt": "Falsification ou tentative de falsification du contrôle : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 4 ans, avec une modulation possible selon les circonstances.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-5": {
+        "id": "3-sanction-5",
+        "prompt": "Possession d’une substance ou méthode interdite : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 2 ou 4 ans selon l’intention et les circonstances.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-6": {
+        "id": "3-sanction-6",
+        "prompt": "Trafic ou tentative de trafic : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "De 4 ans jusqu’à l’interdiction à vie.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-7": {
+        "id": "3-sanction-7",
+        "prompt": "Administration ou tentative d’administration d’une substance ou méthode interdite : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "De 4 ans jusqu’à l’interdiction à vie.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-8": {
+        "id": "3-sanction-8",
+        "prompt": "Complicité : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "De 2 ans jusqu’à l’interdiction à vie.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-9": {
+        "id": "3-sanction-9",
+        "prompt": "Association interdite avec une personne sanctionnée : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "En principe 2 ans, avec une réduction possible jusqu’à 1 an.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      },
+      "3-sanction-10": {
+        "id": "3-sanction-10",
+        "prompt": "Découragement ou représailles à l’encontre d’une personne qui signale un fait : quel principe de sanction ?",
+        "answer": "En principe 2 ou 4 ans selon la substance, l’intention et les circonstances.",
+        "expected": "De 2 ans jusqu’à l’interdiction à vie.",
+        "explanation": "La sanction réelle dépend des faits et des circonstances.",
+        "correct": false
+      }
+    }
+  },
+  "aut-bon-parcours": {
+    "state": {
+      "step": 4,
+      "feedback": false
+    },
+    "records": {
+      "etape-0": {
+        "id": "etape-0",
+        "prompt": "INTRODUCTION",
+        "answer": "Oui, un sportif ne peut jamais utiliser de substance interdite.",
+        "expected": "La santé reste prioritaire",
+        "explanation": "La santé reste prioritaire. Une AUT peut permettre l’utilisation d’un traitement médical nécessaire contenant une substance ou une méthode normalement interdite.",
+        "correct": false
+      },
+      "etape-1": {
+        "id": "etape-1",
+        "prompt": "ÉTAPE 1 · COMPRENDRE L’AUT",
+        "answer": "d’améliorer volontairement ses performances · a été conseillé par un membre de l’équipe · l’autorisation soit accordée automatiquement",
+        "expected": "La logique d’une AUT",
+        "explanation": "Une AUT est une autorisation permettant à un sportif de suivre un traitement médical nécessaire contenant une substance ou une méthode interdite, lorsque les critères prévus sont remplis et le dossier examiné. Une prescription médicale ne vaut pas automatiquement AUT.",
+        "correct": false
+      },
+      "etape-2": {
+        "id": "etape-2",
+        "prompt": "ÉTAPE 2 · AVANT OU APRÈS ?",
+        "answer": "Déposer une demande d’AUT avant de commencer le traitement. · Déposer obligatoirement une demande avant le traitement.",
+        "expected": "Le statut détermine le moment de la demande",
+        "explanation": "Le statut du sportif détermine le moment de la demande : AUT préalable pour le sportif SHN ; conservation des justificatifs et demande rétroactive si la situation l’exige pour le sportif non-SHN. Vérifier son statut et les règles applicables. Une ordonnance ne remplace pas une AUT et l’accord n’est jamais automatique.",
+        "correct": false
+      },
+      "etape-3": {
+        "id": "etape-3",
+        "prompt": "ÉTAPE 3 · LES QUATRE VERROUS",
+        "answer": "Le traitement est le plus rapide à utiliser. · Il peut améliorer fortement ses performances pendant une compétition. · Qu’aucun autre traitement autorisé et adapté ne peut le remplacer. · Il peut résulter d’un produit interdit pris sans AUT si le sportif le regrette.",
+        "expected": "Les quatre critères d’une AUT",
+        "explanation": "Le traitement est nécessaire : Le sportif a réellement besoin du traitement pour protéger ou retrouver sa santé. Pas d’avantage supplémentaire : Le traitement soigne sans rendre le sportif plus performant que son état normal de bonne santé. Pas d’alternative autorisée adaptée : Aucun autre traitement autorisé et raisonnable ne peut remplacer celui-ci. Pas d’usage interdit antérieur à l’origine du besoin : Le besoin de traitement ne doit pas résulter de l’usage antérieur d’une substance ou méthode interdite sans AUT. Seul le comité d’experts examine le véritable dossier et rend une décision.",
+        "correct": false
+      }
+    }
+  },
+  "onde-choc": {
+    "state": {
+      "placements": [
+        [
+          "depression",
+          "health"
+        ],
+        [
+          "isolation",
+          "health"
+        ],
+        [
+          "better",
+          "health"
+        ],
+        [
+          "advised",
+          "health"
+        ],
+        [
+          "addiction",
+          "health"
+        ],
+        [
+          "anxiety",
+          "health"
+        ],
+        [
+          "always-win",
+          "health"
+        ],
+        [
+          "sponsors",
+          "health"
+        ],
+        [
+          "health-long-term",
+          "health"
+        ],
+        [
+          "friends",
+          "health"
+        ],
+        [
+          "cancelled",
+          "health"
+        ],
+        [
+          "selection",
+          "health"
+        ],
+        [
+          "money",
+          "health"
+        ],
+        [
+          "hidden-safe",
+          "health"
+        ],
+        [
+          "training-ban",
+          "health"
+        ],
+        [
+          "career",
+          "health"
+        ]
+      ],
+      "complete": true
+    },
+    "records": {
+      "carte-0": {
+        "id": "carte-0",
+        "prompt": "Avoir des problèmes de santé à long terme.",
+        "answer": "Sur la santé",
+        "expected": "Sur la santé",
+        "explanation": "Problèmes de santé à long terme",
+        "correct": true
+      },
+      "carte-1": {
+        "id": "carte-1",
+        "prompt": "Ressentir beaucoup d’anxiété.",
+        "answer": "Sur la santé",
+        "expected": "Sur la santé",
+        "explanation": "Anxiété",
+        "correct": true
+      },
+      "carte-2": {
+        "id": "carte-2",
+        "prompt": "Traverser une dépression.",
+        "answer": "Sur la santé",
+        "expected": "Sur la santé",
+        "explanation": "Dépression",
+        "correct": true
+      },
+      "carte-3": {
+        "id": "carte-3",
+        "prompt": "Devenir dépendant d’un produit.",
+        "answer": "Sur la santé",
+        "expected": "Sur la santé",
+        "explanation": "Dépendance",
+        "correct": true
+      },
+      "carte-4": {
+        "id": "carte-4",
+        "prompt": "Ne plus avoir le droit de s’entraîner ou de participer pendant un certain temps.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sportive",
+        "explanation": "Interdiction temporaire de s’entraîner ou de participer",
+        "correct": false
+      },
+      "carte-5": {
+        "id": "carte-5",
+        "prompt": "Perdre les résultats obtenus.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sportive",
+        "explanation": "Perte des résultats",
+        "correct": false
+      },
+      "carte-6": {
+        "id": "carte-6",
+        "prompt": "Perdre une médaille, une sélection ou une compétition importante.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sportive",
+        "explanation": "Médaille, sélection ou compétition perdue",
+        "correct": false
+      },
+      "carte-7": {
+        "id": "carte-7",
+        "prompt": "Voir sa carrière sportive fragilisée ou potentiellement interrompue.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sportive",
+        "explanation": "Carrière fragilisée ou potentiellement interrompue",
+        "correct": false
+      },
+      "carte-8": {
+        "id": "carte-8",
+        "prompt": "Perdre de l’argent, une aide ou des revenus.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sociale ou professionnelle",
+        "explanation": "Perte d’argent, d’aides ou de revenus",
+        "correct": false
+      },
+      "carte-9": {
+        "id": "carte-9",
+        "prompt": "Perdre un sponsor ou un partenaire.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sociale ou professionnelle",
+        "explanation": "Perte de sponsors ou de partenaires",
+        "correct": false
+      },
+      "carte-10": {
+        "id": "carte-10",
+        "prompt": "Perdre la confiance ou le soutien de certaines personnes, y compris des amis.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sociale ou professionnelle",
+        "explanation": "Perte de confiance, de soutien ou d’amis",
+        "correct": false
+      },
+      "carte-11": {
+        "id": "carte-11",
+        "prompt": "Se sentir isolé, honteux ou coupable.",
+        "answer": "Sur la santé",
+        "expected": "Sur la vie sociale ou professionnelle",
+        "explanation": "Isolement, honte ou culpabilité",
+        "correct": false
+      },
+      "carte-12": {
+        "id": "carte-12",
+        "prompt": "Être certain de gagner toutes ses compétitions.",
+        "answer": "Sur la santé",
+        "expected": "Ce n’est pas une conséquence du dopage",
+        "explanation": "Le dopage ne garantit jamais de gagner ou de devenir un meilleur sportif. Il peut avoir des conséquences même s’il n’est pas immédiatement découvert. Un sportif doit aussi vérifier les produits qui lui sont conseillés.",
+        "correct": false
+      },
+      "carte-13": {
+        "id": "carte-13",
+        "prompt": "Devenir automatiquement un meilleur sportif.",
+        "answer": "Sur la santé",
+        "expected": "Ce n’est pas une conséquence du dopage",
+        "explanation": "Le dopage ne garantit jamais de gagner ou de devenir un meilleur sportif. Il peut avoir des conséquences même s’il n’est pas immédiatement découvert. Un sportif doit aussi vérifier les produits qui lui sont conseillés.",
+        "correct": false
+      },
+      "carte-14": {
+        "id": "carte-14",
+        "prompt": "Ne rien risquer lorsque personne ne découvre le dopage.",
+        "answer": "Sur la santé",
+        "expected": "Ce n’est pas une conséquence du dopage",
+        "explanation": "Le dopage ne garantit jamais de gagner ou de devenir un meilleur sportif. Il peut avoir des conséquences même s’il n’est pas immédiatement découvert. Un sportif doit aussi vérifier les produits qui lui sont conseillés.",
+        "correct": false
+      },
+      "carte-15": {
+        "id": "carte-15",
+        "prompt": "Ne pas être responsable si un produit a été conseillé par quelqu’un d’autre.",
+        "answer": "Sur la santé",
+        "expected": "Ce n’est pas une conséquence du dopage",
+        "explanation": "Le dopage ne garantit jamais de gagner ou de devenir un meilleur sportif. Il peut avoir des conséquences même s’il n’est pas immédiatement découvert. Un sportif doit aussi vérifier les produits qui lui sont conseillés.",
+        "correct": false
+      }
+    }
+  },
+  "briser-silence": {
+    "state": {
+      "current": 4,
+      "done": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "unlocked": [
+        "close",
+        "coach",
+        "health",
+        "educator",
+        "fairplay"
+      ],
+      "groupStage": "contacts",
+      "screen": "final"
+    },
+    "records": {
+      "conversation-0-1": {
+        "id": "conversation-0-1",
+        "prompt": "Noa : quels signaux d’alerte ?",
+        "answer": "Salut… Un coéquipier m’a donné ",
+        "expected": "un produit inconnu · de ne pas en parler",
+        "explanation": "Le contenu du produit est inconnu et le secret demandé est un signal d’alerte.",
+        "correct": false
+      },
+      "conversation-0-2": {
+        "id": "conversation-0-2",
+        "prompt": "Noa : comment agir ?",
+        "answer": "Je demande conseil.",
+        "expected": "Je demande conseil. ou J’en parle à une personne de confiance.",
+        "explanation": "Merci. À qui puis-je en parler ?",
+        "correct": true
+      },
+      "conversation-0-3": {
+        "id": "conversation-0-3",
+        "prompt": "Noa : qui contacter ?",
+        "answer": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage · Réseaux sociaux",
+        "expected": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage",
+        "explanation": "Merci. À qui puis-je en parler ?",
+        "correct": null
+      },
+      "conversation-1-1": {
+        "id": "conversation-1-1",
+        "prompt": "Sami : quels signaux d’alerte ?",
+        "answer": "On m’a dit que ",
+        "expected": "je risquais de perdre ma place · Tout le monde le prend",
+        "explanation": "La peur de perdre sa place et la pression du groupe doivent alerter.",
+        "correct": false
+      },
+      "conversation-1-2": {
+        "id": "conversation-1-2",
+        "prompt": "Sami : comment agir ?",
+        "answer": "Je demande conseil.",
+        "expected": "Je demande conseil. ou J’en parle à une personne de confiance.",
+        "explanation": "Qui peut m’aider sans me juger ?",
+        "correct": true
+      },
+      "conversation-1-3": {
+        "id": "conversation-1-3",
+        "prompt": "Sami : qui contacter ?",
+        "answer": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage · Réseaux sociaux",
+        "expected": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage",
+        "explanation": "Qui peut m’aider sans me juger ?",
+        "correct": null
+      },
+      "conversation-2-1": {
+        "id": "conversation-2-1",
+        "prompt": "Léa : quels signaux d’alerte ?",
+        "answer": "Un adulte m’a proposé une substance : ",
+        "expected": "fais-moi confiance · ne le dis à personne",
+        "explanation": "Un adulte demande de garder secrète une situation risquée.",
+        "correct": false
+      },
+      "conversation-2-2": {
+        "id": "conversation-2-2",
+        "prompt": "Léa : comment agir ?",
+        "answer": "Je demande conseil.",
+        "expected": "J’en parle à une personne de confiance.",
+        "explanation": "À quel autre adulte puis-je demander de l’aide ?",
+        "correct": false
+      },
+      "conversation-2-3": {
+        "id": "conversation-2-3",
+        "prompt": "Léa : qui contacter ?",
+        "answer": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage · Réseaux sociaux",
+        "expected": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage",
+        "explanation": "À quel autre adulte puis-je demander de l’aide ?",
+        "correct": null
+      },
+      "conversation-3-1": {
+        "id": "conversation-3-1",
+        "prompt": "Camille : quels signaux d’alerte ?",
+        "answer": "Tout le monde dit qu’un sportif se dope. ",
+        "expected": "Je vais publier son nom · l’information n’est pas vérifiée",
+        "explanation": "Il s’agit d’une rumeur non vérifiée qui ne doit pas être diffusée.",
+        "correct": false
+      },
+      "conversation-3-2": {
+        "id": "conversation-3-2",
+        "prompt": "Camille : comment agir ?",
+        "answer": "Je demande conseil.",
+        "expected": "Je demande conseil. ou J’en parle à une personne de confiance.",
+        "explanation": "À qui parler sans accuser ?",
+        "correct": true
+      },
+      "conversation-3-3": {
+        "id": "conversation-3-3",
+        "prompt": "Camille : qui contacter ?",
+        "answer": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage · Réseaux sociaux",
+        "expected": "Un proche · Un entraîneur de confiance · Un éducateur antidopage",
+        "explanation": "À qui parler sans accuser ?",
+        "correct": null
+      },
+      "conversation-4-1": {
+        "id": "conversation-4-1",
+        "prompt": "Hugo : quels signaux d’alerte ?",
+        "answer": "J’ai ",
+        "expected": "vu directement · personne ne le saura",
+        "explanation": "Un fait préoccupant a été directement observé et une demande de secret l’accompagne.",
+        "correct": false
+      },
+      "conversation-4-2": {
+        "id": "conversation-4-2",
+        "prompt": "Hugo : comment agir ?",
+        "answer": "Je demande conseil.",
+        "expected": "J’en parle à une personne de confiance. ou Je signale les faits sur Fair-Play.",
+        "explanation": "Je peux en parler et transmettre ce que je sais réellement.",
+        "correct": false
+      },
+      "conversation-4-3": {
+        "id": "conversation-4-3",
+        "prompt": "Hugo : qui contacter ?",
+        "answer": "Un proche · Un entraîneur de confiance · Un professionnel de santé · Un éducateur antidopage · Réseaux sociaux",
+        "expected": "Un éducateur antidopage · Fair-Play – signalement AFLD",
+        "explanation": "Je peux en parler et transmettre ce que je sais réellement.",
+        "correct": null
+      }
+    }
+  },
+  "mission-localisation": {
+    "state": {
+      "step": 5,
+      "screen": "final"
+    },
+    "records": {
+      "mission-0": {
+        "id": "mission-0",
+        "prompt": "Identifier le statut",
+        "answer": "Alex · Aucun groupeAucun courrier reçu. · Sam · Groupe de contrôleCourrier de l’AFLD demandant ses localisations. · Léa · Groupe cibleNotification officielle d’inclusion.",
+        "expected": "Regardons les notifications reçues",
+        "explanation": "Sam et Léa ont reçu une notification officielle qui déclenche leurs obligations. Alex n’a pas d’informations de localisation à transmettre dans cette mission.",
+        "correct": null
+      },
+      "mission-1": {
+        "id": "mission-1",
+        "prompt": "Distribuer les obligations",
+        "answer": "Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible · Groupe cible",
+        "expected": "Qui doit transmettre quoi ?",
+        "explanation": "Les deux groupes transmettent un planning précis : hébergement, entraînements, travail ou études, compétitions et mises à jour dans ADAMS ou Athlete Central. Le groupe cible ajoute un créneau quotidien de 60 minutes.",
+        "correct": null
+      },
+      "mission-2": {
+        "id": "mission-2",
+        "prompt": "Compléter l’agenda de Léa",
+        "answer": "Hôtel du Vélodrome · 9 h à 12 h, Vélodrome, 8 avenue de la Piste · Dans la soirée",
+        "expected": "Le planning est-il assez précis ?",
+        "explanation": "Il faut pouvoir trouver le sportif : hébergement avec adresse et chambre, entraînement avec adresse et horaires, créneau de 60 minutes avec heure de début, heure de fin et adresse précise.",
+        "correct": null
+      },
+      "mission-3": {
+        "id": "mission-3",
+        "prompt": "Changement de dernière minute",
+        "answer": "HébergementHôtel des Quais, 12 quai Perrache à Lyon, chambre 308 · EntraînementEntraînement mardi de 16 h 30 à 18 h 30 au vélodrome Georges-Préveral, 59 rue Pierre-Baratin · CréneauCréneau de 60 minutes mardi de 20 h à 21 h, Hôtel des Quais, chambre 308 · CompétitionCompétition mercredi à 10 h au Palais des Sports de Gerland, 350 avenue Jean-Jaurès · HébergementNuit de mercredi à l’Hôtel du Parc, 8 avenue des Frères-Lumière, chambre à confirmer · Vie personnellePetit-déjeuner prévu mercredi à 7 h 30 · Vie personnelleLe menu du dîner sera envoyé plus tard · TransportTa place dans le minibus est la numéro 6 · Information généraleLa météo annonce de la pluie mercredi · ContactLe coach reste joignable sur son téléphone personnel",
+        "expected": "Quelles informations fallait-il transmettre ?",
+        "explanation": "Transmettre les informations utiles sur l’hébergement, l’entraînement, la compétition et le créneau de 60 minutes. Mettre à jour les informations connues dès le changement, puis compléter la chambre dès sa confirmation.",
+        "correct": null
+      },
+      "mission-4": {
+        "id": "mission-4",
+        "prompt": "Comprendre les manquements",
+        "answer": "Inclusion possible dans le groupe cible · Inclusion possible dans le groupe cible · Inclusion possible dans le groupe cible",
+        "expected": "Que peut-il arriver en cas d’erreur ?",
+        "explanation": "Groupe de contrôle sans transmission : inclusion possible dans le groupe cible. Groupe cible sans transmission du trimestre : manquement à la transmission possible. Absence pendant le créneau déclaré : contrôle manqué possible. Un manquement présumé est examiné et le sportif peut présenter ses observations ; une erreur isolée ne provoque pas automatiquement une suspension.",
+        "correct": null
+      }
+    }
+  }
+}

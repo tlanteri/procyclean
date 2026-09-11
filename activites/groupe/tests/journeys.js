@@ -1,6 +1,8 @@
 import { ACTIVITIES, GROUP_VERSION, canJoin, reviewItems } from '../catalogue.js';
 import { SITUATIONS } from '../../responsabilite-objective/situations.js';
 const result = window.testResults = {done:false, passed:[], errors:[]};
+const completedPreviews = window.completedPreviews = {};
+const finalPages=window.finalPagePreviews={};
 const frame = document.querySelector('#frame');
 let latest, initial, initialized;
 const sleep = ms => new Promise(resolve=>setTimeout(resolve,ms));
@@ -154,6 +156,11 @@ try {
     try {
       await load(id);await scenarios[id]();await wait(()=>latest?.complete,'Fin du parcours : '+id);
       assert(latest.records.length>0,'Aucune réponse transmise : '+id);
+      completedPreviews[id]=JSON.parse(latest.snapshot);
+      const copy=doc().documentElement.cloneNode(true);
+      copy.querySelectorAll('script,base,[hidden],iframe').forEach(node=>node.remove());
+      const base=doc().createElement('base');base.setAttribute('href','../../individuel/'+id+'/');copy.querySelector('head').prepend(base);
+      finalPages[id]='<!doctype html>\n'+copy.outerHTML;
       await resume(id);assert(latest.complete,'Fin perdue au rechargement : '+id);
       result.passed.push(id+' : réponses, fin et reprise');
     } catch(error) { result.errors.push(id+': '+error.message); }

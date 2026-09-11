@@ -620,6 +620,13 @@ h3 {
   z-index: 1;
 }
 
+/* Les encadrés des activités restent unis, y compris dans les aperçus HTML. */
+body.activity-page .passive-color-shapes::before,
+body.activity-page .passive-color-shapes::after {
+  content: none;
+  display: none;
+}
+
 /* Dimensions communes, indépendantes des marges et des styles de chaque page. */
 body header:is(.institutional-header, .brand-logos) {
   box-sizing: border-box;

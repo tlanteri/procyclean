@@ -20,12 +20,25 @@ try {
   socket.addEventListener('message',event=>{const msg=JSON.parse(event.data);if(msg.id){const {resolve,reject}=pending.get(msg.id);pending.delete(msg.id);msg.error?reject(Error(msg.error.message)):resolve(msg.result);}});
   const call=(method,params={})=>new Promise((resolve,reject)=>{const id=++sequence;pending.set(id,{resolve,reject});socket.send(JSON.stringify({id,method,params}));});
   await call('Page.enable');await call('Runtime.enable');
-  await call('Page.navigate',{url:origin+'/activites/groupe/tests/journeys.html'});
+  await call('Page.navigate',{url:origin+(process.argv.includes('--preview-only')?'/activites/apercus-fins/preview.test.html':'/activites/groupe/tests/journeys.html')});
   let result;
   for(let i=0;i<1800;i++){const response=await call('Runtime.evaluate',{expression:'window.testResults',returnByValue:true});result=response.result.value;if(result?.done)break;await sleep(100);}
   if(!result?.done)throw Error('Délai dépassé : '+JSON.stringify(result));
   console.log(JSON.stringify(result,null,2));
   if(result.errors.length)process.exitCode=1;
+  if(process.argv.includes('--export-final-pages') && !result.errors.length) {
+    const response=await call('Runtime.evaluate',{expression:'window.finalPagePreviews',returnByValue:true});
+    const destination=path.join(root,'activites/apercus-fins/pages');fs.mkdirSync(destination,{recursive:true});
+    for(const [id,html] of Object.entries(response.result.value))fs.writeFileSync(path.join(destination,id+'.html'),html+'\n');
+    console.log('13 pages finales autonomes exportées.');
+  }
+  if(process.argv.includes('--export-previews') && !result.errors.length) {
+    const response=await call('Runtime.evaluate',{expression:'window.completedPreviews',returnByValue:true});
+    const destination=path.join(root,'activites/apercus-fins');
+    fs.mkdirSync(destination,{recursive:true});
+    fs.writeFileSync(path.join(destination,'exemples.json'),JSON.stringify(response.result.value,null,2)+'\n');
+    console.log('Exemples de fin exportés pour les 13 activités.');
+  }
   await call('Browser.close');
 } catch(error){console.error(error);process.exitCode=1;}
 finally{
