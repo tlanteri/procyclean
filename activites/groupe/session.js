@@ -182,14 +182,9 @@ async function open(current) {
   } else {
     if (!canJoin(value, current.uid) && value.status !== "closed") throw new Error("Cette séance n’accepte plus de nouveaux participants.");
     if (value.status !== "closed") {
-      const registration = await runTransaction(sessionRef, existing => {
-        if (!existing || !canJoin(existing, current.uid)) return;
-        existing.participants ||= {};
-        if (existing.participants[current.uid]?.participantNumber) return existing;
-        const number = Math.max(existing.nextParticipantNumber || 0, ...Object.values(existing.participants).map(p => p.participantNumber || 0)) + 1;
-        existing.nextParticipantNumber = number;
-        existing.participants[current.uid] = { ...existing.participants[current.uid], participantNumber: number, joinedAt: existing.participants[current.uid]?.joinedAt || Date.now(), status: "connected" };
-        return existing;
+      const registration = await runTransaction(ref(database, `sessions/${code}/participants/${current.uid}`), existing => {
+        const participant = existing || {};
+        return { ...participant, label: participant.label || `Appareil ${participant.participantNumber || current.uid.slice(-6).toUpperCase()}`, joinedAt: participant.joinedAt || serverTimestamp(), status: participant.status || "connected" };
       });
       if (!registration.committed) throw new Error("L’inscription n’a pas abouti. La séance a peut-être changé.");
     }

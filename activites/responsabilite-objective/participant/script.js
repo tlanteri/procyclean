@@ -19,13 +19,9 @@ const sessionCode=()=>String(new URLSearchParams(location.search).get("session")
 function fail(message){$("#error-message").textContent=message;showOnly($("#error"))}
 function authUser(){return new Promise((resolve,reject)=>{const stop=onAuthStateChanged(auth,async current=>{try{if(current?.isAnonymous){stop();resolve(current)}else{const credential=await signInAnonymously(auth);stop();resolve(credential.user)}}catch(error){stop();reject(error)}},reject)})}
 async function register(){
-  const result=await runTransaction(ref(database,`sessions/${code}`),value=>{
-    if(!value||value.activity!=="responsabilite-objective")return;
-    value.participants||={};const old=value.participants[user.uid];
-    if(old?.participantNumber)return value;
-    const number=(value.nextParticipantNumber||0)+1;value.nextParticipantNumber=number;
-    value.participants[user.uid]={...old,participantNumber:number,joinedAt:old?.joinedAt||serverTimestamp(),status:"waiting",answers:old?.answers||{}};
-    return value;
+  const result=await runTransaction(ref(database,`sessions/${code}/participants/${user.uid}`),current=>{
+    const participant=current||{};
+    return {...participant,joinedAt:participant.joinedAt||serverTimestamp(),status:participant.status||"waiting",answers:participant.answers||{}};
   });
   if(!result.committed)throw new Error("Inscription impossible");
 }
@@ -36,7 +32,7 @@ function renderOptions(container,name,choices){
 function render(value){
   session=value;const participant=value.participants?.[user.uid];
   if(!participant)return;
-  $("#participant-label").textContent=`Participant ${participant.participantNumber}`;
+  $("#participant-label").textContent=`Participant ${participant.participantNumber||user.uid.slice(-6).toUpperCase()}`;
   if(value.status==="closed"){$("#final-message").textContent=FINAL_MESSAGE;showOnly($("#closed"));return}
   if(value.status==="waiting"){showOnly($("#waiting"));return}
   const answers=participant.answers||{};
@@ -72,7 +68,20 @@ $("#answer-form").addEventListener("submit",async event=>{
 });
 async function load(){
   code=sessionCode();if(code.length!==6){fail("Le code de session est absent ou incorrect.");return}
-  try{user=await authUser();const snap=await get(ref(database,`sessions/${code}`));if(!snap.exists()||snap.val().activity!=="responsabilite-objective"){fail("Cette session n’est pas disponible.");return}await register();onValue(ref(database,`sessions/${code}`),snapshot=>snapshot.exists()?render(snapshot.val()):fail("Cette session n’est plus disponible."),()=>fail("Synchronisation interrompue."))}
-  catch(error){console.error(error);fail("La connexion à l’activité a échoué.")}
+  let step="identification";
+  try{
+    user=await authUser();step="lecture de la séance";
+    const snap=await get(ref(database,`sessions/${code}`));
+    if(!snap.exists()||snap.val().activity!=="responsabilite-objective"){fail("Cette session n’est pas disponible.");return}
+    if(snap.val().groupVersion==="solo-group-v1"){
+      const destination=new URL("../../groupe/participant.html",location.href);
+      destination.searchParams.set("activity","responsabilite-objective");destination.searchParams.set("session",code);
+      location.replace(destination.href);return;
+    }
+    if(snap.val().status==="closed"){fail("Cette séance est terminée. Rejoins une nouvelle séance.");return}
+    step="inscription du participant";await register();
+    onValue(ref(database,`sessions/${code}`),snapshot=>snapshot.exists()?render(snapshot.val()):fail("Cette session n’est plus disponible."),error=>fail(`Synchronisation interrompue (${error.code||"connexion"}).`));
+  }
+  catch(error){console.error(error);fail(`Connexion impossible à l’étape « ${step} » (${error.code||error.message||"erreur inconnue"}).`)}
 }
 load();

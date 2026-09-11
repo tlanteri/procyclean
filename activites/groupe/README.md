@@ -40,6 +40,13 @@ tests parcourent les 13 activités jusqu’à leur fin, vérifient les réponses
 la reprise, simulent une séance éducateur/participant et exécutent cinq tests
 solo existants. Ils n’écrivent pas dans le projet Firebase.
 
+Le transport de test refuse aux participants les écritures à la racine d’une
+séance et simule le premier appel d’une transaction avec un cache vide, un
+[comportement documenté par Firebase](https://firebase.google.com/docs/database/web/read-and-write#save_data_as_transactions).
+Un test de l’ancienne interface « À sa place, serais-tu vigilant ? » vérifie
+l’inscription, la conservation des réponses à la reconnexion et la redirection
+des anciens liens lorsqu’ils désignent une nouvelle séance.
+
 La configuration des règles Firebase n’est pas présente dans ce dépôt. Une
 vérification sur le projet déployé reste nécessaire pour confirmer que les
 règles acceptent les trois nouveaux identifiants d’activité, `groupVersion`,

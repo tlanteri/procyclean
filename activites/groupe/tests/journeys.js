@@ -1,4 +1,5 @@
 import { ACTIVITIES, GROUP_VERSION, canJoin, reviewItems } from '../catalogue.js';
+import { SITUATIONS } from '../../responsabilite-objective/situations.js';
 const result = window.testResults = {done:false, passed:[], errors:[]};
 const frame = document.querySelector('#frame');
 let latest, initial, initialized;
@@ -107,6 +108,39 @@ async function rightsLaunchTest() {
   } finally {coach.remove();devices.forEach(device=>device.remove());}
 }
 
+async function legacyResponsibilityTest() {
+  const first=SITUATIONS[0].id,answer={vigilance:'vigilant',followUp:0,answeredAt:123};
+  const value={activity:'responsabilite-objective',facilitatorId:'teacher',status:'waiting',participants:{returning:{joinedAt:123,status:'in-progress',answers:{[first]:answer}}}};
+  const save=async sessions=>fetch('/test-db',{method:'POST',body:JSON.stringify({key:'sessions',value:sessions})});
+  await save({RSP123:value});
+  const devices=[];
+  try {
+    for(const uid of ['fresh','returning']) {
+      const device=document.createElement('iframe');devices.push(device);document.body.append(device);
+      device.src='../../responsabilite-objective/participant/index.html?session=RSP123&testUser='+uid;
+      await wait(()=>device.contentDocument?.querySelector('#waiting')?.hidden===false||device.contentDocument?.querySelector('#error')?.hidden===false,'Connexion ancienne interface');
+      assert(device.contentDocument.querySelector('#error').hidden,device.contentDocument.querySelector('#error-message').textContent);
+    }
+    const db=await(await fetch('/test-db')).json(),saved=db.sessions.RSP123;
+    assert(saved.participants.fresh,'Inscription directe du nouvel appareil');
+    assert(JSON.stringify(saved.participants.returning.answers[first])===JSON.stringify(answer),'Réponse conservée malgré le cache initial vide');
+    assert(saved.participants.returning.status==='in-progress','Statut conservé à la reconnexion');
+    assert(saved.nextParticipantNumber===undefined,'Aucune écriture dans le compteur global de séance');
+    saved.status='activity';await save(db.sessions);
+    for(const device of devices)await wait(()=>device.contentDocument.querySelector('#situation').hidden===false,'Lancement ancienne interface');
+    assert(devices[1].contentDocument.querySelector('#progress-label').textContent.includes('2 sur'),'Reprise à la deuxième situation');
+    const page=devices[0].contentDocument;
+    page.querySelector('[name="vigilance"]').checked=true;page.querySelector('[name="followUp"]').checked=true;page.querySelector('#answer-form').requestSubmit();
+    await wait(()=>page.querySelector('#progress-label').textContent.includes('2 sur'),'Réponse enregistrée avec les seuls droits du participant');
+    // Les anciens liens doivent aussi reconnaître une nouvelle séance.
+    await save({RSP123:{activity:'responsabilite-objective',facilitatorId:'teacher',status:'waiting',groupVersion:GROUP_VERSION}});
+    for(const [index,role] of ['participant','educateur'].entries()) {
+      devices[index].src='../../responsabilite-objective/'+role+'/index.html?session=RSP123';
+      await wait(()=>devices[index].contentWindow.location.pathname==='/activites/groupe/'+role+'.html','Redirection du lien '+role);
+    }
+  } finally {devices.forEach(device=>device.remove());}
+}
+
 try {
   localStorage.setItem('procyclean-solo-values-rule','SOLO À CONSERVER');
   assert(Object.keys(ACTIVITIES).length===13,'Catalogue incomplet');
@@ -130,6 +164,7 @@ try {
   localStorage.removeItem('procyclean-solo-values-rule');
   try{await sessionTest();result.passed.push('Séance éducateur/participant : inscription, lancement, pause, réponses, correction, bilan et clôture');}catch(error){result.errors.push('Séance : '+error.message);}
   try{await rightsLaunchTest();result.passed.push('Mes droits pendant un contrôle : lancement et réponses sur deux appareils sans pseudonyme');}catch(error){result.errors.push('Lancement droits : '+error.message);}
+  try{await legacyResponsibilityTest();result.passed.push('À sa place : inscription avec droits limités, cache vide, reprise et redirection des anciens liens');}catch(error){result.errors.push('Connexion À sa place : '+error.message);}
   for(const path of ['mission-controle/interaction.test.html','aut-bon-parcours/journey.test.html','onde-choc/journey.test.html','produit-mystere/question-focus.test.html','responsabilite-objective/conclusion.test.html']) {
     try {
       frame.src='../../individuel/'+path;

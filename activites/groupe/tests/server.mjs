@@ -22,7 +22,7 @@ export function startServer() {
     try {
       let data = fs.readFileSync(file);
       // Le remplacement n'existe que sur ce serveur de test local.
-      if (url.pathname === '/activites/groupe/session.js') data = Buffer.from(data.toString().replace(/https:\/\/www\.gstatic\.com\/firebasejs\/12\.16\.0\/firebase-(app|auth|database)\.js/g, '/activites/groupe/tests/firebase.js'));
+      if (url.pathname === '/activites/groupe/session.js' || /^\/activites\/responsabilite-objective\/(participant|educateur)\/script\.js$/.test(url.pathname)) data = Buffer.from(data.toString().replace(/https:\/\/www\.gstatic\.com\/firebasejs\/12\.16\.0\/firebase-(app|auth|database)\.js/g, '/activites/groupe/tests/firebase.js'));
       const mime = { '.html':'text/html', '.js':'text/javascript', '.mjs':'text/javascript', '.css':'text/css', '.png':'image/png', '.jpg':'image/jpeg', '.ttf':'font/ttf' };
       response.setHeader('Content-Type', mime[path.extname(file)] || 'application/octet-stream');
       response.end(data);
